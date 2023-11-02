@@ -7,8 +7,19 @@ class Fishpi {
   String _apiKey = '';
   User user = User();
 
-  static setRoot(String url) {
-    var [protocol, domain] = url.split('://');
+  static setOrigin(String? url) {
+    if (url == null) return;
+    
+    var urls = url.split('://');
+    var protocol = 'https';
+    var domain = '';
+
+    if (urls.length == 1) {
+      domain = urls[0];
+    } else {
+      protocol = urls[0];
+      domain = urls[1];
+    }
     Request.setDomain(protocol: protocol, domain: domain);
   }
 
