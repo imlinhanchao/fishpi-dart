@@ -230,14 +230,19 @@ class UserInfo {
     userOnlineFlag = data['userOnlineFlag'];
     userPoint = data['userPoint'];
     userRole = data['userRole'];
-    userAppRole = {"0": UserAppRole.Hack, "1": UserAppRole.Artist}[data['userAppRole']]??UserAppRole.Hack;
+    userAppRole = {
+          "0": UserAppRole.Hack,
+          "1": UserAppRole.Artist
+        }[data['userAppRole']] ??
+        UserAppRole.Hack;
     userAvatarURL = data['userAvatarURL'];
     cardBg = data['cardBg'];
     followingUserCount = data['followingUserCount'];
     followerCount = data['followerCount'];
     onlineMinute = data['onlineMinute'];
-    canFollow = data['canFollow']??'self';
-    allMetalOwned = data['allMetalOwned'] != null ? toMetal(data['allMetalOwned']) : [];
+    canFollow = data['canFollow'] ?? 'self';
+    allMetalOwned =
+        data['allMetalOwned'] != null ? toMetal(data['allMetalOwned']) : [];
     sysMetal = data['sysMetal'] != null ? toMetal(data['sysMetal']) : [];
   }
 
@@ -245,4 +250,22 @@ class UserInfo {
   String toString() {
     return "{ oId=$oId, userNo=$userNo, userName=$userName, userNickname=$userNickname, userURL=$userURL, userCity=$userCity, userIntro=$userIntro, userOnlineFlag=$userOnlineFlag, userPoint=$userPoint, userRole=$userRole, userAppRole=$userAppRole, userAvatarURL=$userAvatarURL, cardBg=$cardBg, followingUserCount=$followingUserCount, followerCount=$followerCount, onlineMinute=$onlineMinute, canFollow=$canFollow, allMetalOwned=$allMetalOwned, sysMetal=$sysMetal }";
   }
+}
+
+class FileInfo {
+  /// 文件名
+  String filename = '';
+
+  /// 文件地址
+  String url = '';
+
+  FileInfo(this.filename, this.url);
+}
+
+class UploadResult {
+  /// 上传失败文件
+  List<String> errFiles = [];
+
+  /// 上传成功文件
+  List<FileInfo> succFiles = [];
 }

@@ -9,7 +9,7 @@ class Fishpi {
 
   static setOrigin(String? url) {
     if (url == null) return;
-    
+
     var urls = url.split('://');
     var protocol = 'https';
     var domain = '';
@@ -49,14 +49,21 @@ class Fishpi {
     }
   }
 
-  Future<LoginRsp> upload(List<String> files) async {
+  Future<UploadResult> upload(List<String> files) async {
     try {
       var data = await Request.formData('file[]', files: files);
       var rsp = await Request.post('upload', data);
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      return rsp;
+      var result = UploadResult();
+
+      result.errFiles = rsp['errFiles'];
+      rsp['succMap'].forEach((key, value) {
+        result.succFiles.add(FileInfo(key, value));
+      });
+
+      return result;
     } catch (e) {
       return Future.error(e);
     }
