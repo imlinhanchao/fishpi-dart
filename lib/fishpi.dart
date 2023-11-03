@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fishpi/src/request.dart';
 import 'package:fishpi/src/types.dart';
+import 'package:fishpi/src/utils.dart';
 import 'package:fishpi/user.dart';
 import 'package:fishpi/chatroom.dart';
 export 'src/types.dart';
@@ -66,11 +67,11 @@ class Fishpi {
   /// - `data` 预注册数据
   ///
   /// 返回预注册结果
-  Future<PreRegisterResult> preRegister(PreRegisterInfo data) async {
+  Future<ResponseResult> preRegister(PreRegisterInfo data) async {
     try {
       var rsp = await Request.post('register', data: data.toJson());
 
-      return PreRegisterResult(rsp);
+      return ResponseResult(rsp);
     } catch (e) {
       return Future.error(e);
     }
@@ -88,6 +89,82 @@ class Fishpi {
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
       return rsp['userId'];
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 注册
+  /// 
+  /// - `data` 注册数据
+  /// 
+  /// 返回注册结果
+  Future<ResponseResult> register(RegisterInfo data) async {
+    try {
+      var rsp = await Request.post(
+        'register2',
+        params: { "r": data.r },
+        data: data.toJson(),
+      );
+
+      if (rsp['code'] != null && rsp['code'] != 0) return Future.error(rsp['msg']);
+
+      return ResponseResult(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 获取用户信息
+  /// 
+  /// - `username` 用户名
+  /// 
+  /// 返回用户信息
+  Future<UserInfo> getUser(String username) async {
+    try {
+      var rsp = await Request.get(
+        'user/$username',
+        params: {'apiKey': _apiKey},
+      );
+
+      if ((rsp['code'] ?? 0) != 0) return Future.error(rsp['msg']);
+
+      return UserInfo(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 获取用户名联想
+  /// 
+  /// - `name` 用户名
+  /// 
+  /// 返回用户名联想列表
+  Future<AtUserList> names(String name) async {
+    try {
+      var rsp = await Request.post(
+        'users/names',
+        data: {
+          'name': name,
+        },
+      );
+
+      if ((rsp['code'] ?? 0) != 0) return Future.error(rsp['msg']);
+
+      return List.from(rsp.data).map((e) => AtUser(e)).toList();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 获取最近注册的 20 个用户
+  /// 
+  /// 返回用户列表
+  Future<List<UserLite>> recentRegister() async {
+    try {
+      var rsp = await Request.get('api/user/recentReg');
+
+      return List.from(rsp["data"] ?? []).map((e) => UserLite(e)).toList();
     } catch (e) {
       return Future.error(e);
     }

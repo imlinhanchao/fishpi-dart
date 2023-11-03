@@ -41,8 +41,8 @@ MetalList toMetal(String sysMetal) {
   }
 }
 
-ChatSource? clientToVia(String? client) {
-  if (client == null || client.isEmpty) return null;
+ChatSource? clientToVia([String? client='']) {
+  if (client!.isEmpty) return null;
   final via = client.split('/');
   return ChatSource(client: via[0], version: via[1]);
 }

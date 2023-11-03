@@ -3,6 +3,7 @@ import 'package:fishpi/src/request.dart';
 import 'package:fishpi/src/utils.dart';
 
 export 'types/chatroom.dart';
+
 class ApiResponse<T> {
   /// 请求状态
   int code = 0;
@@ -105,11 +106,11 @@ class PreRegisterInfo {
   }
 }
 
-class PreRegisterResult {
+class ResponseResult {
   bool success = false;
   String msg = '';
 
-  PreRegisterResult(Map<String, dynamic> data) {
+  ResponseResult(Map<String, dynamic> data) {
     success = data['code'] == 0;
     msg = data['msg'];
   }
@@ -130,7 +131,7 @@ class MetalAttr {
   /// 文字颜色
   String fontcolor = '';
 
-  MetalAttr({Map<String, dynamic>? attr}) {
+  MetalAttr([Map<String, dynamic>? attr]) {
     url = attr?['url'] ?? '';
     backcolor = attr?['backcolor'] ?? '';
     fontcolor = attr?['fontcolor'] ?? '';
@@ -155,8 +156,8 @@ class MetalBase {
   /// 徽章数据
   String data = '';
 
-  MetalBase({Map<String, dynamic>? metal}) {
-    attr = MetalAttr(attr: metal?['attr']);
+  MetalBase([Map<String, dynamic>? metal]) {
+    attr = MetalAttr(metal?['attr']);
     name = metal?['name'] ?? '';
     description = metal?['description'] ?? '';
     data = metal?['data'] ?? '';
@@ -182,7 +183,7 @@ class Metal extends MetalBase {
   /// 是否佩戴
   String? enable;
 
-  Metal(Map<String, dynamic> metal) : super(metal: metal) {
+  Metal(Map<String, dynamic> metal) : super(metal) {
     url = metal['url'];
     icon = metal['icon'];
     enable = metal['enable'];
@@ -264,7 +265,7 @@ class UserInfo {
   /// 用户勋章列表
   MetalList sysMetal = [];
 
-  UserInfo({Map? data}) {
+  UserInfo([Map? data]) {
     if (data == null) return;
     oId = data['oId'];
     userNo = data['userNo'];
@@ -323,5 +324,62 @@ class UploadResult {
   @override
   toString() {
     return "{ errFiles=${errFiles.join(',')}, succFiles=$succFiles }";
+  }
+}
+
+class RegisterInfo {
+  /// 用户角色
+  String role = UserAppRole.Hack.toString();
+  /// 用户密码
+  String passwd = '';
+  /// 用户 Id
+  String userId = '';
+  /// 邀请人用户名
+  String? r;
+
+  RegisterInfo([Map<String, dynamic>? data]) {
+    if (data == null) return;
+    role = data['role'];
+    passwd = data['passwd'];
+    userId = data['userId'];
+    r = data['r'];
+  }
+
+  toJson() {
+    return {
+      'userAppRole': role,
+      'userPassword': passwd.toMD5(),
+      'userId': userId,
+      'r': r ?? '',
+    };
+  }
+}
+
+class AtUser {
+  /// 用户名
+  String userName = '';
+  /// 用户头像
+  String userAvatarURL = '';
+  /// 全小写用户名
+  String userNameLowerCase = '';
+
+  AtUser([Map<String, dynamic>? data]) {
+    if (data == null) return;
+    userName = data['userName'];
+    userAvatarURL = data['userAvatarURL'];
+    userNameLowerCase = data['userNameLowerCase'];
+  }
+}
+
+typedef AtUserList = List<AtUser>;
+
+class UserLite { 
+  String userNickname = ''; 
+  String userName = ''; 
+
+  UserLite([Map<String, dynamic>? data]) { 
+    if (data == null) return; 
+    userNickname = data['userNickname']; 
+    userName = data['userName']; 
   }
 }

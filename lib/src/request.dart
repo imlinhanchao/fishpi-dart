@@ -13,6 +13,17 @@ class WebsocketInfo {
 class Request {
   static String _domain = 'fishpi.cn';
   static String _protocol = 'https';
+  static String _parseUrl(String url, Map<String, dynamic>? params) {
+    if (params != null) {
+      url = '$url?';
+      params.forEach((key, value) {
+        if (value != null) url += '$key=$value&';
+      });
+      url = url.substring(0, url.length - 1);
+    }
+    return url;
+  }
+
   static Future<T> get<T>(String url, {Map<String, dynamic>? params}) async {
     if (params != null) {
       url = '$url?';
@@ -21,19 +32,22 @@ class Request {
       });
       url = url.substring(0, url.length - 1);
     }
-    return request(url, method: 'GET');
+    return request(_parseUrl(url, params), method: 'GET');
   }
 
-  static Future<T> post<T>(String url, {dynamic data}) async {
-    return request(url, method: 'POST', data: data);
+  static Future<T> post<T>(String url,
+      {Map<String, dynamic>? params, dynamic data}) async {
+    return request(_parseUrl(url, params), method: 'POST', data: data);
   }
 
-  static Future<T> delete<T>(String url, {dynamic data}) async {
-    return request(url, method: 'DELETE', data: data);
+  static Future<T> delete<T>(String url,
+      {Map<String, dynamic>? params, dynamic data}) async {
+    return request(_parseUrl(url, params), method: 'DELETE', data: data);
   }
 
-  static Future<T> put<T>(String url, {dynamic data}) async {
-    return request(url, method: 'PUT', data: data);
+  static Future<T> put<T>(String url,
+      {Map<String, dynamic>? params, dynamic data}) async {
+    return request(_parseUrl(url, params), method: 'PUT', data: data);
   }
 
   static Future<T> request<T>(String url, {method, data}) async {

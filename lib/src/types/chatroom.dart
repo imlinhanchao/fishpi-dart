@@ -115,7 +115,7 @@ class ChatRoomMessage {
     userAvatarURL = data['userAvatarURL'];
     sysMetal = List.from(data['sysMetal']).map((e) => Metal(e)).toList();
     client = data['client'];
-    via = clientToVia(data['via']) ?? ChatSource();
+    via = clientToVia(data['client']) ?? ChatSource();
     content = data['content'];
     try {
       redpacket = RedPacketMessage(json.decode(data['content']));
