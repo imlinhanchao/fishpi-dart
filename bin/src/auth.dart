@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:fishpi/fishpi.dart';
 
-import 'instance.dart';
+import 'base.dart';
 
 class AuthCmd implements CommandRegister {
   @override
@@ -12,16 +12,17 @@ class AuthCmd implements CommandRegister {
     return parser
       ..addOption('username', abbr: 'u', help: 'Your User Name')
       ..addOption('passwd', abbr: 'p', help: 'Your Password')
-      ..addOption('mfaCode', abbr: 'm', help: 'Your mfa Code')
-      ..addOption('token', abbr: 't', help: 'Your Token');
+      ..addOption('token', abbr: 't', help: 'Your Token')
+      ..addFlag('code', negatable: false, help: 'Need mfa Code to login');
   }
 
   @override
   Future<void> exec(ArgResults args) async {
-    var token = args['token'];
-    var username = args['username'];
-    var mfaCode = args['mfaCode'];
+    var token = args['token']??Instance.cfg.config['auth']?['token'];
+    var username = args['username']??Instance.cfg.config['auth']?['username'];
+    var code = args['code']??Instance.cfg.config['auth']?['code'];
     var passwd = args['passwd'];
+    String? mfaCode;
 
     if (token != null) {
       Instance.get.setToken(token);
@@ -30,14 +31,28 @@ class AuthCmd implements CommandRegister {
         print('Please input your password:');
         passwd = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
       }
+      if (code) {
+        print('Please input your mfa code:');
+        mfaCode = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
+      }
       await Instance.get
           .login(LoginData({
             'username': username,
             'passwd': passwd ?? '',
-            'mfaCode': mfaCode ?? '',
+            'mfaCode': mfaCode,
           }))
-          .then((value) => print(value))
-          .catchError((err) => print(err));
+          .then((value) => {
+            print('Login success !'),
+            Instance.cfg.set('auth', {
+              'token': token,
+              'username': username,
+              'code': code
+            })
+          })
+          .catchError((err) => {
+            print('Login failed: $err'),
+            exit(0)
+          });
     }
   }
 }

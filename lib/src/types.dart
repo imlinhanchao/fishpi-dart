@@ -57,19 +57,19 @@ class LoginData {
   String passwd = '';
 
   /// 二次验证码
-  String mfaCode = '';
+  String? mfaCode;
 
   LoginData(Map<String, dynamic> data) {
     username = data['username'];
     passwd = data['passwd'];
-    mfaCode = data['mfaCode'] ?? '';
+    mfaCode = data['mfaCode'];
   }
 
   toJson() {
     return {
       'nameOrEmail': username,
       'userPassword': toMD5(passwd),
-      'mfaCode': mfaCode
+      'mfaCode': mfaCode ?? ''
     };
   }
 }

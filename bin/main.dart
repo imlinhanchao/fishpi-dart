@@ -1,4 +1,4 @@
-import 'src/instance.dart';
+import 'src/base.dart';
 import 'src/auth.dart';
 import 'src/utils.dart';
 

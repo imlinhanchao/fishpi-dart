@@ -1,7 +1,7 @@
 import 'package:args/args.dart';
 import 'package:fishpi/fishpi.dart';
 
-import 'instance.dart';
+import 'base.dart';
 
 class UtilsCmd implements CommandRegister {
   @override
