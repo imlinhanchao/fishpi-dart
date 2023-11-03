@@ -1,8 +1,10 @@
+// ignore_for_file: depend_on_referenced_packages
 import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:fishpi/fishpi.dart';
 import 'package:yaml_modify/yaml_modify.dart';
+export 'package:args/args.dart';
 
 class Instance {
   static final Fishpi _fishpi = Fishpi();
