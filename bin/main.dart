@@ -4,8 +4,8 @@ import 'src/utils.dart';
 
 void main(List<String> arguments) async {
   var commands = [
-    AuthCmd(),
     UtilsCmd(),
+    AuthCmd(),
   ];
   var parser = registerCommand(commands);
   final args = parser.parse(arguments);

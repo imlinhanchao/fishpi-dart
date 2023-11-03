@@ -65,8 +65,9 @@ class Fishpi {
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
       var result = UploadResult();
+      rsp = rsp['data'];
 
-      result.errFiles = rsp['errFiles'];
+      result.errFiles = List<String>.from(rsp['errFiles'] as List);
       rsp['succMap'].forEach((key, value) {
         result.succFiles.add(FileInfo(key, value));
       });

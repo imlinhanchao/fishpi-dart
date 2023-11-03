@@ -260,6 +260,11 @@ class FileInfo {
   String url = '';
 
   FileInfo(this.filename, this.url);
+
+  @override
+  toString() {
+    return "{ filename=$filename, url=$url }";
+  }
 }
 
 class UploadResult {
@@ -268,4 +273,9 @@ class UploadResult {
 
   /// 上传成功文件
   List<FileInfo> succFiles = [];
+
+  @override
+  toString() {
+    return "{ errFiles=${errFiles.join(',')}, succFiles=$succFiles }";
+  }
 }

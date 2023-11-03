@@ -44,9 +44,10 @@ class Request {
   }
 
   static Future<FormData> formData(String key,
-      {Map<String, dynamic> src = const {},
+      {Map<String, dynamic>? src,
       List<String>? files,
       String? value}) async {
+    src ??= {};
     if (files != null) {
       src[key] = await Future.wait(files.map((filePath) async {
         return await MultipartFile.fromFile(filePath);
