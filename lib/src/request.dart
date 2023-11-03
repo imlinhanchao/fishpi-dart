@@ -16,8 +16,16 @@ class Request {
     return request(url, method: 'GET');
   }
 
-  static Future<T> post<T>(String url, data) async {
+  static Future<T> post<T>(String url, {dynamic data}) async {
     return request(url, method: 'POST', data: data);
+  }
+
+  static Future<T> delete<T>(String url, {dynamic data}) async {
+    return request(url, method: 'DELETE', data: data);
+  }
+
+  static Future<T> put<T>(String url, {dynamic data}) async {
+    return request(url, method: 'PUT', data: data);
   }
 
   static Future<T> request<T>(String url, {method, data}) async {

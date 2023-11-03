@@ -40,7 +40,7 @@ class Fishpi {
 
   Future<String> login(LoginData data) async {
     try {
-      var rsp = await Request.post('api/getKey', data.toJson());
+      var rsp = await Request.post('api/getKey', data: data.toJson());
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
@@ -60,7 +60,7 @@ class Fishpi {
         return Future.error('File not exist: ${notExist.join(',')}');
       }
       var data = await Request.formData('file[]', files: files);
-      var rsp = await Request.post('upload', data);
+      var rsp = await Request.post('upload', data: data);
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
