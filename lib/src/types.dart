@@ -69,8 +69,8 @@ class LoginData {
   toJson() {
     return {
       'nameOrEmail': username,
-      'userPassword': toMD5(passwd),
       'mfaCode': mfaCode ?? ''
+      'userPassword': passwd.toMD5(),
     };
   }
 }
