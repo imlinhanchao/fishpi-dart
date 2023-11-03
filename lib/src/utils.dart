@@ -4,6 +4,14 @@ import 'package:crypto/crypto.dart';
 import 'package:fishpi/src/request.dart';
 import 'package:fishpi/src/types.dart';
 
+extension Utils on String {
+  toMD5() {
+    var content = const Utf8Encoder().convert(this);
+    var digest = md5.convert(content);
+    return hex.encode(digest.bytes);
+  }
+}
+
 String toMD5(String src) {
   var content = const Utf8Encoder().convert(src);
   var digest = md5.convert(content);
@@ -26,9 +34,9 @@ MetalList toMetal(String sysMetal) {
   try {
     var metal = json.decode(sysMetal);
     MetalList list = [];
-    metal['list'].forEach((m) => {
-      list.add(analyzeMetalAttr(m))
-    });
+    metal['list'].forEach(
+      (m) => {list.add(analyzeMetalAttr(m))},
+    );
     return list;
   } catch (error) {
     return [];
