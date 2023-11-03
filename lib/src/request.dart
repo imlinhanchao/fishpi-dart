@@ -1,6 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:web_socket_channel/io.dart';
+
+class WebsocketInfo {
+  StreamSubscription steam;
+  IOWebSocketChannel ws;
+  WebsocketInfo({required this.steam, required this.ws});
+}
 
 class Request {
   static String _domain = 'fishpi.cn';
@@ -55,6 +63,43 @@ class Request {
     } catch (e) {
       return Future.error('未知异常');
     }
+  }
+
+  static WebsocketInfo connect(
+    url, {
+    Map? params,
+    required void Function(dynamic msg) onMessage,
+    void Function(dynamic error, IOWebSocketChannel ws)? onError,
+    void Function(IOWebSocketChannel ws)? onClose,
+  }) {
+    if (params != null) {
+      url = '$url?';
+      params.forEach((key, value) {
+        url += '$key=$value&';
+      });
+      url = url.substring(0, url.length - 1);
+    }
+
+    var ws = IOWebSocketChannel.connect('wss://$_domain/$url');
+    return WebsocketInfo(
+      steam: ws.stream.listen(
+        (message) async {
+          var msg = message;
+          try {
+            msg = json.decode(msg);
+            // ignore: empty_catches
+          } catch (e) {}
+          onMessage(msg);
+        },
+        onDone: onClose == null
+            ? () => print('WebSocket disconnected')
+            : () => onClose(ws),
+        onError: onError == null
+            ? (error) => print('WebSocket error: $error')
+            : (error) => onError(error, ws),
+      ),
+      ws: ws,
+    );
   }
 
   static Future<FormData> formData(String key,

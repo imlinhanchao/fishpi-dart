@@ -2,6 +2,7 @@
 import 'package:fishpi/src/request.dart';
 import 'package:fishpi/src/utils.dart';
 
+export 'types/chatroom.dart';
 class ApiResponse<T> {
   /// 请求状态
   int code = 0;
@@ -71,6 +72,51 @@ class LoginData {
       'userPassword': toMD5(passwd),
       'mfaCode': mfaCode ?? ''
     };
+  }
+}
+
+class PreRegisterInfo {
+  /// 用户名
+  String username = '';
+
+  /// 手机号
+  String phone = '';
+
+  /// 邀请码
+  String? invitecode;
+
+  /// 验证码
+  String captcha = '';
+
+  PreRegisterInfo(Map<String, dynamic> data) {
+    username = data['username'];
+    phone = data['phone'];
+    invitecode = data['invitecode'];
+    captcha = data['captcha'];
+  }
+
+  toJson() {
+    return {
+      'userName': username,
+      'userPhone': phone,
+      'invitecode': invitecode ?? '',
+      'captcha': captcha
+    };
+  }
+}
+
+class PreRegisterResult {
+  bool success = false;
+  String msg = '';
+
+  PreRegisterResult(Map<String, dynamic> data) {
+    success = data['code'] == 0;
+    msg = data['msg'];
+  }
+
+  @override
+  String toString() {
+    return "{ success=$success, msg=$msg }";
   }
 }
 

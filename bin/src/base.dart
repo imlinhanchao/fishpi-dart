@@ -36,7 +36,7 @@ class Config {
   Map<String, dynamic> load() {
     final file = File(path);
     if (!file.existsSync()) {
-      throw Exception('Config file not exist');
+      return config;
     }
     config = loadYaml(file.readAsStringSync());
     return config;

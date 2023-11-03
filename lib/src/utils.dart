@@ -26,11 +26,15 @@ MetalList toMetal(String sysMetal) {
   try {
     var metal = json.decode(sysMetal);
     MetalList list = [];
-    metal['list'].forEach((m) => {
-      list.add(analyzeMetalAttr(m))
-    });
+    metal['list'].forEach((m) => {list.add(analyzeMetalAttr(m))});
     return list;
   } catch (error) {
     return [];
   }
+}
+
+ChatSource? clientToVia(String? client) {
+  if (client == null || client.isEmpty) return null;
+  final via = client.split('/');
+  return ChatSource(client: via[0], version: via[1]);
 }
