@@ -2,18 +2,12 @@ import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 
 class User {
-  String _apiKey = '';
-
-  String get token => _apiKey;
-
-  void setToken(String token) {
-    _apiKey = token;
-  }
+  String token = '';
 
   /// 查询登录用户信息
   Future<UserInfo> info() async {
     try {
-      var rsp = await Request.get('api/user', params: {'apiKey': _apiKey});
+      var rsp = await Request.get('api/user', params: {'apiKey': token});
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
@@ -28,8 +22,7 @@ class User {
   /// 返回常用表情列表
   Future<List<String>> emotions() async {
     try {
-      var rsp =
-          await Request.get('users/emotions', params: {'apiKey': _apiKey});
+      var rsp = await Request.get('users/emotions', params: {'apiKey': token});
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
@@ -43,11 +36,11 @@ class User {
   ///
   /// 返回活跃度
   Future<int> liveness() async {
-    if (_apiKey.isEmpty) {
+    if (token.isEmpty) {
       return 0;
     }
     try {
-      var rsp = await Request.get('user/liveness', params: {'apiKey': _apiKey});
+      var rsp = await Request.get('user/liveness', params: {'apiKey': token});
 
       return rsp['liveness'] ?? 0;
     } catch (e) {
@@ -59,12 +52,11 @@ class User {
   ///
   /// 返回是否已经签到
   Future<bool> isCheckIn() async {
-    if (_apiKey.isEmpty) {
+    if (token.isEmpty) {
       return false;
     }
     try {
-      var rsp =
-          await Request.get('user/checkedIn', params: {'apiKey': _apiKey});
+      var rsp = await Request.get('user/checkedIn', params: {'apiKey': token});
 
       return rsp['checkedIn'] ?? false;
     } catch (e) {
@@ -76,12 +68,12 @@ class User {
   ///
   /// 返回是否已经领取昨日活跃奖励
   Future<bool> isCollectedLiveness() async {
-    if (_apiKey.isEmpty) {
+    if (token.isEmpty) {
       return false;
     }
     try {
       var rsp = await Request.get('api/activity/is-collected-liveness',
-          params: {'apiKey': _apiKey});
+          params: {'apiKey': token});
 
       return rsp['isCollectedYesterdayLivenessReward'] ?? false;
     } catch (e) {
@@ -93,12 +85,12 @@ class User {
   ///
   /// 返回领取的奖励积分
   Future<int> rewardLiveness() async {
-    if (_apiKey.isEmpty) {
+    if (token.isEmpty) {
       return 0;
     }
     try {
       var rsp = await Request.get('activity/yesterday-liveness-reward-api',
-          params: {'apiKey': _apiKey});
+          params: {'apiKey': token});
 
       return rsp['sum'] ?? 0;
     } catch (e) {
@@ -116,7 +108,7 @@ class User {
       String userName, int amount, String memo) async {
     try {
       var rsp = await Request.post('point/transfer', data: {
-        'apiKey': _apiKey,
+        'apiKey': token,
         'userName': userName,
         'amount': amount,
         'memo': memo,
