@@ -3,6 +3,7 @@ import 'package:fishpi/src/utils.dart';
 
 export 'user.dart';
 export 'chatroom.dart';
+export 'chat.dart';
 
 class ApiResponse<T> {
   /// 请求状态

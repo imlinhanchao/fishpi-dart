@@ -7,11 +7,13 @@ export 'types/fishpi.dart';
 export 'src/user.dart';
 export 'src/chatroom.dart';
 export 'src/redpacket.dart';
+export 'src/chat.dart';
 
 class Fishpi {
   String _apiKey = '';
   User user = User();
   Chatroom chatroom = Chatroom();
+  Chat chat = Chat();
 
   static setOrigin(String? url) {
     if (url == null) return;
@@ -41,6 +43,7 @@ class Fishpi {
     _apiKey = token;
     user.token = token;
     chatroom.token = token;
+    chat.token = token;
   }
 
   /// 登录

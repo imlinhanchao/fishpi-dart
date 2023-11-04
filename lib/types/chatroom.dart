@@ -228,6 +228,8 @@ class Message {
   }
 }
 
+typedef ChatroomListener = void Function(Message);
+
 // 自定义消息
 typedef CustomMsg = String;
 

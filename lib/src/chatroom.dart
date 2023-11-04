@@ -11,7 +11,7 @@ class Chatroom {
 
   final ChatSource client = ChatSource();
   WebsocketInfo? _ws;
-  List<Function(Message)> _wsCallbacks = [];
+  List<ChatroomListener> _wsCallbacks = [];
 
   Redpacket redpacket = Redpacket();
 
@@ -273,7 +273,7 @@ class Chatroom {
               break;
             }
         }
-        for (var call in _wsCallbacks) {
+        for (ChatroomListener call in _wsCallbacks) {
           call(Message(msg['type'], data));
         }
       },

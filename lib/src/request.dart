@@ -94,7 +94,8 @@ class Request {
       url = url.substring(0, url.length - 1);
     }
 
-    var ws = IOWebSocketChannel.connect('wss://$_domain/$url');
+    var ws = IOWebSocketChannel.connect(
+        '${_protocol == 'https' ? 'wss' : 'ws'}://$_domain/$url');
     return WebsocketInfo(
       steam: ws.stream.listen(
         (message) async {
