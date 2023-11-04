@@ -9,19 +9,21 @@ class Chatroom {
   String _discusse = '';
   List<dynamic> _onlines = [];
 
-  final ChatSource _client = ChatSource();
+  final ChatSource client = ChatSource();
   WebsocketInfo? _ws;
   List<Function(Message)> _wsCallbacks = [];
 
+  Redpacket redpacket = Redpacket();
+
   String get token => _apiKey;
 
-  void setToken(String token) {
+  set token(String token) {
     _apiKey = token;
+    redpacket.token = token;
   }
 
-  void setVia({String? client, String? version}) {
-    _client.client = client ?? _client.client;
-    _client.version = version ?? _client.version;
+  Chatroom([String? token]) {
+    this.token = token ?? this.token;
   }
 
   /// 当前在线人数列表，需要先调用 addListener 添加聊天室消息监听
@@ -41,7 +43,7 @@ class Chatroom {
         'chat-room/send',
         data: {
           'content': msg,
-          'client': (client ?? _client).toString(),
+          'client': (client ?? this.client).toString(),
           'apiKey': _apiKey,
         },
       );
@@ -65,7 +67,7 @@ class Chatroom {
         params: {
           'page': page,
           'type': type,
-          'apiKey': _apiKey,
+          'apiKey': token,
         },
       );
 

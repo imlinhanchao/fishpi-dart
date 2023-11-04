@@ -6,6 +6,7 @@ import 'package:fishpi/src/request.dart';
 export 'types/fishpi.dart';
 export 'src/user.dart';
 export 'src/chatroom.dart';
+export 'src/redpacket.dart';
 
 class Fishpi {
   String _apiKey = '';
@@ -38,8 +39,8 @@ class Fishpi {
 
   set token(String token) {
     _apiKey = token;
-    user.setToken(token);
-    chatroom.setToken(token);
+    user.token = token;
+    chatroom.token = token;
   }
 
   /// 登录
