@@ -786,3 +786,66 @@ class RedPacketStatusMsg {
     return "RedPacketStatusMsg{ oId=$oId, count=$count, got=$got, whoGive=$whoGive, whoGot=$whoGot, userAvatarURL20=$userAvatarURL20, userAvatarURL48=$userAvatarURL48, userAvatarURL210=$userAvatarURL210 }";
   }
 }
+
+class BarrageCost {
+  int cost;
+  String unit;
+
+  BarrageCost({
+    this.cost = 20,
+    this.unit = '积分',
+  });
+
+  BarrageCost.from(Map data)
+      : cost = data['cost'] ?? 20,
+        unit = data['unit'] ?? '积分';
+
+  toJson() => {
+        'cost': cost,
+        'unit': unit,
+      };
+
+  @override
+  toString() {
+    return "BarrageCose{ cost=$cost, unit=$unit }";
+  }
+}
+
+class MuteItem {
+  /// 解除禁言时间戳
+  int time;
+
+  /// 用户头像
+  String userAvatarURL;
+
+  /// 用户名
+  String userName;
+
+  /// 用户昵称
+  String userNickname;
+
+  MuteItem({
+    required this.time,
+    required this.userAvatarURL,
+    required this.userName,
+    required this.userNickname,
+  });
+
+  MuteItem.from(Map<String, dynamic> data)
+      : time = data['time'] ?? '',
+        userAvatarURL = data['userAvatarURL'] ?? '',
+        userName = data['userName'] ?? '',
+        userNickname = data['userNickname'] ?? '';
+
+  Map<String, dynamic> toJson() => {
+        'time': time,
+        'userAvatarURL': userAvatarURL,
+        'userName': userName,
+        'userNickname': userNickname,
+      };
+
+  @override
+  String toString() {
+    return 'MuteItem{ time: $time, userAvatarURL: $userAvatarURL, userName: $userName, userNickname: $userNickname }';
+  }
+}

@@ -6,20 +6,22 @@ import 'package:web_socket_channel/io.dart';
 
 class Chatroom {
   String _apiKey = '';
-  String _client = ClientType.Other;
-  String _version = 'Latest';
-  WebsocketInfo? _ws;
   String _discusse = '';
-  List<Function(Message)> _wsCallbacks = [];
   List<dynamic> _onlines = [];
+
+  final ChatSource _client = ChatSource();
+  WebsocketInfo? _ws;
+  List<Function(Message)> _wsCallbacks = [];
+
+  String get token => _apiKey;
 
   void setToken(String token) {
     _apiKey = token;
   }
 
-  void setVia(String client, String version) {
-    _client = client;
-    _version = version;
+  void setVia({String? client, String? version}) {
+    _client.client = client ?? _client.client;
+    _client.version = version ?? _client.version;
   }
 
   /// 当前在线人数列表，需要先调用 addListener 添加聊天室消息监听
@@ -33,17 +35,179 @@ class Chatroom {
     send('[setdiscuss]$val[/setdiscuss]');
   }
 
-  Future<void> send(String msg, {String? clientType, String? version}) async {
+  Future<ResponseResult> send(String msg, {ChatSource? client}) async {
     try {
       var rsp = await Request.post(
         'chat-room/send',
         data: {
           'content': msg,
-          'client': '${clientType ?? _client}/${version ?? _version}',
+          'client': (client ?? _client).toString(),
           'apiKey': _apiKey,
         },
       );
+
+      return ResponseResult.from(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 查询聊天室历史消息
+  ///
+  /// - `page` 消息页码
+  /// - `type` 消息类型，可选值：html、text
+  ///
+  /// 返回消息列表
+  Future<List<ChatRoomMessage>> more(int page, {String type = 'html'}) async {
+    try {
+      var rsp = await Request.get(
+        'chat-room/more',
+        params: {
+          'page': page,
+          'type': type,
+          'apiKey': _apiKey,
+        },
+      );
+
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
+
+      return List.from(rsp['data'] ?? [])
+          .map((e) => ChatRoomMessage.from(e))
+          .toList();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 获取聊天室消息
+  ///
+  /// - `oId` 消息 ID
+  /// - `mode` 消息类型，可选值：all、before、after
+  /// - `size` 消息数量
+  /// - `type` 消息内容类型，可选值：html、md
+  ///
+  /// 返回消息列表
+  Future<List<ChatRoomMessage>> get({
+    required String oId,
+    required ChatMessageType mode,
+    int size = 25,
+    String type = 'html',
+  }) async {
+    try {
+      var rsp = await Request.get(
+        'chat-room/getMessage',
+        params: {
+          'oId': oId,
+          'mode': mode.toString(),
+          'size': size,
+          'type': type.toString(),
+          'apiKey': _apiKey,
+        },
+      );
+
+      if (rsp['code'] != 0) return Future.error(rsp['msg']);
+
+      return List.from(rsp['data'] ?? [])
+          .map((e) => ChatRoomMessage.from(e))
+          .toList();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 撤回消息，普通成员 24 小时内可撤回一条自己的消息，纪律委员/OP/管理员角色可以撤回任意人消息
+  ///
+  /// - `oId` 消息 Id
+  ///
+  /// 返回操作结果
+  Future<ResponseResult> revoke(String oId) async {
+    try {
+      var rsp = await Request.delete(
+        'chat-room/revoke/$oId',
+        data: {
+          'apiKey': _apiKey,
+        },
+      );
+
+      return ResponseResult.from(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 发送一条弹幕
+  ///
+  /// - `msg` 消息内容，支持 Markdown
+  /// - `color` 弹幕颜色
+  ///
+  /// 返回操作结果
+  Future<ResponseResult> barrage(String msg, {String color = '#ffffff'}) async {
+    try {
+      var rsp = await Request.post(
+        'chat-room/send',
+        data: {
+          'content': '[barrager]{"color":"$color","content":"$msg"}[/barrager]',
+          'apiKey': _apiKey,
+        },
+      );
+
+      return ResponseResult.from(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 获取弹幕发送价格
+  ///
+  /// 返回价格 `cost` 与单位 `unit`
+  Future<BarrageCost> barragePay() async {
+    try {
+      var rsp = await Request.get('cr', params: {'apiKey': _apiKey});
+
+      var match = RegExp(r'>发送弹幕每次将花费\s*<b>([-0-9]+)<\/b>\s*([^<]*?)<\/div>')
+          .firstMatch(rsp);
+
+      if (match != null) {
+        return BarrageCost(
+          cost: int.parse(match.group(1) ?? '20'),
+          unit: match.group(2) ?? '积分',
+        );
+      }
+
+      return BarrageCost(
+        cost: 20,
+        unit: '积分',
+      );
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 获取禁言中成员列表（思过崖）
+  ///
+  /// 返回禁言中成员列表
+  Future<List<MuteItem>> mutes() async {
+    try {
+      var rsp = await Request.get('chat-room/si-guo-list');
+
+      if (rsp['code'] != null) {
+        return Future.error(rsp['msg']);
+      }
+
+      return List.from(rsp['data'] ?? []).map((e) => MuteItem.from(e)).toList();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 获取消息原文（比如 Markdown）
+  ///
+  /// - `oId` 消息 Id
+  Future<String> raw(String oId) async {
+    try {
+      var rsp = await Request.get('cr/raw/$oId');
+
+      return rsp.replaceAll(RegExp(r'<!--.*?-->'), '');
     } catch (e) {
       return Future.error(e);
     }
