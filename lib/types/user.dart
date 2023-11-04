@@ -70,10 +70,9 @@ class MetalBase {
       };
 
   toUrl([includeText = true]) {
-    var origin = Request.origin;
-    var url = '$origin/gen?txt=$name}&$attr';
+    var url = '${Request.origin}/gen?txt=$name}&$attr';
     if (!includeText) {
-      url = '$origin/gen?txt=&$attr';
+      url = '${Request.origin}/gen?txt=&$attr';
     }
     return url;
   }
@@ -211,22 +210,22 @@ class UserInfo {
   });
 
   UserInfo.from(Map data)
-      : oId = data['oId'],
-        userNo = data['userNo'],
-        userName = data['userName'],
-        userNickname = data['userNickname'],
-        userURL = data['userURL'],
-        userCity = data['userCity'],
-        userIntro = data['userIntro'],
-        userOnlineFlag = data['userOnlineFlag'],
-        userPoint = data['userPoint'],
-        userRole = data['userRole'],
+      : oId = data['oId'] ?? '',
+        userNo = data['userNo'] ?? '',
+        userName = data['userName'] ?? '',
+        userNickname = data['userNickname'] ?? '',
+        userURL = data['userURL'] ?? '',
+        userCity = data['userCity'] ?? '',
+        userIntro = data['userIntro'] ?? '',
+        userOnlineFlag = data['userOnlineFlag'] ?? '',
+        userPoint = data['userPoint'] ?? '',
+        userRole = data['userRole'] ?? '',
         userAppRole = UserAppRole.values[int.parse(data['userAppRole'] ?? '0')],
-        userAvatarURL = data['userAvatarURL'],
-        cardBg = data['cardBg'],
-        followingUserCount = data['followingUserCount'],
-        followerCount = data['followerCount'],
-        onlineMinute = data['onlineMinute'],
+        userAvatarURL = data['userAvatarURL'] ?? '',
+        cardBg = data['cardBg'] ?? '',
+        followingUserCount = data['followingUserCount'] ?? '',
+        followerCount = data['followerCount'] ?? '',
+        onlineMinute = data['onlineMinute'] ?? '',
         canFollow = data['canFollow'] ?? 'self',
         allMetalOwned = toMetal(data['allMetalOwned'] ?? '[]'),
         sysMetal = toMetal(data['sysMetal'] ?? '[]');

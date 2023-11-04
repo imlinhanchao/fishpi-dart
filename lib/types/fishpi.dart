@@ -1,9 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names
-import 'package:fishpi/src/types.dart';
 import 'package:fishpi/src/utils.dart';
 
-export 'types/user.dart';
-export 'types/chatroom.dart';
+export 'user.dart';
+export 'chatroom.dart';
 
 class ApiResponse<T> {
   /// 请求状态
@@ -19,9 +18,9 @@ class ApiResponse<T> {
   T? data;
 
   ApiResponse(Map<String, dynamic> rsp, Function T) {
-    code = rsp['code'];
-    result = rsp['result'];
-    msg = rsp['msg'];
+    code = rsp['code'] ?? '';
+    result = rsp['result'] ?? '';
+    msg = rsp['msg'] ?? '';
     data = rsp['data'] != null ? T(rsp['data']) : null;
   }
 
@@ -48,8 +47,8 @@ class LoginData {
   });
 
   LoginData.from(Map<String, dynamic> data)
-      : username = data['username'],
-        passwd = data['passwd'],
+      : username = data['username'] ?? '',
+        passwd = data['passwd'] ?? '',
         mfaCode = data['mfaCode'];
 
   toJson() => {
@@ -85,10 +84,10 @@ class PreRegisterInfo {
   });
 
   PreRegisterInfo.from(Map<String, dynamic> data)
-      : username = data['username'],
-        phone = data['phone'],
-        invitecode = data['invitecode'],
-        captcha = data['captcha'];
+      : username = data['username'] ?? '',
+        phone = data['phone'] ?? '',
+        invitecode = data['invitecode'] ?? '',
+        captcha = data['captcha'] ?? '';
 
   toJson() => {
         'userName': username,
@@ -113,8 +112,8 @@ class ResponseResult {
   });
 
   ResponseResult.from(Map<String, dynamic> data)
-      : success = data['code'] == 0,
-        msg = data['msg'];
+      : success = (data['code'] ?? 0) == 0,
+        msg = data['msg'] ?? '';
 
   @override
   String toString() {
@@ -132,8 +131,8 @@ class FileInfo {
   FileInfo({this.filename = '', this.url = ''});
 
   FileInfo.from(Map<String, dynamic> data)
-      : filename = data['filename'],
-        url = data['url'];
+      : filename = data['filename'] ?? '',
+        url = data['url'] ?? '';
 
   @override
   toString() {
@@ -151,8 +150,8 @@ class UploadResult {
   UploadResult({this.errFiles = const [], this.succFiles = const []});
 
   UploadResult.from(Map<String, dynamic> map)
-      : errFiles = List<String>.from(map['errFiles']),
-        succFiles = (map['succMap'] as Map<String, dynamic>)
+      : errFiles = List<String>.from(map['errFiles'] ?? []),
+        succFiles = ((map['succMap'] ?? {}) as Map<String, dynamic>)
             .entries
             .map((entry) => FileInfo(filename: entry.key, url: entry.value))
             .toList();
@@ -184,9 +183,9 @@ class RegisterInfo {
   });
 
   RegisterInfo.from(Map<String, dynamic> data)
-      : role = data['role'],
-        passwd = data['passwd'],
-        userId = data['userId'],
+      : role = data['role'] ?? '',
+        passwd = data['passwd'] ?? '',
+        userId = data['userId'] ?? '',
         r = data['r'];
 
   toJson() => {
@@ -219,9 +218,9 @@ class AtUser {
   });
 
   AtUser.from(Map<String, dynamic> data)
-      : userName = data['userName'],
-        userAvatarURL = data['userAvatarURL'],
-        userNameLowerCase = data['userNameLowerCase'];
+      : userName = data['userName'] ?? '',
+        userAvatarURL = data['userAvatarURL'] ?? '',
+        userNameLowerCase = data['userNameLowerCase'] ?? '';
 
   toJson() => {
         'userName': userName,

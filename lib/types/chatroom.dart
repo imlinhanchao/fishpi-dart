@@ -67,6 +67,7 @@ class ChatSource {
   ChatSource.from(String? client) {
     if ((client ?? '').isEmpty) return;
     final via = client!.split('/');
+    if (client.length < 2) return;
     client = via[0];
     version = via[1];
   }
@@ -131,15 +132,15 @@ class ChatRoomMessage {
   }
 
   ChatRoomMessage.from(Map<String, dynamic> data) {
-    oId = data['oId'];
-    userName = data['userName'];
-    userNickname = data['userNickname'];
-    userAvatarURL = data['userAvatarURL'];
+    oId = data['oId'] ?? '';
+    userName = data['userName'] ?? '';
+    userNickname = data['userNickname'] ?? '';
+    userAvatarURL = data['userAvatarURL'] ?? '';
     sysMetal = List.from(data['sysMetal']).map((e) => Metal.from(e)).toList();
     via = ChatSource.from(data['client']);
     content = data['content'];
     try {
-      redpacket = RedPacketMessage.from(json.decode(data['content']));
+      redpacket = RedPacketMessage.from(json.decode(data['content'] ?? 'null'));
       // ignore: empty_catches
     } catch (e) {}
     time = data['time'];
@@ -268,14 +269,14 @@ class BarragerMsg {
   });
 
   BarragerMsg.from(Map data)
-      : userName = data['userName'],
-        userNickname = data['userNickname'],
-        barragerContent = data['barragerContent'],
-        barragerColor = data['barragerColor'],
-        userAvatarURL = data['userAvatarURL'],
-        userAvatarURL20 = data['userAvatarURL20'],
-        userAvatarURL48 = data['userAvatarURL48'],
-        userAvatarURL210 = data['userAvatarURL210'];
+      : userName = data['userName'] ?? '',
+        userNickname = data['userNickname'] ?? '',
+        barragerContent = data['barragerContent'] ?? '',
+        barragerColor = data['barragerColor'] ?? '',
+        userAvatarURL = data['userAvatarURL'] ?? '',
+        userAvatarURL20 = data['userAvatarURL20'] ?? '',
+        userAvatarURL48 = data['userAvatarURL48'] ?? '',
+        userAvatarURL210 = data['userAvatarURL210'] ?? '';
 
   toJson() => {
         'userName': userName,
@@ -312,9 +313,9 @@ class OnlineInfo {
   });
 
   OnlineInfo.from(Map data)
-      : homePage = data['homePage'],
-        userAvatarURL = data['userAvatarURL'],
-        userName = data['userName'];
+      : homePage = data['homePage'] ?? '',
+        userAvatarURL = data['userAvatarURL'] ?? '',
+        userName = data['userName'] ?? '';
 
   toJson() => {
         'homePage': homePage,
@@ -369,7 +370,7 @@ class ChatRoomMsg {
   String md = '';
 
   /// 消息来源
-  String client = '';
+  String get client => via.toString();
 
   /// 消息来源解析
   ChatSource via = ChatSource();
@@ -384,26 +385,24 @@ class ChatRoomMsg {
     this.content = '',
     this.redpacket,
     this.md = '',
-    this.client = '',
     ChatSource? via,
   }) {
     this.via = via ?? ChatSource();
   }
 
   ChatRoomMsg.from(Map data) {
-    oId = data['oId'];
-    time = data['time'];
-    userOId = data['userOId'].toString();
-    userName = data['userName'];
-    userNickname = data['userNickname'];
-    userAvatarURL = data['userAvatarURL'];
-    content = data['content'];
+    oId = data['oId'] ?? '';
+    time = data['time'] ?? '';
+    userOId = data['userOId']?.toString() ?? '';
+    userName = data['userName'] ?? '';
+    userNickname = data['userNickname'] ?? '';
+    userAvatarURL = data['userAvatarURL'] ?? '';
+    content = data['content'] ?? '';
     try {
-      redpacket = RedPacket.from(json.decode(data['content']));
+      redpacket = RedPacket.from(json.decode(data['content'] ?? 'null'));
       // ignore: empty_catches
     } catch (e) {}
     md = data['md'] ?? '';
-    client = data['client'];
     via = ChatSource.from(data['client']);
   }
 
@@ -485,14 +484,14 @@ class RedPacket {
   });
 
   RedPacket.from(Map data) {
-    type = data['type'];
-    money = data['money'];
-    count = data['count'];
-    msg = data['msg'];
+    type = data['type'] ?? '';
+    money = data['money'] ?? 0;
+    count = data['count'] ?? 0;
+    msg = data['msg'] ?? '';
     try {
       recivers = List.from(data['recivers'] is String
           ? json.decode(data['recivers'])
-          : data['recivers']);
+          : data['recivers'] ?? []);
       // ignore: empty_catches
     } catch (e) {}
     gesture =
@@ -540,11 +539,11 @@ class RedPacketGot {
   });
 
   RedPacketGot.from(Map data)
-      : userId = data['userId'],
-        userName = data['userName'],
-        avatar = data['avatar'],
-        userMoney = data['userMoney'],
-        time = data['time'];
+      : userId = data['userId'] ?? '',
+        userName = data['userName'] ?? '',
+        avatar = data['avatar'] ?? '',
+        userMoney = data['userMoney'] ?? 0,
+        time = data['time'] ?? '';
 
   toJson() => {
         'userId': userId,
@@ -602,13 +601,13 @@ class RedPacketMessage {
   });
 
   RedPacketMessage.from(Map data)
-      : msgType = data['msgType'],
-        count = data['count'],
-        got = data['got'],
-        money = data['money'],
-        msg = data['msg'],
-        senderId = data['senderId'],
-        interface = data['interface'],
+      : msgType = data['msgType'] ?? '',
+        count = data['count'] ?? 0,
+        got = data['got'] ?? 0,
+        money = data['money'] ?? 0,
+        msg = data['msg'] ?? '',
+        senderId = data['senderId'] ?? '',
+        interface = data['interface'] ?? '',
         recivers = List.from(data['recivers'] is String
             ? json.decode(data['recivers'])
             : data['recivers']),
@@ -662,14 +661,14 @@ class RedPacketBase {
   });
 
   RedPacketBase.from(Map data)
-      : count = data['count'],
+      : count = data['count'] ?? 0,
         gesture = data['gesture'] == null
             ? null
             : GestureType.values[data['gesture']],
-        got = data['got'],
-        msg = data['msg'],
-        userName = data['userName'],
-        userAvatarURL = data['userAvatarURL'];
+        got = data['got'] ?? 0,
+        msg = data['msg'] ?? '',
+        userName = data['userName'] ?? '',
+        userAvatarURL = data['userAvatarURL'] ?? '';
 
   toJson() => {
         'count': count,
@@ -709,7 +708,7 @@ class RedPacketInfo {
       : info = RedPacketBase.from(data['info']),
         recivers = List.from(data['recivers'] is String
             ? json.decode(data['recivers'])
-            : data['recivers']),
+            : data['recivers'] ?? []),
         who = List.from(data['who']).map((e) => RedPacketGot.from(e)).toList();
 
   toJson() => {
@@ -762,14 +761,14 @@ class RedPacketStatusMsg {
   });
 
   RedPacketStatusMsg.from(Map data)
-      : oId = data['oId'],
-        count = data['count'],
-        got = data['got'],
-        whoGive = data['whoGive'],
-        whoGot = data['whoGot'],
-        userAvatarURL20 = data['userAvatarURL20'],
-        userAvatarURL48 = data['userAvatarURL48'],
-        userAvatarURL210 = data['userAvatarURL210'];
+      : oId = data['oId'] ?? '',
+        count = data['count'] ?? 0,
+        got = data['got'] ?? 0,
+        whoGive = data['whoGive'] ?? '',
+        whoGot = data['whoGot'] ?? '',
+        userAvatarURL20 = data['userAvatarURL20'] ?? '',
+        userAvatarURL48 = data['userAvatarURL48'] ?? '',
+        userAvatarURL210 = data['userAvatarURL210'] ?? '';
 
   toJson() => {
         'oId': oId,

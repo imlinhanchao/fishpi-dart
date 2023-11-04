@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 
+export 'types/fishpi.dart';
 export 'src/user.dart';
 export 'src/chatroom.dart';
-export 'src/types.dart';
 
 class Fishpi {
   String _apiKey = '';
