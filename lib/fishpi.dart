@@ -1,9 +1,10 @@
 import 'dart:io';
 
+import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
-import 'package:fishpi/src/types.dart';
-import 'package:fishpi/user.dart';
-import 'package:fishpi/chatroom.dart';
+
+export 'src/user.dart';
+export 'src/chatroom.dart';
 export 'src/types.dart';
 
 class Fishpi {
