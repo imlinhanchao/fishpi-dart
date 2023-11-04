@@ -12,12 +12,6 @@ extension Utils on String {
   }
 }
 
-String toMD5(String src) {
-  var content = const Utf8Encoder().convert(src);
-  var digest = md5.convert(content);
-  return hex.encode(digest.bytes);
-}
-
 Metal analyzeMetalAttr(m) {
   if (!m) return m;
   if (m['attr'] is! String) return m;
@@ -27,7 +21,7 @@ Metal analyzeMetalAttr(m) {
   attr.forEach((a) => m['attr'][a.split('=')[0]] = a.split('=')[1]);
   m['url'] = '${Request.origin}/gen?txt=${m['description']}&url=$src';
   m['icon'] = '${Request.origin}/gen?txt=&$src';
-  return Metal(m);
+  return Metal.from(m);
 }
 
 MetalList toMetal(String sysMetal) {
@@ -39,10 +33,4 @@ MetalList toMetal(String sysMetal) {
   } catch (error) {
     return [];
   }
-}
-
-ChatSource? clientToVia([String? client='']) {
-  if (client!.isEmpty) return null;
-  final via = client.split('/');
-  return ChatSource(client: via[0], version: via[1]);
 }

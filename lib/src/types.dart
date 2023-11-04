@@ -1,7 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names
-import 'package:fishpi/src/request.dart';
+import 'package:fishpi/src/types.dart';
 import 'package:fishpi/src/utils.dart';
 
+export 'types/user.dart';
 export 'types/chatroom.dart';
 
 class ApiResponse<T> {
@@ -30,356 +31,374 @@ class ApiResponse<T> {
   }
 }
 
-class LoginRsp {
-  /// 请求状态
-  int code = 0;
-
-  /// 消息
-  String msg = '';
-
-  /// Api Key
-  String? key;
-  LoginRsp(Map<String, dynamic> data) {
-    code = data['code'];
-    msg = data['msg'];
-    key = data['Key'];
-  }
-
-  @override
-  toString() {
-    return "{ code=$code, msg=$msg, key=$key }";
-  }
-}
-
 class LoginData {
   /// 用户名
-  String username = '';
+  String username;
 
   /// 密码
-  String passwd = '';
+  String passwd;
 
   /// 二次验证码
   String? mfaCode;
 
-  LoginData(Map<String, dynamic> data) {
-    username = data['username'];
-    passwd = data['passwd'];
-    mfaCode = data['mfaCode'];
-  }
+  LoginData({
+    this.username = '',
+    this.passwd = '',
+    this.mfaCode,
+  });
 
-  toJson() {
-    return {
-      'nameOrEmail': username,
-      'userPassword': passwd.toMD5(),
-      'mfaCode': mfaCode ?? ''
-    };
+  LoginData.from(Map<String, dynamic> data)
+      : username = data['username'],
+        passwd = data['passwd'],
+        mfaCode = data['mfaCode'];
+
+  toJson() => {
+        'nameOrEmail': username,
+        'userPassword': passwd.toMD5(),
+        'mfaCode': mfaCode ?? ''
+      };
+
+  @override
+  toString() {
+    return "LoginData{username=$username, passwd=$passwd, mfaCode=$mfaCode}";
   }
 }
 
 class PreRegisterInfo {
   /// 用户名
-  String username = '';
+  String username;
 
   /// 手机号
-  String phone = '';
+  String phone;
 
   /// 邀请码
   String? invitecode;
 
   /// 验证码
-  String captcha = '';
+  String captcha;
 
-  PreRegisterInfo(Map<String, dynamic> data) {
-    username = data['username'];
-    phone = data['phone'];
-    invitecode = data['invitecode'];
-    captcha = data['captcha'];
-  }
+  PreRegisterInfo({
+    this.username = '',
+    this.phone = '',
+    this.invitecode,
+    this.captcha = '',
+  });
 
-  toJson() {
-    return {
-      'userName': username,
-      'userPhone': phone,
-      'invitecode': invitecode ?? '',
-      'captcha': captcha
-    };
+  PreRegisterInfo.from(Map<String, dynamic> data)
+      : username = data['username'],
+        phone = data['phone'],
+        invitecode = data['invitecode'],
+        captcha = data['captcha'];
+
+  toJson() => {
+        'userName': username,
+        'userPhone': phone,
+        'invitecode': invitecode ?? '',
+        'captcha': captcha
+      };
+
+  @override
+  toString() {
+    return "PreRegisterInfo{username=$username, phone=$phone, invitecode=$invitecode, captcha=$captcha}";
   }
 }
 
 class ResponseResult {
-  bool success = false;
-  String msg = '';
+  bool success;
+  String msg;
 
-  ResponseResult(Map<String, dynamic> data) {
-    success = data['code'] == 0;
-    msg = data['msg'];
-  }
+  ResponseResult({
+    this.success = false,
+    this.msg = '',
+  });
 
-  @override
-  String toString() {
-    return "{ success=$success, msg=$msg }";
-  }
-}
-
-class MetalAttr {
-  /// 徽标图地址
-  String url = '';
-
-  /// 背景色
-  String backcolor = '';
-
-  /// 文字颜色
-  String fontcolor = '';
-
-  MetalAttr([Map<String, dynamic>? attr]) {
-    url = attr?['url'] ?? '';
-    backcolor = attr?['backcolor'] ?? '';
-    fontcolor = attr?['fontcolor'] ?? '';
-  }
-
-  @override
-  toString() {
-    return 'url=$url&backcolor=$backcolor&fontcolor=$fontcolor';
-  }
-}
-
-class MetalBase {
-  /// 徽章属性
-  MetalAttr attr = MetalAttr();
-
-  /// 徽章名
-  String name = '';
-
-  /// 徽章描述
-  String description = '';
-
-  /// 徽章数据
-  String data = '';
-
-  MetalBase([Map<String, dynamic>? metal]) {
-    attr = MetalAttr(metal?['attr']);
-    name = metal?['name'] ?? '';
-    description = metal?['description'] ?? '';
-    data = metal?['data'] ?? '';
-  }
-
-  toUrl({includeText = true}) {
-    var origin = Request.origin;
-    var url = '$origin/gen?txt=$name}&$attr';
-    if (!includeText) {
-      url = '$origin/gen?txt=&$attr';
-    }
-    return url;
-  }
-}
-
-class Metal extends MetalBase {
-  /// 完整徽章地址（含文字）
-  String? url;
-
-  /// 徽章地址（不含文字）
-  String? icon;
-
-  /// 是否佩戴
-  String? enable;
-
-  Metal(Map<String, dynamic> metal) : super(metal) {
-    url = metal['url'];
-    icon = metal['icon'];
-    enable = metal['enable'];
-  }
-
-  @override
-  toString() {
-    return "{ url=$url, icon=$icon, enable=$enable, attr=$attr, name=$name, description=$description, data=$data }";
-  }
-}
-
-/// 徽章列表
-typedef MetalList = List<Metal>;
-
-enum UserAppRole {
-  /// 黑客
-  Hack,
-
-  /// 画家
-  Artist,
-}
-
-/// 用户信息
-class UserInfo {
-  /// 用户 id
-  String oId = '';
-
-  /// 用户编号
-  String userNo = '';
-
-  /// 用户名
-  String userName = '';
-
-  /// 昵称
-  String userNickname = '';
-
-  /// 首页地址
-  String userURL = '';
-
-  /// 所在城市
-  String userCity = '';
-
-  /// 签名
-  String userIntro = '';
-
-  /// 是否在线
-  bool userOnlineFlag = false;
-
-  /// 用户积分
-  int userPoint = 0;
-
-  /// 用户组
-  String userRole = '';
-
-  /// 角色
-  UserAppRole userAppRole = UserAppRole.Hack;
-
-  /// 用户头像地址
-  String userAvatarURL = '';
-
-  /// 用户卡片背景
-  String cardBg = '';
-
-  /// 用户关注数
-  int followingUserCount = 0;
-
-  /// 用户被关注数
-  int followerCount = 0;
-
-  /// 在线时长，单位分钟
-  int onlineMinute = 0;
-
-  /// 是否已经关注，未登录则为 `hide`
-  String canFollow = 'hide';
-
-  /// 用户所有勋章列表，包含未佩戴
-  MetalList allMetalOwned = [];
-
-  /// 用户勋章列表
-  MetalList sysMetal = [];
-
-  UserInfo([Map? data]) {
-    if (data == null) return;
-    oId = data['oId'];
-    userNo = data['userNo'];
-    userName = data['userName'];
-    userNickname = data['userNickname'];
-    userURL = data['userURL'];
-    userCity = data['userCity'];
-    userIntro = data['userIntro'];
-    userOnlineFlag = data['userOnlineFlag'];
-    userPoint = data['userPoint'];
-    userRole = data['userRole'];
-    userAppRole = {
-          "0": UserAppRole.Hack,
-          "1": UserAppRole.Artist
-        }[data['userAppRole']] ??
-        UserAppRole.Hack;
-    userAvatarURL = data['userAvatarURL'];
-    cardBg = data['cardBg'];
-    followingUserCount = data['followingUserCount'];
-    followerCount = data['followerCount'];
-    onlineMinute = data['onlineMinute'];
-    canFollow = data['canFollow'] ?? 'self';
-    allMetalOwned =
-        data['allMetalOwned'] != null ? toMetal(data['allMetalOwned']) : [];
-    sysMetal = data['sysMetal'] != null ? toMetal(data['sysMetal']) : [];
-  }
+  ResponseResult.from(Map<String, dynamic> data)
+      : success = data['code'] == 0,
+        msg = data['msg'];
 
   @override
   String toString() {
-    return "{ oId=$oId, userNo=$userNo, userName=$userName, userNickname=$userNickname, userURL=$userURL, userCity=$userCity, userIntro=$userIntro, userOnlineFlag=$userOnlineFlag, userPoint=$userPoint, userRole=$userRole, userAppRole=$userAppRole, userAvatarURL=$userAvatarURL, cardBg=$cardBg, followingUserCount=$followingUserCount, followerCount=$followerCount, onlineMinute=$onlineMinute, canFollow=$canFollow, allMetalOwned=$allMetalOwned, sysMetal=$sysMetal }";
+    return "ResponseResult{ success=$success, msg=$msg }";
   }
 }
 
 class FileInfo {
   /// 文件名
-  String filename = '';
+  String filename;
 
   /// 文件地址
-  String url = '';
+  String url;
 
-  FileInfo(this.filename, this.url);
+  FileInfo({this.filename = '', this.url = ''});
+
+  FileInfo.from(Map<String, dynamic> data)
+      : filename = data['filename'],
+        url = data['url'];
 
   @override
   toString() {
-    return "{ filename=$filename, url=$url }";
+    return "FileInfo{filename=$filename, url=$url}";
   }
 }
 
 class UploadResult {
   /// 上传失败文件
-  List<String> errFiles = [];
+  List<String> errFiles;
 
   /// 上传成功文件
-  List<FileInfo> succFiles = [];
+  List<FileInfo> succFiles;
+
+  UploadResult({this.errFiles = const [], this.succFiles = const []});
+
+  UploadResult.from(Map<String, dynamic> map)
+      : errFiles = List<String>.from(map['errFiles']),
+        succFiles = (map['succMap'] as Map<String, dynamic>)
+            .entries
+            .map((entry) => FileInfo(filename: entry.key, url: entry.value))
+            .toList();
 
   @override
   toString() {
-    return "{ errFiles=${errFiles.join(',')}, succFiles=$succFiles }";
+    return "UploadResult{ errFiles=${errFiles.join(',')}, succFiles=$succFiles }";
   }
 }
 
 class RegisterInfo {
   /// 用户角色
-  String role = UserAppRole.Hack.toString();
+  String role;
+
   /// 用户密码
-  String passwd = '';
+  String passwd;
+
   /// 用户 Id
-  String userId = '';
+  String userId;
+
   /// 邀请人用户名
   String? r;
 
-  RegisterInfo([Map<String, dynamic>? data]) {
-    if (data == null) return;
-    role = data['role'];
-    passwd = data['passwd'];
-    userId = data['userId'];
-    r = data['r'];
-  }
+  RegisterInfo({
+    this.role = '0',
+    this.passwd = '',
+    this.userId = '',
+    this.r,
+  });
 
-  toJson() {
-    return {
-      'userAppRole': role,
-      'userPassword': passwd.toMD5(),
-      'userId': userId,
-      'r': r ?? '',
-    };
+  RegisterInfo.from(Map<String, dynamic> data)
+      : role = data['role'],
+        passwd = data['passwd'],
+        userId = data['userId'],
+        r = data['r'];
+
+  toJson() => {
+        'userAppRole': role,
+        'userPassword': passwd.toMD5(),
+        'userId': userId,
+        'r': r ?? '',
+      };
+
+  @override
+  toString() {
+    return 'RegisterInfo{role: $role, passwd: $passwd, userId: $userId, r: $r}';
   }
 }
 
 class AtUser {
   /// 用户名
-  String userName = '';
-  /// 用户头像
-  String userAvatarURL = '';
-  /// 全小写用户名
-  String userNameLowerCase = '';
+  String userName;
 
-  AtUser([Map<String, dynamic>? data]) {
-    if (data == null) return;
-    userName = data['userName'];
-    userAvatarURL = data['userAvatarURL'];
-    userNameLowerCase = data['userNameLowerCase'];
+  /// 用户头像
+  String userAvatarURL;
+
+  /// 全小写用户名
+  String userNameLowerCase;
+
+  AtUser({
+    this.userName = '',
+    this.userAvatarURL = '',
+    this.userNameLowerCase = '',
+  });
+
+  AtUser.from(Map<String, dynamic> data)
+      : userName = data['userName'],
+        userAvatarURL = data['userAvatarURL'],
+        userNameLowerCase = data['userNameLowerCase'];
+
+  toJson() => {
+        'userName': userName,
+        'userAvatarURL': userAvatarURL,
+        'userNameLowerCase': userNameLowerCase,
+      };
+
+  @override
+  toString() {
+    return 'AtUser{userName: $userName, userAvatarURL: $userAvatarURL, userNameLowerCase: $userNameLowerCase}';
   }
 }
 
 typedef AtUserList = List<AtUser>;
 
-class UserLite { 
-  String userNickname = ''; 
-  String userName = ''; 
+class UserLite {
+  String userNickname;
+  String userName;
 
-  UserLite([Map<String, dynamic>? data]) { 
-    if (data == null) return; 
-    userNickname = data['userNickname']; 
-    userName = data['userName']; 
+  UserLite({
+    this.userName = '',
+    this.userNickname = '',
+  });
+
+  UserLite.from(Map<String, dynamic> data)
+      : userNickname = data['userNickname'] ?? '',
+        userName = data['userName'] ?? '';
+
+  toJson() => {
+        'userNickname': userNickname,
+        'userName': userName,
+      };
+
+  @override
+  toString() {
+    return 'UserLite{userNickname: $userNickname, userName: $userName}';
+  }
+}
+
+/// 举报数据类型
+enum ReportDataType {
+  /// 文章
+  article,
+
+  /// 评论
+  comment,
+
+  /// 用户
+  user,
+
+  /// 聊天消息
+  chatroom,
+}
+
+/// 举报类型
+enum ReportType {
+  /// 垃圾广告
+  advertise,
+
+  /// 色情
+  porn,
+
+  /// 违规
+  violate,
+
+  /// 侵权
+  infringement,
+
+  /// 人身攻击
+  attacks,
+
+  /// 冒充他人账号
+  impersonate,
+
+  /// 垃圾广告账号
+  advertisingAccount,
+
+  /// 违规泄露个人信息
+  leakPrivacy,
+
+  /// 其它
+  other,
+}
+
+/// 举报数据
+class Report {
+  /// 举报对象的 oId
+  String reportDataId;
+
+  /// 举报数据的类型
+  ReportDataType reportDataType = ReportDataType.chatroom;
+
+  /// 举报的类型
+  ReportType reportType = ReportType.advertise;
+
+  /// 举报的理由
+  String reportMemo = '';
+
+  Report({
+    required this.reportDataId,
+    this.reportDataType = ReportDataType.chatroom,
+    this.reportType = ReportType.advertise,
+    required this.reportMemo,
+  });
+
+  Report.from(Map<String, dynamic> json)
+      : reportDataId = json['reportDataId'] ?? '',
+        reportDataType = ReportDataType.values[json['reportDataType'] ?? 3],
+        reportType = ReportType.values[json['reportType'] ?? 0],
+        reportMemo = json['reportMemo'] ?? '';
+
+  toJson() => {
+        'reportDataId': reportDataId,
+        'reportDataType': reportDataType.index,
+        'reportType': reportType.index,
+        'reportMemo': reportMemo,
+      };
+
+  @override
+  toString() {
+    return 'Report{reportDataId: $reportDataId, reportDataType: $reportDataType, reportType: $reportType, reportMemo: $reportMemo}';
+  }
+}
+
+class Log {
+  /// 操作时间
+  String key1;
+
+  /// IP
+  String key2;
+
+  /// 内容
+  String data;
+
+  /// 是否公开
+  bool isPublic;
+
+  /// 操作类型
+  String key3;
+
+  /// 唯一标识
+  String oId;
+
+  /// 类型
+  String type;
+
+  Log({
+    this.key1 = '',
+    this.key2 = '',
+    this.data = '',
+    this.isPublic = false,
+    this.key3 = '',
+    this.oId = '',
+    this.type = '',
+  });
+
+  Log.from(Map<String, dynamic> json)
+      : key1 = json['key1'] ?? '',
+        key2 = json['key2'] ?? '',
+        data = json['data'] ?? '',
+        isPublic = json['public'] ?? false,
+        key3 = json['key3'] ?? '',
+        oId = json['oId'] ?? '',
+        type = json['type'] ?? '';
+
+  toJson() => {
+        'key1': key1,
+        'key2': key2,
+        'data': data,
+        'public': isPublic,
+        'key3': key3,
+        'oId': oId,
+        'type': type,
+      };
+
+  @override
+  toString() {
+    return 'Log{key1: $key1, key2: $key2, data: $data, isPublic: $isPublic, key3: $key3, oId: $oId, type: $type}';
   }
 }

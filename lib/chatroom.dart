@@ -63,8 +63,9 @@ class Chatroom {
         switch (msg['type']) {
           case 'online':
             {
-              _onlines =
-                  List.from(msg['users']).map((e) => OnlineInfo(e)).toList();
+              _onlines = List.from(msg['users'])
+                  .map((e) => OnlineInfo.from(e))
+                  .toList();
               _discusse = msg['discussing'];
               data = _onlines;
               break;
@@ -81,18 +82,18 @@ class Chatroom {
             }
           case 'barrager':
             {
-              data = BarragerMsg(msg);
+              data = BarragerMsg.from(msg);
               break;
             }
           case 'msg':
             {
-              data = ChatRoomMsg(msg);
+              data = ChatRoomMsg.from(msg);
               msg['type'] = data.isRedpacket ? 'redPacket' : msg['type'];
               break;
             }
           case 'redPacketStatus':
             {
-              data = RedPacketStatusMsg(msg);
+              data = RedPacketStatusMsg.from(msg);
               break;
             }
           case 'customMessage':

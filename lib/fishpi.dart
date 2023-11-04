@@ -70,7 +70,7 @@ class Fishpi {
     try {
       var rsp = await Request.post('register', data: data.toJson());
 
-      return ResponseResult(rsp);
+      return ResponseResult.from(rsp);
     } catch (e) {
       return Future.error(e);
     }
@@ -110,7 +110,7 @@ class Fishpi {
         return Future.error(rsp['msg']);
       }
 
-      return ResponseResult(rsp);
+      return ResponseResult.from(rsp);
     } catch (e) {
       return Future.error(e);
     }
@@ -130,7 +130,7 @@ class Fishpi {
 
       if ((rsp['code'] ?? 0) != 0) return Future.error(rsp['msg']);
 
-      return UserInfo(rsp);
+      return UserInfo.from(rsp);
     } catch (e) {
       return Future.error(e);
     }
@@ -152,7 +152,7 @@ class Fishpi {
 
       if ((rsp['code'] ?? 0) != 0) return Future.error(rsp['msg']);
 
-      return List.from(rsp.data).map((e) => AtUser(e)).toList();
+      return List.from(rsp.data).map((e) => AtUser.from(e)).toList();
     } catch (e) {
       return Future.error(e);
     }
@@ -165,7 +165,38 @@ class Fishpi {
     try {
       var rsp = await Request.get('api/user/recentReg');
 
-      return List.from(rsp["data"] ?? []).map((e) => UserLite(e)).toList();
+      return List.from(rsp["data"] ?? []).map((e) => UserLite.from(e)).toList();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 举报
+  ///
+  /// - `data` 举报数据
+  Future<ResponseResult> report(Report data) async {
+    try {
+      var rsp = await Request.post('report', data: {
+        'apiKey': _apiKey,
+        ...data.toJson(),
+      });
+
+      return ResponseResult.from(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 获取操作日志
+  ///
+  /// - `page` 页码
+  /// - `pageSize` 每页数量
+  Future<List<Log>> log({int page = 1, int pageSize = 30}) async {
+    try {
+      var rsp = await Request.get('logs/more',
+          params: {'page': page, 'pageSize': pageSize});
+
+      return List.from(rsp['data'] ?? []).map((e) => Log.from(e)).toList();
     } catch (e) {
       return Future.error(e);
     }
@@ -189,15 +220,7 @@ class Fishpi {
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      var result = UploadResult();
-      rsp = rsp['data'];
-
-      result.errFiles = List<String>.from(rsp['errFiles'] as List);
-      rsp['succMap'].forEach((key, value) {
-        result.succFiles.add(FileInfo(key, value));
-      });
-
-      return result;
+      return UploadResult.from(rsp['data']);
     } catch (e) {
       return Future.error(e);
     }

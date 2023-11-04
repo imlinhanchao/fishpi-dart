@@ -35,11 +35,11 @@ class AuthCmd implements CommandRegister {
         mfaCode = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
       }
       await Instance.get
-          .login(LoginData({
-            'username': username,
-            'passwd': passwd ?? '',
-            'mfaCode': mfaCode,
-          }))
+          .login(LoginData(
+            username: username,
+            passwd: passwd ?? '',
+            mfaCode: mfaCode,
+          ))
           .then((value) => {
                 print('Login success !'),
                 Instance.cfg.set('auth',

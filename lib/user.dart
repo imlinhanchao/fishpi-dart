@@ -14,7 +14,7 @@ class User {
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      return UserInfo(rsp['data']);
+      return UserInfo.from(rsp['data']);
     } catch (e) {
       return Future.error(e);
     }

@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:fishpi/fishpi.dart';
-import 'package:fishpi/src/utils.dart';
 
 /// 客户端类型
 class ClientType {
@@ -63,14 +62,23 @@ class ChatSource {
   /// 消息来源版本
   String version = '';
 
-  ChatSource({String? client, String? version}) {
-    this.client = client ?? ClientType.Other;
-    this.version = version ?? 'Latest';
+  ChatSource({this.client = 'Other', this.version = 'lastst'});
+
+  ChatSource.from(String? client) {
+    if ((client ?? '').isEmpty) return;
+    final via = client!.split('/');
+    client = via[0];
+    version = via[1];
   }
+
+  toJson() => {
+        'client': client,
+        'version': version,
+      };
 
   @override
   String toString() {
-    return "$client/@$version";
+    return "$client/$version";
   }
 }
 
@@ -92,9 +100,9 @@ class ChatRoomMessage {
   MetalList sysMetal = [];
 
   /// 消息来源
-  String client = '';
+  String get client => via.toString();
 
-  /// 消息来源解析
+  /// 消息来源结构
   ChatSource via = ChatSource();
 
   bool get isRedpacket => redpacket != null;
@@ -108,25 +116,49 @@ class ChatRoomMessage {
   /// 发送时间
   String time = '';
 
-  ChatRoomMessage(Map data) {
+  ChatRoomMessage({
+    this.oId = '',
+    this.userName = '',
+    this.userNickname = '',
+    this.userAvatarURL = '',
+    this.sysMetal = const [],
+    ChatSource? via,
+    this.content = '',
+    this.redpacket,
+    this.time = '',
+  }) {
+    this.via = via ?? ChatSource();
+  }
+
+  ChatRoomMessage.from(Map<String, dynamic> data) {
     oId = data['oId'];
     userName = data['userName'];
     userNickname = data['userNickname'];
     userAvatarURL = data['userAvatarURL'];
-    sysMetal = List.from(data['sysMetal']).map((e) => Metal(e)).toList();
-    client = data['client'];
-    via = clientToVia(data['client']) ?? ChatSource();
+    sysMetal = List.from(data['sysMetal']).map((e) => Metal.from(e)).toList();
+    via = ChatSource.from(data['client']);
     content = data['content'];
     try {
-      redpacket = RedPacketMessage(json.decode(data['content']));
+      redpacket = RedPacketMessage.from(json.decode(data['content']));
       // ignore: empty_catches
     } catch (e) {}
     time = data['time'];
   }
 
+  toJson() => {
+        'oId': oId,
+        'userName': userName,
+        'userNickname': userNickname,
+        'userAvatarURL': userAvatarURL,
+        'sysMetal': sysMetal.map((e) => e.toJson()).toList(),
+        'client': client,
+        'content': content,
+        'time': time,
+      };
+
   @override
   String toString() {
-    return "{ oId=$oId, userName=$userName, userNickname=$userNickname, userAvatarURL=$userAvatarURL, sysMetal=$sysMetal, client=$client, via=$via, content=$content, redpacket=$redpacket, time=$time }";
+    return "ChatRoomMessage{ oId=$oId, userName=$userName, userNickname=$userNickname, userAvatarURL=$userAvatarURL, sysMetal=$sysMetal, client=$client, via=$via, content=$content, redpacket=$redpacket, time=$time }";
   }
 }
 
@@ -191,7 +223,7 @@ class Message {
 
   @override
   String toString() {
-    return "{ type=$type, data=$data }";
+    return "Message{ type=$type, data=$data }";
   }
 }
 
@@ -201,66 +233,98 @@ typedef CustomMsg = String;
 /// 弹幕消息
 class BarragerMsg {
   /// 用户名
-  String userName = '';
+  String userName;
 
   /// 用户昵称
-  String userNickname = '';
+  String userNickname;
 
   /// 弹幕内容
-  String barragerContent = '';
+  String barragerContent;
 
   /// 弹幕颜色
-  String barragerColor = '';
+  String barragerColor;
 
   /// 用户头像地址
-  String userAvatarURL = '';
+  String userAvatarURL;
 
   /// 用户头像地址 20x20
-  String userAvatarURL20 = '';
+  String userAvatarURL20;
 
   /// 用户头像地址 48x48
-  String userAvatarURL48 = '';
+  String userAvatarURL48;
 
   /// 用户头像地址 210x210
-  String userAvatarURL210 = '';
+  String userAvatarURL210;
 
-  BarragerMsg(Map data) {
-    userName = data['userName'];
-    userNickname = data['userNickname'];
-    barragerContent = data['barragerContent'];
-    barragerColor = data['barragerColor'];
-    userAvatarURL = data['userAvatarURL'];
-    userAvatarURL20 = data['userAvatarURL20'];
-    userAvatarURL48 = data['userAvatarURL48'];
-    userAvatarURL210 = data['userAvatarURL210'];
-  }
+  BarragerMsg({
+    this.userName = '',
+    this.userNickname = '',
+    this.barragerContent = '',
+    this.barragerColor = '',
+    this.userAvatarURL = '',
+    this.userAvatarURL20 = '',
+    this.userAvatarURL48 = '',
+    this.userAvatarURL210 = '',
+  });
+
+  BarragerMsg.from(Map data)
+      : userName = data['userName'],
+        userNickname = data['userNickname'],
+        barragerContent = data['barragerContent'],
+        barragerColor = data['barragerColor'],
+        userAvatarURL = data['userAvatarURL'],
+        userAvatarURL20 = data['userAvatarURL20'],
+        userAvatarURL48 = data['userAvatarURL48'],
+        userAvatarURL210 = data['userAvatarURL210'];
+
+  toJson() => {
+        'userName': userName,
+        'userNickname': userNickname,
+        'barragerContent': barragerContent,
+        'barragerColor': barragerColor,
+        'userAvatarURL': userAvatarURL,
+        'userAvatarURL20': userAvatarURL20,
+        'userAvatarURL48': userAvatarURL48,
+        'userAvatarURL210': userAvatarURL210,
+      };
 
   @override
   String toString() {
-    return "{ userName=$userName, userNickname=$userNickname, barragerContent=$barragerContent, barragerColor=$barragerColor, userAvatarURL=$userAvatarURL, userAvatarURL20=$userAvatarURL20, userAvatarURL48=$userAvatarURL48, userAvatarURL210=$userAvatarURL210 }";
+    return "BarragerMsg{ userName=$userName, userNickname=$userNickname, barragerContent=$barragerContent, barragerColor=$barragerColor, userAvatarURL=$userAvatarURL, userAvatarURL20=$userAvatarURL20, userAvatarURL48=$userAvatarURL48, userAvatarURL210=$userAvatarURL210 }";
   }
 }
 
 /// 在线用户信息
 class OnlineInfo {
   /// 用户首页
-  String homePage = '';
+  String homePage;
 
   /// 用户头像
-  String userAvatarURL = '';
+  String userAvatarURL;
 
   /// 用户名
-  String userName = '';
+  String userName;
 
-  OnlineInfo(Map data) {
-    homePage = data['homePage'];
-    userAvatarURL = data['userAvatarURL'];
-    userName = data['userName'];
-  }
+  OnlineInfo({
+    this.homePage = '',
+    this.userAvatarURL = '',
+    this.userName = '',
+  });
+
+  OnlineInfo.from(Map data)
+      : homePage = data['homePage'],
+        userAvatarURL = data['userAvatarURL'],
+        userName = data['userName'];
+
+  toJson() => {
+        'homePage': homePage,
+        'userAvatarURL': userAvatarURL,
+        'userName': userName,
+      };
 
   @override
   String toString() {
-    return "{ homePage=$homePage, userAvatarURL=$userAvatarURL, userName=$userName }";
+    return "OnlineInfo{ homePage=$homePage, userAvatarURL=$userAvatarURL, userName=$userName }";
   }
 }
 
@@ -310,7 +374,23 @@ class ChatRoomMsg {
   /// 消息来源解析
   ChatSource via = ChatSource();
 
-  ChatRoomMsg(Map data) {
+  ChatRoomMsg({
+    this.oId = '',
+    this.time = '',
+    this.userOId = '',
+    this.userName = '',
+    this.userNickname = '',
+    this.userAvatarURL = '',
+    this.content = '',
+    this.redpacket,
+    this.md = '',
+    this.client = '',
+    ChatSource? via,
+  }) {
+    this.via = via ?? ChatSource();
+  }
+
+  ChatRoomMsg.from(Map data) {
     oId = data['oId'];
     time = data['time'];
     userOId = data['userOId'].toString();
@@ -319,17 +399,29 @@ class ChatRoomMsg {
     userAvatarURL = data['userAvatarURL'];
     content = data['content'];
     try {
-      redpacket = RedPacket(json.decode(data['content']));
+      redpacket = RedPacket.from(json.decode(data['content']));
       // ignore: empty_catches
     } catch (e) {}
     md = data['md'] ?? '';
     client = data['client'];
-    via = clientToVia(data['client']) ?? ChatSource();
+    via = ChatSource.from(data['client']);
   }
+
+  toJson() => {
+        'oId': oId,
+        'time': time,
+        'userOId': userOId,
+        'userName': userName,
+        'userNickname': userNickname,
+        'userAvatarURL': userAvatarURL,
+        'content': content,
+        'md': md,
+        'client': client,
+      };
 
   @override
   String toString() {
-    return "{ oId=$oId, time=$time, userOId=$userOId, userName=$userName, userNickname=$userNickname, userAvatarURL=$userAvatarURL, content=$content, redpacket=$redpacket, md=$md, client=$client, via=$via }";
+    return "ChatRoomMsg{ oId=$oId, time=$time, userOId=$userOId, userName=$userName, userNickname=$userNickname, userAvatarURL=$userAvatarURL, content=$content, redpacket=$redpacket, md=$md, client=$client, via=$via }";
   }
 }
 
@@ -383,7 +475,16 @@ class RedPacket {
   /// 出拳，猜拳红包有效
   GestureType? gesture;
 
-  RedPacket(Map data) {
+  RedPacket({
+    this.type = "random",
+    this.money = 0,
+    this.count = 0,
+    this.msg = '',
+    this.recivers,
+    this.gesture,
+  });
+
+  RedPacket.from(Map data) {
     type = data['type'];
     money = data['money'];
     count = data['count'];
@@ -398,126 +499,190 @@ class RedPacket {
         data['gesture'] != null ? GestureType.values[data['gesture']] : null;
   }
 
+  toJson() => {
+        'type': type,
+        'money': money,
+        'count': count,
+        'msg': msg,
+        'recivers': recivers,
+        'gesture': gesture?.index,
+      };
+
   @override
   String toString() {
-    return "{ type=$type, money=$money, count=$count, msg=$msg, recivers=$recivers, gesture=$gesture }";
+    return "RedPacket{ type=$type, money=$money, count=$count, msg=$msg, recivers=$recivers, gesture=$gesture }";
   }
 }
 
 /// 红包领取者信息
 class RedPacketGot {
   /// 用户 id
-  String userId = '';
+  String userId;
 
   /// 用户名
-  String userName = '';
+  String userName;
 
   /// 用户头像
-  String avatar = '';
+  String avatar;
 
   /// 领取到的积分
-  int userMoney = 0;
+  int userMoney;
 
   /// 领取积分时间
-  String time = '';
+  String time;
 
-  RedPacketGot(Map data) {
-    userId = data['userId'];
-    userName = data['userName'];
-    avatar = data['avatar'];
-    userMoney = data['userMoney'];
-    time = data['time'];
-  }
+  RedPacketGot({
+    this.userId = '',
+    this.userName = '',
+    this.avatar = '',
+    this.userMoney = 0,
+    this.time = '',
+  });
+
+  RedPacketGot.from(Map data)
+      : userId = data['userId'],
+        userName = data['userName'],
+        avatar = data['avatar'],
+        userMoney = data['userMoney'],
+        time = data['time'];
+
+  toJson() => {
+        'userId': userId,
+        'userName': userName,
+        'avatar': avatar,
+        'userMoney': userMoney,
+        'time': time,
+      };
 
   @override
   String toString() {
-    return "{ userId=$userId, userName=$userName, avatar=$avatar, userMoney=$userMoney, time=$time }";
+    return "RedPacketGot{ userId=$userId, userName=$userName, avatar=$avatar, userMoney=$userMoney, time=$time }";
   }
 }
 
 /// 红包历史信息
 class RedPacketMessage {
   /// 消息类型，固定为 redPacket
-  String msgType = '';
+  String msgType;
 
   /// 红包数
-  int count = 0;
+  int count;
 
   /// 领取数
-  int got = 0;
+  int got;
 
   /// 内含积分
-  int money = 0;
+  int money;
 
   /// 祝福语
-  String msg = '';
+  String msg;
 
   /// 发送者 id
-  String senderId = '';
+  String senderId;
 
   /// 红包类型
-  String interface = '';
+  String interface;
 
   /// 接收者，专属红包有效
-  List<String> recivers = [];
+  List<String> recivers;
 
   /// 已领取者列表
-  List<RedPacketGot> who = [];
+  List<RedPacketGot> who;
 
-  RedPacketMessage(Map data) {
-    msgType = data['msgType'];
-    count = data['count'];
-    got = data['got'];
-    money = data['money'];
-    msg = data['msg'];
-    senderId = data['senderId'];
-    interface = data['interface'];
-    recivers = List.from(data['recivers'] is String
-        ? json.decode(data['recivers'])
-        : data['recivers']);
-    who = List.from(data['who']).map((e) => RedPacketGot(e)).toList();
-  }
+  RedPacketMessage({
+    this.msgType = '',
+    this.count = 0,
+    this.got = 0,
+    this.money = 0,
+    this.msg = '',
+    this.senderId = '',
+    this.interface = '',
+    this.recivers = const [],
+    this.who = const [],
+  });
+
+  RedPacketMessage.from(Map data)
+      : msgType = data['msgType'],
+        count = data['count'],
+        got = data['got'],
+        money = data['money'],
+        msg = data['msg'],
+        senderId = data['senderId'],
+        interface = data['interface'],
+        recivers = List.from(data['recivers'] is String
+            ? json.decode(data['recivers'])
+            : data['recivers']),
+        who = List.from(data['who']).map((e) => RedPacketGot.from(e)).toList();
+
+  toJson() => {
+        'msgType': msgType,
+        'count': count,
+        'got': got,
+        'money': money,
+        'msg': msg,
+        'senderId': senderId,
+        'interface': interface,
+        'recivers': recivers,
+        'who': who.map((e) => e.toJson()).toList(),
+      };
 
   @override
   String toString() {
-    return "{ msgType=$msgType, count=$count, got=$got, money=$money, msg=$msg, senderId=$senderId, interface=$interface, recivers=$recivers, who=$who }";
+    return "RedPacketMessage{ msgType=$msgType, count=$count, got=$got, money=$money, msg=$msg, senderId=$senderId, interface=$interface, recivers=$recivers, who=$who }";
   }
 }
 
 /// 红包基本信息
 class RedPacketBase {
   /// 数量
-  int count = 0;
+  int count;
 
   /// 猜拳类型
-  GestureType? gesture = GestureType.Rock;
+  GestureType? gesture;
 
   /// 领取数
-  int got = 0;
+  int got;
 
   /// 祝福语
-  String msg = '';
+  String msg;
 
   /// 发送者用户名
-  String userName = '';
+  String userName;
 
   /// 用户头像
-  String userAvatarURL = '';
+  String userAvatarURL;
 
-  RedPacketBase({Map? data}) {
-    if (data == null) return;
-    count = data['count'];
-    gesture =
-        data['gesture'] == null ? null : GestureType.values[data['gesture']];
-    got = data['got'];
-    msg = data['msg'];
-    userName = data['userName'];
-    userAvatarURL = data['userAvatarURL'];
-  }
+  RedPacketBase({
+    this.count = 0,
+    this.gesture = GestureType.Rock,
+    this.got = 0,
+    this.msg = '',
+    this.userName = '',
+    this.userAvatarURL = '',
+  });
+
+  RedPacketBase.from(Map data)
+      : count = data['count'],
+        gesture = data['gesture'] == null
+            ? null
+            : GestureType.values[data['gesture']],
+        got = data['got'],
+        msg = data['msg'],
+        userName = data['userName'],
+        userAvatarURL = data['userAvatarURL'];
+
+  toJson() => {
+        'count': count,
+        'gesture': gesture?.index,
+        'got': got,
+        'msg': msg,
+        'userName': userName,
+        'userAvatarURL': userAvatarURL,
+      };
 
   @override
   String toString() {
-    return "{ count=$count, gesture=$gesture, got=$got, msg=$msg, userName=$userName, userAvatarURL=$userAvatarURL }";
+    return "RedPacketBase{ count=$count, gesture=$gesture, got=$got, msg=$msg, userName=$userName, userAvatarURL=$userAvatarURL }";
   }
 }
 
@@ -532,59 +697,93 @@ class RedPacketInfo {
   /// 已领取者列表
   List<RedPacketGot> who = [];
 
-  RedPacketInfo(Map data) {
-    info = RedPacketBase(data: data['info']);
-    recivers = List.from(data['recivers'] is String
-        ? json.decode(data['recivers'])
-        : data['recivers']);
-    who = List.from(data['who']).map((e) => RedPacketGot(e)).toList();
+  RedPacketInfo({
+    RedPacketBase? info,
+    this.recivers = const [],
+    this.who = const [],
+  }) {
+    this.info = info ?? RedPacketBase();
   }
+
+  RedPacketInfo.from(Map data)
+      : info = RedPacketBase.from(data['info']),
+        recivers = List.from(data['recivers'] is String
+            ? json.decode(data['recivers'])
+            : data['recivers']),
+        who = List.from(data['who']).map((e) => RedPacketGot.from(e)).toList();
+
+  toJson() => {
+        'info': info.toJson(),
+        'recivers': recivers,
+        'who': who.map((e) => e.toJson()).toList(),
+      };
 
   @override
   String toString() {
-    return "{ info=$info, recivers=$recivers, who=$who }";
+    return "RedPacketInfo{ info=$info, recivers=$recivers, who=$who }";
   }
 }
 
 /// 红包状态信息
 class RedPacketStatusMsg {
   /// 对应红包消息 oId
-  String oId = '';
+  String oId;
 
   /// 红包个数
-  int count = 0;
+  int count;
 
   /// 已领取数量
-  int got = 0;
+  int got;
 
   /// 发送者信息
-  String whoGive = '';
+  String whoGive;
 
   /// 领取者信息
-  String whoGot = '';
+  String whoGot;
 
   /// 领取者头像 20x20
-  String userAvatarURL20 = '';
+  String userAvatarURL20;
 
   /// 领取者头像 48x48
-  String userAvatarURL48 = '';
+  String userAvatarURL48;
 
   /// 领取者头像 210x210
-  String userAvatarURL210 = '';
+  String userAvatarURL210;
 
-  RedPacketStatusMsg(Map data) {
-    oId = data['oId'];
-    count = data['count'];
-    got = data['got'];
-    whoGive = data['whoGive'];
-    whoGot = data['whoGot'];
-    userAvatarURL20 = data['userAvatarURL20'];
-    userAvatarURL48 = data['userAvatarURL48'];
-    userAvatarURL210 = data['userAvatarURL210'];
-  }
+  RedPacketStatusMsg({
+    this.oId = '',
+    this.count = 0,
+    this.got = 0,
+    this.whoGive = '',
+    this.whoGot = '',
+    this.userAvatarURL20 = '',
+    this.userAvatarURL48 = '',
+    this.userAvatarURL210 = '',
+  });
+
+  RedPacketStatusMsg.from(Map data)
+      : oId = data['oId'],
+        count = data['count'],
+        got = data['got'],
+        whoGive = data['whoGive'],
+        whoGot = data['whoGot'],
+        userAvatarURL20 = data['userAvatarURL20'],
+        userAvatarURL48 = data['userAvatarURL48'],
+        userAvatarURL210 = data['userAvatarURL210'];
+
+  toJson() => {
+        'oId': oId,
+        'count': count,
+        'got': got,
+        'whoGive': whoGive,
+        'whoGot': whoGot,
+        'userAvatarURL20': userAvatarURL20,
+        'userAvatarURL48': userAvatarURL48,
+        'userAvatarURL210': userAvatarURL210,
+      };
 
   @override
   String toString() {
-    return "{ oId=$oId, count=$count, got=$got, whoGive=$whoGive, whoGot=$whoGot, userAvatarURL20=$userAvatarURL20, userAvatarURL48=$userAvatarURL48, userAvatarURL210=$userAvatarURL210 }";
+    return "RedPacketStatusMsg{ oId=$oId, count=$count, got=$got, whoGive=$whoGive, whoGot=$whoGot, userAvatarURL20=$userAvatarURL20, userAvatarURL48=$userAvatarURL48, userAvatarURL210=$userAvatarURL210 }";
   }
 }
