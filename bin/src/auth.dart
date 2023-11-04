@@ -17,14 +17,14 @@ class AuthCmd implements CommandRegister {
 
   @override
   Future<void> exec(ArgResults args) async {
-    var token = args['token']??Instance.cfg.config['auth']?['token'];
-    var username = args['username']??Instance.cfg.config['auth']?['username'];
-    var code = args['code']??Instance.cfg.config['auth']?['code'];
+    var token = args['token'] ?? Instance.cfg.config['auth']?['token'];
+    var username = args['username'] ?? Instance.cfg.config['auth']?['username'];
+    var code = args['code'] ?? Instance.cfg.config['auth']?['code'];
     var passwd = args['passwd'];
     String? mfaCode;
 
     if (token != null) {
-      Instance.get.setToken(token);
+      Instance.get.token = token;
     } else if (args['username'] != null) {
       if (passwd == null) {
         print('Please input your password:');
@@ -41,17 +41,11 @@ class AuthCmd implements CommandRegister {
             'mfaCode': mfaCode,
           }))
           .then((value) => {
-            print('Login success !'),
-            Instance.cfg.set('auth', {
-              'token': token,
-              'username': username,
-              'code': code
-            })
-          })
-          .catchError((err) => {
-            print('Login failed: $err'),
-            exit(0)
-          });
+                print('Login success !'),
+                Instance.cfg.set('auth',
+                    {'token': token, 'username': username, 'code': code})
+              })
+          .catchError((err) => {print('Login failed: $err'), exit(0)});
     }
   }
 }

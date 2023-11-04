@@ -63,7 +63,7 @@ class ChatSource {
   /// 消息来源版本
   String version = '';
 
-  ChatSource({String? client, String? version}){
+  ChatSource({String? client, String? version}) {
     this.client = client ?? ClientType.Other;
     this.version = version ?? 'Latest';
   }
@@ -119,6 +119,7 @@ class ChatRoomMessage {
     content = data['content'];
     try {
       redpacket = RedPacketMessage(json.decode(data['content']));
+      // ignore: empty_catches
     } catch (e) {}
     time = data['time'];
   }
@@ -321,7 +322,7 @@ class ChatRoomMsg {
       redpacket = RedPacket(json.decode(data['content']));
       // ignore: empty_catches
     } catch (e) {}
-    md = data['md']??'';
+    md = data['md'] ?? '';
     client = data['client'];
     via = clientToVia(data['client']) ?? ChatSource();
   }
@@ -388,10 +389,13 @@ class RedPacket {
     count = data['count'];
     msg = data['msg'];
     try {
-      recivers = List.from(data['recivers'] is String ? json.decode(data['recivers']) : data['recivers']);
+      recivers = List.from(data['recivers'] is String
+          ? json.decode(data['recivers'])
+          : data['recivers']);
       // ignore: empty_catches
     } catch (e) {}
-    gesture = data['gesture'] != null ? GestureType.values[data['gesture']] : null;
+    gesture =
+        data['gesture'] != null ? GestureType.values[data['gesture']] : null;
   }
 
   @override
@@ -468,7 +472,9 @@ class RedPacketMessage {
     msg = data['msg'];
     senderId = data['senderId'];
     interface = data['interface'];
-    recivers = List.from(data['recivers'] is String ? json.decode(data['recivers']) : data['recivers']);
+    recivers = List.from(data['recivers'] is String
+        ? json.decode(data['recivers'])
+        : data['recivers']);
     who = List.from(data['who']).map((e) => RedPacketGot(e)).toList();
   }
 
@@ -501,14 +507,15 @@ class RedPacketBase {
   RedPacketBase({Map? data}) {
     if (data == null) return;
     count = data['count'];
-    gesture = data['gesture'] == null ? null : GestureType.values[data['gesture']];
+    gesture =
+        data['gesture'] == null ? null : GestureType.values[data['gesture']];
     got = data['got'];
     msg = data['msg'];
     userName = data['userName'];
     userAvatarURL = data['userAvatarURL'];
   }
 
-  @override 
+  @override
   String toString() {
     return "{ count=$count, gesture=$gesture, got=$got, msg=$msg, userName=$userName, userAvatarURL=$userAvatarURL }";
   }
@@ -527,7 +534,9 @@ class RedPacketInfo {
 
   RedPacketInfo(Map data) {
     info = RedPacketBase(data: data['info']);
-    recivers = List.from(data['recivers'] is String ? json.decode(data['recivers']) : data['recivers']);
+    recivers = List.from(data['recivers'] is String
+        ? json.decode(data['recivers'])
+        : data['recivers']);
     who = List.from(data['who']).map((e) => RedPacketGot(e)).toList();
   }
 

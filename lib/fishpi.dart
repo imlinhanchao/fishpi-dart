@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:fishpi/src/request.dart';
 import 'package:fishpi/src/types.dart';
-import 'package:fishpi/src/utils.dart';
 import 'package:fishpi/user.dart';
 import 'package:fishpi/chatroom.dart';
 export 'src/types.dart';
@@ -28,19 +27,19 @@ class Fishpi {
     Request.setDomain(protocol: protocol, domain: domain);
   }
 
-  Fishpi({String token = ''}) {
-    setToken(token);
+  Fishpi([String token = '']) {
+    this.token = token;
   }
 
   String get token => _apiKey;
 
-  void setToken(String token) {
-    _apiKey = token;
-    user.setToken(_apiKey);
-    chatroom.setToken(_apiKey);
-  }
-
   get isLogin => _apiKey != '';
+
+  set token(String token) {
+    _apiKey = token;
+    user.setToken(token);
+    chatroom.setToken(token);
+  }
 
   /// 登录
   ///
@@ -53,7 +52,7 @@ class Fishpi {
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      setToken(rsp['Key']);
+      token = rsp['Key'];
       return rsp['Key'];
     } catch (e) {
       return Future.error(e);
@@ -95,19 +94,21 @@ class Fishpi {
   }
 
   /// 注册
-  /// 
+  ///
   /// - `data` 注册数据
-  /// 
+  ///
   /// 返回注册结果
   Future<ResponseResult> register(RegisterInfo data) async {
     try {
       var rsp = await Request.post(
         'register2',
-        params: { "r": data.r },
+        params: {"r": data.r},
         data: data.toJson(),
       );
 
-      if (rsp['code'] != null && rsp['code'] != 0) return Future.error(rsp['msg']);
+      if (rsp['code'] != null && rsp['code'] != 0) {
+        return Future.error(rsp['msg']);
+      }
 
       return ResponseResult(rsp);
     } catch (e) {
@@ -116,9 +117,9 @@ class Fishpi {
   }
 
   /// 获取用户信息
-  /// 
+  ///
   /// - `username` 用户名
-  /// 
+  ///
   /// 返回用户信息
   Future<UserInfo> getUser(String username) async {
     try {
@@ -136,9 +137,9 @@ class Fishpi {
   }
 
   /// 获取用户名联想
-  /// 
+  ///
   /// - `name` 用户名
-  /// 
+  ///
   /// 返回用户名联想列表
   Future<AtUserList> names(String name) async {
     try {
@@ -158,7 +159,7 @@ class Fishpi {
   }
 
   /// 获取最近注册的 20 个用户
-  /// 
+  ///
   /// 返回用户列表
   Future<List<UserLite>> recentRegister() async {
     try {
