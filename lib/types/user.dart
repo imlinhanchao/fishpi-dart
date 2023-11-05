@@ -136,6 +136,8 @@ class UserInfo {
   /// 用户编号
   String userNo;
 
+  String get name => userNickname.isEmpty ? userName : userNickname;
+
   /// 用户名
   String userName;
 

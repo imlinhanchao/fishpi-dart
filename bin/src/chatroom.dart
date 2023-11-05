@@ -42,12 +42,24 @@ class ChatRoomCmd implements CommandInstance {
 
   @override
   Future<bool> call(String command) async {
-    return false;
+    var argv = command.split(' ');
+    switch (argv[0]) {
+      default:
+        {
+          await Instance.get.chatroom.send(command);
+        }
+    }
+    return true;
   }
 
   @override
   Future<bool> page(String command) async {
-    return false;
+    List<ChatRoomMessage> msgList =
+        await Instance.get.chatroom.more(1, type: ChatContentType.Markdown);
+    for (var msg in msgList.reversed) {
+      print(msgView(msg));
+    }
+    return true;
   }
 
   String userNameView(data) {
@@ -55,11 +67,12 @@ class ChatRoomCmd implements CommandInstance {
     return '${data.userNickname}($userName)';
   }
 
-  String msgView(ChatRoomMsg msg) {
+  String msgView(ChatRoomMessage msg) {
+    if (msg.isRedpacket) return redPacketView(msg);
     return '${userNameView(msg)} [${msg.time}]: ${msg.md}';
   }
 
-  String redPacketView(ChatRoomMsg msg) {
+  String redPacketView(ChatRoomMessage msg) {
     return '${userNameView(msg)} [${msg.time}]: { 收到一个${RedPacketType.toName(msg.redpacket?.type ?? '')} }';
   }
 

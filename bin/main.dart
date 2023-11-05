@@ -31,10 +31,10 @@ void main(List<String> arguments) async {
   final args = parser.parse(arguments);
   currentPage = CommandPage.chatroom;
 
-  commands[currentPage]?.page('');
+  await commands[currentPage]?.page('');
 
   for (var cmd in commands.entries) {
-    cmd.value.exec(args, pagePrint(cmd.key));
+    await cmd.value.exec(args, pagePrint(cmd.key));
   }
 
   bool running = true;

@@ -23,27 +23,30 @@ class UserCmd implements CommandInstance {
 
     if (token != null) {
       Instance.get.token = token;
+      Instance.cfg.set('auth', {'token': token});
     } else if (args['username'] != null) {
       if (passwd == null) {
-        print('Please input your password:');
+        print('密码:');
         passwd = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
       }
       if (code) {
-        print('Please input your mfa code:');
+        print('二次验证码:');
         mfaCode = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
       }
       await Instance.get
           .login(LoginData(
-            username: username,
-            passwd: passwd ?? '',
-            mfaCode: mfaCode,
-          ))
-          .then((value) => {
-                print('Login success !'),
-                Instance.cfg.set('auth',
-                    {'token': token, 'username': username, 'code': code})
-              })
-          .catchError((err) => {print('Login failed: $err'), exit(0)});
+        username: username,
+        passwd: passwd ?? '',
+        mfaCode: mfaCode,
+      ))
+          .then((value) async {
+        var info = await Instance.get.user.info();
+        print('欢迎回来！ ${info.name}~');
+        Instance.cfg.set('auth', {'token': token});
+      }).catchError((err) {
+        print('登录失败: $err');
+        exit(0);
+      });
     }
   }
 
