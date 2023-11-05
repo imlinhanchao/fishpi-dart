@@ -289,7 +289,9 @@ class Chatroom {
           reconnect(timeout: timeout, error: error);
         }),
       },
-      onError: (error, ws) => {if (error != null) error(error)},
+      onError: (error, ws) {
+        if (error != null) error(error);
+      },
     );
   }
 

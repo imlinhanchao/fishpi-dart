@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:fishpi/fishpi.dart';
+import 'package:fishpi/src/utils.dart';
 
 /// 客户端类型
 class ClientType {
@@ -141,7 +142,7 @@ class ChatRoomMessage {
     userName = data['userName'] ?? '';
     userNickname = data['userNickname'] ?? '';
     userAvatarURL = data['userAvatarURL'] ?? '';
-    sysMetal = List.from(data['sysMetal']).map((e) => Metal.from(e)).toList();
+    sysMetal = toMetal(data['sysMetal']);
     via = ChatSource.from(data['client']);
     content = data['content'];
     md = data['md'] ?? data['content'] ?? '';
