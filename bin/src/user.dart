@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'base.dart';
 
-class AuthCmd implements CommandInstance {
+class UserCmd implements CommandInstance {
   @override
   ArgParser command(ArgParser parser) {
     return parser

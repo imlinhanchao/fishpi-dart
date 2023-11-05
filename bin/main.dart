@@ -2,19 +2,19 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'src/base.dart';
-import 'src/auth.dart';
+import 'src/user.dart';
 import 'src/chatroom.dart';
 import 'src/utils.dart';
 
 enum CommandPage {
   utils,
-  auth,
+  user,
   chatroom,
 }
 
 var commands = {
   CommandPage.utils: UtilsCmd(),
-  CommandPage.auth: AuthCmd(),
+  CommandPage.user: UserCmd(),
   CommandPage.chatroom: ChatRoomCmd(),
 };
 
