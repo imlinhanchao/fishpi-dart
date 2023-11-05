@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'base.dart';
 
-class AuthCmd implements CommandRegister {
+class AuthCmd implements CommandInstance {
   @override
   ArgParser command(ArgParser parser) {
     return parser
@@ -45,5 +45,15 @@ class AuthCmd implements CommandRegister {
               })
           .catchError((err) => {print('Login failed: $err'), exit(0)});
     }
+  }
+
+  @override
+  Future<bool> call(String command) async {
+    return false;
+  }
+
+  @override
+  Future<bool> page(ArgResults args) async {
+    return false;
   }
 }

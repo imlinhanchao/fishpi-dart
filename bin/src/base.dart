@@ -14,12 +14,22 @@ class Instance {
   static Config get cfg => _config;
 }
 
-abstract class CommandRegister {
+/// 命令行实例
+abstract class CommandInstance {
+  /// 注册命令行参数
   ArgParser command(ArgParser parser);
+
+  /// 执行命令行参数
   Future<void> exec(ArgResults args, void Function(dynamic msg) print);
+
+  /// 执行输入命令
+  Future<bool> call(String command);
+
+  /// 执行切页命令
+  Future<bool> page(ArgResults args);
 }
 
-ArgParser registerCommand(List<CommandRegister> register) {
+ArgParser registerCommand(List<CommandInstance> register) {
   var parser = ArgParser();
   for (var item in register) {
     parser = item.command(parser);

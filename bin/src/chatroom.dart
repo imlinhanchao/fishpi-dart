@@ -1,6 +1,6 @@
 import 'base.dart';
 
-class ChatRoomCmd implements CommandRegister {
+class ChatRoomCmd implements CommandInstance {
   @override
   ArgParser command(ArgParser parser) {
     return parser;
@@ -32,6 +32,16 @@ class ChatRoomCmd implements CommandRegister {
       }
     });
     Instance.get.chatroom.reconnect();
+  }
+
+  @override
+  Future<bool> call(String command) async {
+    return false;
+  }
+
+  @override
+  Future<bool> page(ArgResults args) async {
+    return false;
   }
 
   String userNameView(data) {

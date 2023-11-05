@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'base.dart';
 
-class UtilsCmd implements CommandRegister {
+class UtilsCmd implements CommandInstance {
   @override
   ArgParser command(ArgParser parser) {
     return parser
@@ -27,5 +27,15 @@ class UtilsCmd implements CommandRegister {
           .then((value) => print(json.encode(value.toJson())))
           .catchError((err) => print(json.encode({'error': err})));
     }
+  }
+
+  @override
+  Future<bool> call(String command) async {
+    return false;
+  }
+
+  @override
+  Future<bool> page(ArgResults args) async {
+    return false;
   }
 }
