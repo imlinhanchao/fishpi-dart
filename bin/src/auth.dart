@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:fishpi/fishpi.dart';
-
 import 'base.dart';
 
 class AuthCmd implements CommandRegister {
@@ -16,7 +14,7 @@ class AuthCmd implements CommandRegister {
   }
 
   @override
-  Future<void> exec(ArgResults args) async {
+  Future<void> exec(ArgResults args, void Function(dynamic msg) print) async {
     var token = args['token'] ?? Instance.cfg.config['auth']?['token'];
     var username = args['username'] ?? Instance.cfg.config['auth']?['username'];
     var code = args['code'] ?? Instance.cfg.config['auth']?['code'];

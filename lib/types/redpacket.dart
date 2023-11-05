@@ -30,6 +30,23 @@ class RedPacketType {
 
   /// 猜拳
   static const RockPaperScissors = "rockPaperScissors";
+
+  static toName(String type) {
+    switch (type) {
+      case Random:
+        return "拼手气红包";
+      case Average:
+        return "平分红包";
+      case Specify:
+        return "专属红包";
+      case Heartbeat:
+        return "心跳红包";
+      case RockPaperScissors:
+        return "猜拳红包";
+      default:
+        return "未知红包";
+    }
+  }
 }
 
 /// 红包数据

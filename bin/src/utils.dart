@@ -1,4 +1,4 @@
-import 'package:fishpi/fishpi.dart';
+import 'dart:convert';
 
 import 'base.dart';
 
@@ -7,11 +7,12 @@ class UtilsCmd implements CommandRegister {
   ArgParser command(ArgParser parser) {
     return parser
       ..addOption('upload', abbr: 'f', help: 'upload file path')
-      ..addOption('origin', abbr: 'o', help: 'Server origin', defaultsTo: 'https://fishpi.cn');
+      ..addOption('origin',
+          abbr: 'o', help: 'Server origin', defaultsTo: 'https://fishpi.cn');
   }
 
   @override
-  Future<void> exec(ArgResults args) async {
+  Future<void> exec(ArgResults args, void Function(dynamic msg) print) async {
     var upload = args['upload'];
     var origin = args['origin'];
 
@@ -23,8 +24,8 @@ class UtilsCmd implements CommandRegister {
       var files = upload.split(',');
       await Instance.get
           .upload(files)
-          .then((value) => print(value))
-          .catchError((err) => print(err));
+          .then((value) => print(json.encode(value.toJson())))
+          .catchError((err) => print(json.encode({'error': err})));
     }
   }
 }

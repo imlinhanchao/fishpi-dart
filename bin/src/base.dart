@@ -1,9 +1,10 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:io';
 
-import 'package:args/args.dart';
-import 'package:fishpi/fishpi.dart';
 import 'package:yaml_modify/yaml_modify.dart';
+import 'base.dart';
+
+export 'package:fishpi/fishpi.dart';
 export 'package:args/args.dart';
 
 class Instance {
@@ -15,7 +16,7 @@ class Instance {
 
 abstract class CommandRegister {
   ArgParser command(ArgParser parser);
-  Future<void> exec(ArgResults args);
+  Future<void> exec(ArgResults args, void Function(dynamic msg) print);
 }
 
 ArgParser registerCommand(List<CommandRegister> register) {

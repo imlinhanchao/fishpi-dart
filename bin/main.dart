@@ -13,6 +13,6 @@ void main(List<String> arguments) async {
   final args = parser.parse(arguments);
 
   for (var element in commands) {
-    element.exec(args);
+    element.exec(args, print);
   }
 }

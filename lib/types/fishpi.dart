@@ -158,6 +158,16 @@ class UploadResult {
             .map((entry) => FileInfo(filename: entry.key, url: entry.value))
             .toList();
 
+  toJson() => {
+        'errFiles': errFiles,
+        'succMap': succFiles
+            .map((e) => {
+                  'filename': e.filename,
+                  'url': e.url,
+                })
+            .toList()
+      };
+
   @override
   toString() {
     return "UploadResult{ errFiles=${errFiles.join(',')}, succFiles=$succFiles }";

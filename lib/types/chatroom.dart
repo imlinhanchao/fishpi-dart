@@ -220,7 +220,7 @@ class Message {
   String type = ChatRoomMessageType.msg;
 
   /// 消息内容
-  /// OnlineMsg | discussMsg | RevokeMsg | ChatMsg | RedPacketStatusMsg | BarragerMsg | CustomMsg
+  /// OnlineMsg | discussMsg | RevokeMsg | ChatRoomMsg | RedPacketStatusMsg | BarragerMsg | CustomMsg
   dynamic data;
 
   Message(this.type, this.data);
