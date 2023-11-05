@@ -4,6 +4,7 @@ import 'package:fishpi/src/utils.dart';
 export 'user.dart';
 export 'chatroom.dart';
 export 'chat.dart';
+export 'redpacket.dart';
 
 class ApiResponse<T> {
   /// 请求状态
@@ -18,7 +19,7 @@ class ApiResponse<T> {
   /// 请求数据
   T? data;
 
-  ApiResponse(Map<String, dynamic> rsp, Function T) {
+  ApiResponse.from(Map<String, dynamic> rsp, Function T) {
     code = rsp['code'] ?? '';
     result = rsp['result'] ?? '';
     msg = rsp['msg'] ?? '';
