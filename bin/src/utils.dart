@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'base.dart';
 
@@ -26,6 +27,7 @@ class UtilsCmd implements CommandInstance {
           .upload(files)
           .then((value) => print(json.encode(value.toJson())))
           .catchError((err) => print(json.encode({'error': err})));
+      exit(0);
     }
   }
 
@@ -35,7 +37,7 @@ class UtilsCmd implements CommandInstance {
   }
 
   @override
-  Future<bool> page(ArgResults args) async {
+  Future<bool> page(String command) async {
     return false;
   }
 }

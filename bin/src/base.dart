@@ -26,7 +26,7 @@ abstract class CommandInstance {
   Future<bool> call(String command);
 
   /// 执行切页命令
-  Future<bool> page(ArgResults args);
+  Future<bool> page(String command);
 }
 
 ArgParser registerCommand(List<CommandInstance> register) {

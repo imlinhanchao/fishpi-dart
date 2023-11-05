@@ -40,7 +40,7 @@ class ChatRoomCmd implements CommandInstance {
   }
 
   @override
-  Future<bool> page(ArgResults args) async {
+  Future<bool> page(String command) async {
     return false;
   }
 
