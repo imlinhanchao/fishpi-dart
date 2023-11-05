@@ -60,7 +60,8 @@ class Chatroom {
   /// - `type` 消息类型，可选值：html、text
   ///
   /// 返回消息列表
-  Future<List<ChatRoomMessage>> more(int page, {String type = 'html'}) async {
+  Future<List<ChatRoomMessage>> more(int page,
+      {String type = ChatContentType.HTML}) async {
     try {
       var rsp = await Request.get(
         'chat-room/more',
@@ -93,7 +94,7 @@ class Chatroom {
     required String oId,
     required ChatMessageType mode,
     int size = 25,
-    String type = 'html',
+    String type = ChatContentType.HTML,
   }) async {
     try {
       var rsp = await Request.get(
@@ -227,7 +228,7 @@ class Chatroom {
       onMessage: (msg) {
         dynamic data;
         switch (msg['type']) {
-          case 'online':
+          case ChatRoomMessageType.online:
             {
               _onlines = List.from(msg['users'])
                   .map((e) => OnlineInfo.from(e))
@@ -236,33 +237,35 @@ class Chatroom {
               data = _onlines;
               break;
             }
-          case 'discussChanged':
+          case ChatRoomMessageType.discussChanged:
             {
               data = msg['newDiscuss'];
               break;
             }
-          case 'revoke':
+          case ChatRoomMessageType.revoke:
             {
               data = msg['oId'];
               break;
             }
-          case 'barrager':
+          case ChatRoomMessageType.barrager:
             {
               data = BarragerMsg.from(msg);
               break;
             }
-          case 'msg':
+          case ChatRoomMessageType.msg:
             {
               data = ChatRoomMsg.from(msg);
-              msg['type'] = data.isRedpacket ? 'redPacket' : msg['type'];
+              msg['type'] = data.isRedpacket
+                  ? ChatRoomMessageType.redPacket
+                  : msg['type'];
               break;
             }
-          case 'redPacketStatus':
+          case ChatRoomMessageType.redPacketStatus:
             {
               data = RedPacketStatusMsg.from(msg);
               break;
             }
-          case 'customMessage':
+          case ChatRoomMessageType.custom:
             {
               data = msg['message'];
               break;

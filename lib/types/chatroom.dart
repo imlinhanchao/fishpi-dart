@@ -7,52 +7,52 @@ import 'package:fishpi/fishpi.dart';
 /// 客户端类型
 class ClientType {
   /// 网页端
-  static final Web = 'Web';
+  static const Web = 'Web';
 
   /// PC 端
-  static final PC = 'PC';
+  static const PC = 'PC';
 
   /// 移动端聊天室
-  static final Mobile = 'Mobile';
+  static const Mobile = 'Mobile';
 
   /// Windows 客户端
-  static final Windows = 'Windows';
+  static const Windows = 'Windows';
 
   /// macOS 客户端
-  static final macOS = 'macOS';
+  static const macOS = 'macOS';
 
   /// iOS 客户端
-  static final iOS = 'iOS';
+  static const iOS = 'iOS';
 
   /// Android 客户端
-  static final Android = 'Android';
+  static const Android = 'Android';
 
   /// IDEA 插件
-  static final IDEA = 'IDEA';
+  static const IDEA = 'IDEA';
 
   /// Chrome 插件
-  static final Chrome = 'Chrome';
+  static const Chrome = 'Chrome';
 
   /// Edge 插件
-  static final Edge = 'Edge';
+  static const Edge = 'Edge';
 
   /// VSCode 插件
-  static final VSCode = 'VSCode';
+  static const VSCode = 'VSCode';
 
   /// Python 插件
-  static final Python = 'Python';
+  static const Python = 'Python';
 
   /// Golang 插件
-  static final Golang = 'Golang';
+  static const Golang = 'Golang';
 
   /// 小冰机器人
-  static final IceNet = 'IceNet';
+  static const IceNet = 'IceNet';
 
   /// 凌机器人
-  static final ElvesOnline = 'ElvesOnline';
+  static const ElvesOnline = 'ElvesOnline';
 
   /// 其他插件
-  static final Other = 'Other';
+  static const Other = 'Other';
 }
 
 class ChatSource {
@@ -62,7 +62,7 @@ class ChatSource {
   /// 消息来源版本
   String version = '';
 
-  ChatSource({this.client = 'Other', this.version = 'lastst'});
+  ChatSource({this.client = ClientType.Other, this.version = 'lastst'});
 
   ChatSource.from(String? client) {
     if ((client ?? '').isEmpty) return;
@@ -169,10 +169,10 @@ class ChatRoomMessage {
 /// 历史消息类型
 class ChatContentType {
   /// 原始 Markdown
-  static final Markdown = "md";
+  static const Markdown = "md";
 
   /// 渲染 HTML
-  static final HTML = "html";
+  static const HTML = "html";
 }
 
 /// chatroom get 接口获取 oId 的相关消息类型
@@ -190,28 +190,28 @@ enum ChatMessageType {
 /// 聊天室消息类型
 class ChatRoomMessageType {
   /// 在线用户
-  static final online = "online";
+  static const online = "online";
 
   /// 话题修改
-  static final discussChanged = "discussChanged";
+  static const discussChanged = "discussChanged";
 
   /// 消息撤回
-  static final revoke = "revoke";
+  static const revoke = "revoke";
 
   /// 消息
-  static final msg = "msg";
+  static const msg = "msg";
 
   /// 红包
-  static final redPacket = "redPacket";
+  static const redPacket = "redPacket";
 
   /// 红包状态
-  static final redPacketStatus = "redPacketStatus";
+  static const redPacketStatus = "redPacketStatus";
 
   /// 弹幕
-  static final barrager = "barrager";
+  static const barrager = "barrager";
 
   /// 自定义消息
-  static final custom = "customMessage";
+  static const custom = "customMessage";
 }
 
 /// 聊天室消息

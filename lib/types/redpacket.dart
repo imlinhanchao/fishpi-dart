@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 /// 猜拳类型
@@ -15,19 +17,19 @@ enum GestureType {
 /// 红包类型
 class RedPacketType {
   /// 拼手气
-  static final Random = "random";
+  static const Random = "random";
 
   /// 平分
-  static final Average = "average";
+  static const Average = "average";
 
   /// 专属
-  static final Specify = "specify";
+  static const Specify = "specify";
 
   /// 心跳
-  static final Heartbeat = "heartbeat";
+  static const Heartbeat = "heartbeat";
 
   /// 猜拳
-  static final RockPaperScissors = "rockPaperScissors";
+  static const RockPaperScissors = "rockPaperScissors";
 }
 
 /// 红包数据
@@ -51,7 +53,7 @@ class RedPacket {
   GestureType? gesture;
 
   RedPacket({
-    this.type = "random",
+    this.type = RedPacketType.Random,
     this.money = 0,
     this.count = 0,
     this.msg = '',
