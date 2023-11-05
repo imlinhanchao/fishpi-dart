@@ -254,7 +254,7 @@ class Chatroom {
             }
           case ChatRoomMessageType.msg:
             {
-              data = ChatRoomMsg.from(msg);
+              data = ChatRoomMessage.from(msg);
               msg['type'] = data.isRedpacket
                   ? ChatRoomMessageType.redPacket
                   : msg['type'];

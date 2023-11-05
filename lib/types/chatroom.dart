@@ -106,10 +106,14 @@ class ChatRoomMessage {
   /// 消息来源结构
   ChatSource via = ChatSource();
 
+  /// 是否为红包消息
   bool get isRedpacket => redpacket != null;
 
   /// 消息内容
   String content = '';
+
+  /// 消息内容 Markdown
+  String md = '';
 
   /// 红包消息内容
   RedPacketMessage? redpacket;
@@ -125,6 +129,7 @@ class ChatRoomMessage {
     this.sysMetal = const [],
     ChatSource? via,
     this.content = '',
+    this.md = '',
     this.redpacket,
     this.time = '',
   }) {
@@ -139,6 +144,7 @@ class ChatRoomMessage {
     sysMetal = List.from(data['sysMetal']).map((e) => Metal.from(e)).toList();
     via = ChatSource.from(data['client']);
     content = data['content'];
+    md = data['md'] ?? data['content'] ?? '';
     try {
       redpacket = RedPacketMessage.from(json.decode(data['content'] ?? 'null'));
       // ignore: empty_catches
@@ -220,7 +226,7 @@ class Message {
   String type = ChatRoomMessageType.msg;
 
   /// 消息内容
-  /// OnlineMsg | discussMsg | RevokeMsg | ChatRoomMsg | RedPacketStatusMsg | BarragerMsg | CustomMsg
+  /// OnlineMsg | discussMsg | RevokeMsg | ChatRoomMessage | RedPacketStatusMsg | BarragerMsg | CustomMsg
   dynamic data;
 
   Message(this.type, this.data);
@@ -342,95 +348,6 @@ typedef discussMsg = String;
 
 /// 撤回消息，被撤回消息的 oId
 typedef RevokeMsg = String;
-
-/// 聊天消息
-class ChatRoomMsg {
-  /// 消息 oId
-  String oId = '';
-
-  /// 消息发送时间
-  String time = '';
-
-  /// 用户 Id
-  String userOId = '';
-
-  /// 发送者用户名
-  String userName = '';
-
-  /// 发送者昵称
-  String userNickname = '';
-
-  /// 发送者头像
-  String userAvatarURL = '';
-
-  bool get isRedpacket => redpacket != null;
-
-  /// 消息内容
-  String content = '';
-
-  /// 红包消息内容
-  RedPacket? redpacket;
-
-  /// 消息内容 Markdown
-  String md = '';
-
-  /// 消息来源
-  String get client => via.toString();
-
-  /// 消息来源解析
-  ChatSource via = ChatSource();
-
-  ChatRoomMsg({
-    this.oId = '',
-    this.time = '',
-    this.userOId = '',
-    this.userName = '',
-    this.userNickname = '',
-    this.userAvatarURL = '',
-    this.content = '',
-    this.redpacket,
-    this.md = '',
-    ChatSource? via,
-  }) {
-    this.via = via ?? ChatSource();
-  }
-
-  ChatRoomMsg.from(Map data) {
-    oId = data['oId'] ?? '';
-    time = data['time'] ?? '';
-    userOId = data['userOId']?.toString() ?? '';
-    userName = data['userName'] ?? '';
-    userNickname = data['userNickname'] ?? '';
-    userAvatarURL = data['userAvatarURL'] ?? '';
-    content = data['content'] ?? '';
-    try {
-      redpacket = RedPacket.from(json.decode(data['content'] ?? 'null'));
-      // ignore: empty_catches
-    } catch (e) {}
-    md = data['md'] ?? '';
-    via = ChatSource.from(data['client']);
-  }
-
-  toJson() => {
-        'oId': oId,
-        'time': time,
-        'userOId': userOId,
-        'userName': userName,
-        'userNickname': userNickname,
-        'userAvatarURL': userAvatarURL,
-        'content': content,
-        'md': md,
-        'client': client,
-        'via': via.toJson(),
-        'redpacket': redpacket?.toJson(),
-        'isRedpacket': isRedpacket,
-      };
-
-  @override
-  String toString() {
-    return "ChatRoomMsg{ oId=$oId, time=$time, userOId=$userOId, userName=$userName, userNickname=$userNickname, userAvatarURL=$userAvatarURL, content=$content, redpacket=$redpacket, md=$md, client=$client, via=$via }";
-  }
-}
 
 class BarrageCost {
   int cost;

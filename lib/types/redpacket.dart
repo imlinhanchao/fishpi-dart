@@ -49,65 +49,6 @@ class RedPacketType {
   }
 }
 
-/// 红包数据
-class RedPacket {
-  /// 红包类型
-  String type = RedPacketType.Random;
-
-  /// 红包积分
-  int money = 0;
-
-  /// 红包个数
-  int count = 0;
-
-  /// 祝福语
-  String msg = '';
-
-  /// 接收者，专属红包有效
-  List<String>? recivers;
-
-  /// 出拳，猜拳红包有效
-  GestureType? gesture;
-
-  RedPacket({
-    this.type = RedPacketType.Random,
-    this.money = 0,
-    this.count = 0,
-    this.msg = '',
-    this.recivers,
-    this.gesture,
-  });
-
-  RedPacket.from(Map data) {
-    type = data['type'] ?? '';
-    money = data['money'] ?? 0;
-    count = data['count'] ?? 0;
-    msg = data['msg'] ?? '';
-    try {
-      recivers = List.from(data['recivers'] is String
-          ? json.decode(data['recivers'])
-          : data['recivers'] ?? []);
-      // ignore: empty_catches
-    } catch (e) {}
-    gesture =
-        data['gesture'] != null ? GestureType.values[data['gesture']] : null;
-  }
-
-  toJson() => {
-        'type': type,
-        'money': money,
-        'count': count,
-        'msg': msg,
-        'recivers': recivers,
-        'gesture': gesture?.index,
-      };
-
-  @override
-  String toString() {
-    return "RedPacket{ type=$type, money=$money, count=$count, msg=$msg, recivers=$recivers, gesture=$gesture }";
-  }
-}
-
 /// 红包领取者信息
 class RedPacketGot {
   /// 用户 id
@@ -157,7 +98,7 @@ class RedPacketGot {
 /// 红包历史信息
 class RedPacketMessage {
   /// 消息类型，固定为 redPacket
-  String msgType;
+  String type;
 
   /// 红包数
   int count;
@@ -174,55 +115,57 @@ class RedPacketMessage {
   /// 发送者 id
   String senderId;
 
-  /// 红包类型
-  String interface;
-
   /// 接收者，专属红包有效
   List<String> recivers;
 
   /// 已领取者列表
   List<RedPacketGot> who;
 
+  /// 出拳，猜拳红包有效
+  GestureType? gesture;
+
   RedPacketMessage({
-    this.msgType = '',
+    this.type = '',
     this.count = 0,
     this.got = 0,
     this.money = 0,
     this.msg = '',
     this.senderId = '',
-    this.interface = '',
     this.recivers = const [],
     this.who = const [],
   });
 
   RedPacketMessage.from(Map data)
-      : msgType = data['msgType'] ?? '',
+      : type = data['type'] ?? data['interface'] ?? '',
         count = data['count'] ?? 0,
         got = data['got'] ?? 0,
         money = data['money'] ?? 0,
         msg = data['msg'] ?? '',
         senderId = data['senderId'] ?? '',
-        interface = data['interface'] ?? '',
         recivers = List.from(data['recivers'] is String
             ? json.decode(data['recivers'])
             : data['recivers']),
-        who = List.from(data['who']).map((e) => RedPacketGot.from(e)).toList();
+        who = List.from(data['who'] ?? [])
+            .map((e) => RedPacketGot.from(e))
+            .toList(),
+        gesture = data['gesture'] != null
+            ? GestureType.values[data['gesture']]
+            : null;
 
   toJson() => {
-        'msgType': msgType,
+        'type': type,
         'count': count,
         'got': got,
         'money': money,
         'msg': msg,
         'senderId': senderId,
-        'interface': interface,
         'recivers': recivers,
         'who': who.map((e) => e.toJson()).toList(),
       };
 
   @override
   String toString() {
-    return "RedPacketMessage{ msgType=$msgType, count=$count, got=$got, money=$money, msg=$msg, senderId=$senderId, interface=$interface, recivers=$recivers, who=$who }";
+    return "RedPacketMessage{ type=$type, count=$count, got=$got, money=$money, msg=$msg, senderId=$senderId, recivers=$recivers, who=$who }";
   }
 }
 

@@ -34,7 +34,7 @@ class Redpacket {
   /// 发送一个红包
   ///
   /// [redpacket] 红包对象
-  Future send(RedPacket redpacket) async {
+  Future send(RedPacketMessage redpacket) async {
     return await Chatroom(token).send(
         '[redpacket]${json.encode(redpacket.toJson())}[/redpacket]');
   }
