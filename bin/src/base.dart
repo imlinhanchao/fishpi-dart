@@ -38,13 +38,13 @@ ArgParser registerCommand(List<CommandInstance> register) {
 }
 
 class Config {
-  Map<String, dynamic> config = {};
+  Map config = {};
   String path = 'config.yaml';
   Config({this.path = 'config.yaml'}) {
     load();
   }
 
-  Map<String, dynamic> load() {
+  Map load() {
     final file = File(path);
     if (!file.existsSync()) {
       return config;
@@ -53,13 +53,13 @@ class Config {
     return config;
   }
 
-  Map<String, dynamic> save() {
+  Map save() {
     final file = File(path);
     file.writeAsStringSync(toYamlString(config));
     return config;
   }
 
-  Map<String, dynamic> set(String key, Map<String, dynamic> data) {
+  Map set(String key, Map<String, dynamic> data) {
     var cfg = config[key] ?? {};
     data.forEach((key, value) {
       cfg[key] = value;
