@@ -47,7 +47,11 @@ class ChatRoomCmd implements CommandInstance {
     switch (argv[0]) {
       default:
         {
-          await Instance.get.chatroom.send(command);
+          if (!Platform.isWindows) {
+            await Instance.get.chatroom.send(command);
+          } else {
+            print('命令发送消息不支援 Windows 端。请使用 --talk 命令行参数发送。');
+          }
         }
     }
     return true;
