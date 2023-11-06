@@ -17,7 +17,7 @@ class UserCmd implements CommandInstance {
   Future<void> exec(ArgResults args, void Function(dynamic msg) print) async {
     var token = args['token'] ?? Instance.cfg.config['auth']?['token'];
     var username = args['username'] ?? Instance.cfg.config['auth']?['username'];
-    var code = args['code'] ?? Instance.cfg.config['auth']?['code'];
+    var code = args['code'];
     var passwd = args['passwd'];
     String? mfaCode;
 
@@ -42,12 +42,13 @@ class UserCmd implements CommandInstance {
           .then((value) async {
         var info = await Instance.get.user.info();
         print('欢迎回来！ ${info.name}~');
-        Instance.cfg.set('auth', {'token': token});
+        Instance.cfg.set('auth', {'token': token, 'username': username});
       }).catchError((err) {
         print('登录失败: $err');
         exit(0);
       });
     }
+    Instance.cfg.save();
   }
 
   @override
