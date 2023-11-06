@@ -42,6 +42,7 @@ class ChatRoomCmd implements CommandInstance {
 
   @override
   Future<bool> call(String command) async {
+    if (command.trim().isEmpty) return false;
     var argv = command.split(' ');
     switch (argv[0]) {
       default:

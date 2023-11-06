@@ -26,6 +26,37 @@ void Function(dynamic msg) pagePrint(CommandPage page) {
   };
 }
 
+readCommand() async {
+  List<int> lstCharCode = [];
+  stdin.listen((data) {
+    lstCharCode.addAll(data);
+    if (data.last == 10 || data.last == 13) {
+      var command = Utf8Decoder().convert(lstCharCode).trim();
+      lstCharCode.clear();
+      var commandArgs = command.split(' ');
+
+      switch (commandArgs[0]) {
+        case '/quit':
+          exit(0);
+        case '/page':
+          for (var element in CommandPage.values) {
+            if (element.name == commandArgs[1]) {
+              currentPage = element;
+            }
+          }
+          stdout.write('\x1B[2J\x1B[0;0H');
+          commands[currentPage]?.page(command);
+          break;
+        default:
+          if (commands[currentPage] != null) {
+            commands[currentPage]?.call(command);
+          }
+          break;
+      }
+    }
+  });
+}
+
 void main(List<String> arguments) async {
   var parser = registerCommand(commands.values.toList());
   final args = parser.parse(arguments);
@@ -37,33 +68,6 @@ void main(List<String> arguments) async {
     await cmd.value.exec(args, pagePrint(cmd.key));
   }
 
-  bool running = true;
-
-  do {
-    final String input =
-        stdin.readLineSync(encoding: Encoding.getByName('utf-8')!) ?? '';
-    var inputArgs = input.split(' ');
-
-    switch (inputArgs[0]) {
-      case '/quit':
-        running = false;
-        break;
-      case '/page':
-        for (var element in CommandPage.values) {
-          if (element.name == inputArgs[1]) {
-            currentPage = element;
-          }
-        }
-        stdout.write('\x1B[2J\x1B[0;0H');
-        commands[currentPage]?.page(input);
-        break;
-      default:
-        if (commands[currentPage] != null) {
-          await commands[currentPage]?.call(input);
-        }
-        break;
-    }
-
-    await Future<void>.delayed(const Duration(milliseconds: 10));
-  } while (running);
+  // 如果不是 Windows 系统
+  readCommand();
 }
