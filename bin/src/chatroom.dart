@@ -1,13 +1,19 @@
+import 'dart:io';
+
 import 'base.dart';
 
 class ChatRoomCmd implements CommandInstance {
   @override
   ArgParser command(ArgParser parser) {
-    return parser;
+    return parser..addOption('talk', help: 'Talk to chatroom');
   }
 
   @override
-  Future<void> exec(ArgResults args, void Function(String msg) print) async {
+  Future<void> exec(ArgResults args, void Function(dynamic msg) print) async {
+    if (args['talk'] != null) {
+      Instance.get.chatroom.send(args['talk']).then(print);
+      exit(0);
+    }
     Instance.get.chatroom.addListener((msg) {
       switch (msg.type) {
         case ChatRoomMessageType.online:
