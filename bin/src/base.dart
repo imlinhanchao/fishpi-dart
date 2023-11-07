@@ -49,7 +49,7 @@ class Config {
     if (!file.existsSync()) {
       return config;
     }
-    config = loadYaml(file.readAsStringSync());
+    config = Map.from(loadYaml(file.readAsStringSync()));
     return config;
   }
 
@@ -60,11 +60,26 @@ class Config {
   }
 
   Map set(String key, Map<String, dynamic> data) {
-    var cfg = config[key] ?? {};
-    data.forEach((key, value) {
-      cfg[key] = value;
+    var cfg = Map.from(config[key] ?? {});
+    data.forEach((k, v) {
+      cfg[k] = v;
     });
     config[key] = cfg;
     return cfg;
   }
+}
+
+String htmlToText(String html, {String? userName}) {
+  return html
+  .replaceAllMapped(RegExp(r'<a [^>]*? href="([^"]*?)"[^>]*?>([^<]*?)</a>'), (match) => '[${match.group(1)}](${match.group(2)})')
+  .replaceAllMapped(RegExp(r'<a [^>]*?>([^<]*?)</a>'), (match) => match.group(1)??'')
+  .replaceAllMapped(RegExp(r'<img\s+alt="([^"]*?)"\s+class="emoji"([^>]*?>)'), (match) => '[${match.group(1)}]')
+  .replaceAllMapped(RegExp(r'<img\s+src="([^"]*?)"\s+alt="图片表情"([^>]*?>)'), (match) => '[动画表情]')
+  .replaceAllMapped(RegExp(r'<img\s+src="([^"]*?)"([^>]*?>)'), (match) => '[图片]')
+  .replaceAllMapped(RegExp(r'<audio[^>]*?>.*?<\/audio>'), (match) => '[音乐]')
+  .replaceAllMapped(RegExp(r'<video[^>]*?>.*?<\/video>'), (match) => '[视频]')
+  .replaceAllMapped(RegExp(r'<(\w+)>(.*?)<\/\1>'), (match) => '<span>${match.group(2)}</span>')
+  .replaceAllMapped(RegExp(r'<iframe.*?<\/iframe>'), (match) => '[内联网页]')
+  .replaceAllMapped(RegExp(r'<(\/)*[^>]*?>'), (match) => '')
+  .replaceAllMapped(RegExp('@$userName'), (match) => '\x1B[7m@$userName\x1B[0m');
 }
