@@ -5,6 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Run Main",
+      "type": "dart",
+      "request": "launch",
+      "program": "bin/main.dart",
+      "console": "terminal",
+    },
+    {
       "name": "Upload File",
       "type": "dart",
       "request": "launch",
@@ -13,18 +20,6 @@
         "-f",
         "${workspaceFolder}/test/not_in_car.gif",
       ]
-    },
-    {
-      "name": "Run Main",
-      "type": "dart",
-      "request": "launch",
-      "program": "bin/main.dart",
-      "args": [
-        "-u",
-        "username",
-        "-p",
-        "password",
-      ],
     },
   ]
 }

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'base.dart';
 
 class UserCmd implements CommandInstance {
+  UserInfo info = UserInfo();
   @override
   ArgParser command(ArgParser parser) {
     return parser
@@ -15,15 +16,20 @@ class UserCmd implements CommandInstance {
 
   @override
   Future<void> exec(ArgResults args, void Function(dynamic msg) print) async {
-    var token = args['token'] ?? Instance.cfg.config['auth']?['token'];
     var username = args['username'] ?? Instance.cfg.config['auth']?['username'];
+    var token = args['token'];
     var code = args['code'];
     var passwd = args['passwd'];
     String? mfaCode;
 
+    if (username == Instance.cfg.config['auth']?['username'] && token == null) {
+      token = (Instance.cfg.config['auth']?['token'] as String).trim();
+    }
+
     if (token != null) {
       Instance.get.token = token;
-      Instance.cfg.set('auth', {'token': token});
+      info = await Instance.get.user.info();
+      Instance.cfg.set('auth', {'token': token, 'username': info.userName});
     } else if (args['username'] != null) {
       if (passwd == null) {
         print('密码:');
