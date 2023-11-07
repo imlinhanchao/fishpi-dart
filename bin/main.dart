@@ -48,6 +48,7 @@ readCommand() async {
           commands[currentPage]?.page(command);
           break;
         default:
+          stdout.write('\x1B[1A\x1B[2K');
           if (commands[currentPage] != null) {
             commands[currentPage]?.call(command);
           }
