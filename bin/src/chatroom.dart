@@ -66,7 +66,7 @@ class ChatRoomCmd implements CommandInstance {
   @override
   Future<bool> page(String command) async {
     List<ChatRoomMessage> msgList =
-        await Instance.get.chatroom.more(1, type: ChatContentType.Markdown);
+        await Instance.get.chatroom.more(1, type: ChatContentType.HTML);
     for (var msg in msgList.reversed) {
       print(msgView(msg));
     }
@@ -79,11 +79,11 @@ class ChatRoomCmd implements CommandInstance {
 
   String msgView(ChatRoomMessage msg) {
     if (msg.isRedpacket) return redPacketView(msg);
-    return '${userNameView(msg)} [${msg.time}]: ${htmlToText(msg.content, userName: info.userName).replaceAll('\n', '')}';
+    return '\x1B[1m${userNameView(msg)}\x1B[90m [${msg.time}]\x1B[0m: ${htmlToText(msg.content, userName: info.userName).replaceAll('\n', '')}';
   }
 
   String redPacketView(ChatRoomMessage msg) {
-    return '${userNameView(msg)} [${msg.time}]: { 收到一个${RedPacketType.toName(msg.redpacket?.type ?? '')} }';
+    return '\x1B[1m${userNameView(msg)}\x1B[0m [${msg.time}]: { 收到一个${RedPacketType.toName(msg.redpacket?.type ?? '')} }';
   }
 
   String barragerView(BarragerMsg msg) {

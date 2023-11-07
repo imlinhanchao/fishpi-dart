@@ -71,7 +71,8 @@ class Config {
 
 String htmlToText(String html, {String? userName}) {
   return html
-  .replaceAllMapped(RegExp(r'<a [^>]*? href="([^"]*?)"[^>]*?>([^<]*?)</a>'), (match) => '[${match.group(1)}](${match.group(2)})')
+  .replaceAllMapped(RegExp(r'@<a [^>]*?>([^<]*?)</a>'), (match) => '@\x1B[4m${match.group(1)}\x1B[0m')
+  .replaceAllMapped(RegExp(r'<a [^>]*?href="([^"]*?)"[^>]*?>([^<]*?)</a>'), (match) => '[${match.group(2)}](${match.group(1)})')
   .replaceAllMapped(RegExp(r'<a [^>]*?>([^<]*?)</a>'), (match) => match.group(1)??'')
   .replaceAllMapped(RegExp(r'<img\s+alt="([^"]*?)"\s+class="emoji"([^>]*?>)'), (match) => '[${match.group(1)}]')
   .replaceAllMapped(RegExp(r'<img\s+src="([^"]*?)"\s+alt="图片表情"([^>]*?>)'), (match) => '[动画表情]')
@@ -81,5 +82,5 @@ String htmlToText(String html, {String? userName}) {
   .replaceAllMapped(RegExp(r'<(\w+)>(.*?)<\/\1>'), (match) => '<span>${match.group(2)}</span>')
   .replaceAllMapped(RegExp(r'<iframe.*?<\/iframe>'), (match) => '[内联网页]')
   .replaceAllMapped(RegExp(r'<(\/)*[^>]*?>'), (match) => '')
-  .replaceAllMapped(RegExp('@$userName'), (match) => '\x1B[7m@$userName\x1B[0m');
+  .replaceAllMapped(RegExp('@$userName'), (match) => '\x1B[7m@\x1B[4m$userName\x1B[0m');
 }
