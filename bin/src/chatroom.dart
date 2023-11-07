@@ -3,6 +3,7 @@ import 'dart:io';
 import 'base.dart';
 
 class ChatRoomCmd implements CommandInstance {
+  UserInfo info = UserInfo();
   @override
   ArgParser command(ArgParser parser) {
     return parser..addOption('talk', help: 'Talk to chatroom');
@@ -38,6 +39,7 @@ class ChatRoomCmd implements CommandInstance {
       }
     });
     Instance.get.chatroom.reconnect();
+    if (Instance.get.isLogin) info = await Instance.get.user.info();
   }
 
   @override
@@ -47,6 +49,10 @@ class ChatRoomCmd implements CommandInstance {
     switch (argv[0]) {
       default:
         {
+          if (!Instance.get.isLogin) {
+            print('请先登录。');
+            break;
+          }
           if (!Platform.isWindows) {
             await Instance.get.chatroom.send(command);
           } else {
@@ -68,13 +74,12 @@ class ChatRoomCmd implements CommandInstance {
   }
 
   String userNameView(data) {
-    final userName = data.userNickname.isEmpty ? '' : '(${data.userName})';
-    return '${data.userNickname}($userName)';
+    return data.userNickname.isEmpty ? data.userName : '${data.userNickname}(${data.userName})';
   }
 
   String msgView(ChatRoomMessage msg) {
     if (msg.isRedpacket) return redPacketView(msg);
-    return '${userNameView(msg)} [${msg.time}]: ${msg.md}';
+    return '${userNameView(msg)} [${msg.time}]: ${htmlToText(msg.content, userName: info.userName).replaceAll('\n', '')}';
   }
 
   String redPacketView(ChatRoomMessage msg) {
