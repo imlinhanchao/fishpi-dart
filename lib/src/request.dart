@@ -25,13 +25,6 @@ class Request {
   }
 
   static Future<T> get<T>(String url, {Map<String, dynamic>? params}) async {
-    if (params != null) {
-      url = '$url?';
-      params.forEach((key, value) {
-        url += '$key=$value&';
-      });
-      url = url.substring(0, url.length - 1);
-    }
     return request(_parseUrl(url, params), method: 'GET');
   }
 
