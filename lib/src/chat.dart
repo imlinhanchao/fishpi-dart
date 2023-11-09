@@ -54,7 +54,7 @@ class Chat {
         },
       );
 
-      if (rsp['code'] != 0) return Future.error(rsp['msg']);
+      if (rsp['result'] != 0) return Future.error(rsp['msg']);
 
       return List.from(rsp['data'] ?? []).map((e) => ChatData.from(e)).toList();
     } catch (e) {
@@ -84,7 +84,7 @@ class Chat {
         },
       );
 
-      if (rsp['code'] != 0) return Future.error(rsp['msg']);
+      if (rsp['result'] != 0) return Future.error(rsp['msg']);
 
       if (autoRead) markRead(user);
 
@@ -127,7 +127,7 @@ class Chat {
         },
       );
 
-      if (rsp['code'] != 0) return Future.error(rsp['msg']);
+      if (rsp['result'] != 0) return Future.error(rsp['msg']);
 
       return ChatData.from(rsp['data'] ?? {});
     } catch (e) {
@@ -149,8 +149,6 @@ class Chat {
           'oId': msgId,
         },
       );
-
-      if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
       return rsp['result'] == 0;
     } catch (e) {
@@ -252,5 +250,11 @@ class Chat {
     }
 
     _wsCallbacks[user]!.remove(wsCallback);
+  }
+
+  Future<WebsocketInfo> send(String user, String content) async {
+    if (_wss[user] == null || _wss[user]!.ws.closeCode != null) await connect(user: user);
+    _wss[user]!.ws.sink.add(content);
+    return _wss[user]!;
   }
 }

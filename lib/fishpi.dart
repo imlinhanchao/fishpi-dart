@@ -57,8 +57,8 @@ class Fishpi {
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      token = rsp['Key'];
-      return rsp['Key'];
+      token = rsp['Key'].trim();
+      return token;
     } catch (e) {
       return Future.error(e);
     }
