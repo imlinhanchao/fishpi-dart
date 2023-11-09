@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/breezemoon.dart';
+import 'package:fishpi/src/emoji.dart';
 import 'package:fishpi/src/request.dart';
 
 export 'types/fishpi.dart';
@@ -16,6 +17,7 @@ class Fishpi {
   Chatroom chatroom = Chatroom();
   Chat chat = Chat();
   Breezemoon breezemoon = Breezemoon();
+  Emoji emoji = Emoji();
 
   static setOrigin(String? url) {
     if (url == null) return;
@@ -47,6 +49,7 @@ class Fishpi {
     chatroom.token = token;
     chat.token = token;
     breezemoon.token = token;
+    emoji.token = token;
   }
 
   /// 登录

@@ -128,7 +128,7 @@ class Request {
     _protocol = protocol;
   }
 
-  static get origin {
-    return '$_protocol://$_domain';
-  }
+  static get origin => '$_protocol://$_domain';
+
+  static get domain => _domain;
 }
