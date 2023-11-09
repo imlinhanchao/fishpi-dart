@@ -1,3 +1,5 @@
+import 'package:fishpi/src/utils.dart';
+
 import 'fishpi.dart';
 
 /// 发帖信息
@@ -588,7 +590,7 @@ class ArticleAuthor {
             PublicStatus.values[data['userFollowingUserStatus'] ?? 0],
         userArticleCount = data['userArticleCount'] ?? 0,
         userRole = data['userRole'] ?? '',
-        sysMetal = data['sysMetal'] ?? const [];
+        sysMetal = toMetal(data['sysMetal']);
 
   Map<String, dynamic> toJson() => {
         'userOnlineFlag': userOnlineFlag,
@@ -792,7 +794,7 @@ class ArticleComment {
         commentRevisionCount = data['commentRevisionCount'] ?? 0,
         timeAgo = data['timeAgo'] ?? '',
         commentOriginalCommentId = data['commentOriginalCommentId'] ?? '',
-        sysMetal = data['sysMetal'] ?? const [],
+        sysMetal = toMetal(data['sysMetal']),
         commentGoodCnt = data['commentGoodCnt'] ?? 0,
         commentVisible = YesNoStatus.values[data['commentVisible'] ?? 0],
         commentOnArticleId = data['commentOnArticleId'] ?? '',
@@ -1246,8 +1248,12 @@ class ArticleDetail {
             : null,
         discussionViewable = data['discussionViewable'] ?? false,
         articleRevisionCount = data['articleRevisionCount'] ?? 0,
-        articleComments = data['articleComments'] ?? const [],
-        articleNiceComments = data['articleNiceComments'] ?? const [];
+        articleComments = List.from(data['articleComments'] ?? [])
+            .map((e) => ArticleComment.from(e))
+            .toList(),
+        articleNiceComments = List.from(data['articleNiceComments'] ?? [])
+            .map((e) => ArticleComment.from(e))
+            .toList();
 
   Map<String, dynamic> toJson() => {
         'articleShowInList': articleShowInList,

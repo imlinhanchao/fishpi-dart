@@ -539,3 +539,6 @@ class NoticeSystem {
     return 'NoticeSystem{oId: $oId, userId: $userId, dataId: $dataId, dataType: $dataType, description: $description, hasRead: $hasRead, createTime: $createTime}';
   }
 }
+
+/// NoticePoint | NoticeComment | NoticeAt | NoticeFollow | NoticeSystem 列表，根据 NoticeType 变化
+typedef NoticeList = List<dynamic>;
