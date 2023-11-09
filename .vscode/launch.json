@@ -12,6 +12,16 @@
       "console": "terminal",
     },
     {
+      "name": "Talk",
+      "type": "dart",
+      "request": "launch",
+      "program": "bin/main.dart",
+      "args": [
+        "--talk",
+        "你好",
+      ]
+    },
+    {
       "name": "Upload File",
       "type": "dart",
       "request": "launch",

@@ -8,14 +8,14 @@ class UserCmd implements CommandInstance {
   @override
   ArgParser command(ArgParser parser) {
     return parser
-      ..addOption('username', abbr: 'u', help: 'Your User Name')
-      ..addOption('passwd', abbr: 'p', help: 'Your Password')
-      ..addOption('token', abbr: 't', help: 'Your Token')
-      ..addFlag('code', negatable: false, help: 'Need mfa Code to login');
+      ..addOption('username', abbr: 'u', help: '用户名')
+      ..addOption('passwd', abbr: 'p', help: '密码')
+      ..addOption('token', abbr: 't', help: 'API Key')
+      ..addFlag('code', negatable: false, help: '需要二次验证码');
   }
 
   @override
-  Future<void> exec(ArgResults args, void Function(dynamic msg) print) async {
+  Future<void> exec(ArgResults args, PrintFn print) async {
     var username = args['username'] ?? Instance.cfg.config['auth']?['username'];
     var token = args['token'];
     var code = args['code'];
@@ -32,11 +32,11 @@ class UserCmd implements CommandInstance {
       Instance.cfg.set('auth', {'token': token, 'username': info.userName});
     } else if (args['username'] != null) {
       if (passwd == null) {
-        print('密码:');
+        print('密码:', false);
         passwd = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
       }
       if (code) {
-        print('二次验证码:');
+        print('二次验证码:', false);
         mfaCode = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
       }
       await Instance.get
@@ -46,6 +46,7 @@ class UserCmd implements CommandInstance {
         mfaCode: mfaCode,
       ))
           .then((value) async {
+        token = value;
         var info = await Instance.get.user.info();
         print('欢迎回来！ ${info.name}~');
         Instance.cfg.set('auth', {'token': token, 'username': username});

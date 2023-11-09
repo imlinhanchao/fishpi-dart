@@ -6,11 +6,11 @@ class ChatRoomCmd implements CommandInstance {
   UserInfo info = UserInfo();
   @override
   ArgParser command(ArgParser parser) {
-    return parser..addOption('talk', help: 'Talk to chatroom');
+    return parser..addOption('talk', help: '发送消息到聊天室（需曾经登录过或添加 -u 参数）');
   }
 
   @override
-  Future<void> exec(ArgResults args, void Function(dynamic msg) print) async {
+  Future<void> exec(ArgResults args, PrintFn print) async {
     if (args['talk'] != null) {
       Instance.get.chatroom.send(args['talk']).then(print);
       exit(0);

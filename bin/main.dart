@@ -18,11 +18,11 @@ var commands = {
   CommandPage.chatroom: ChatRoomCmd(),
 };
 
-late CommandPage currentPage;
+CommandPage currentPage = CommandPage.user;
 
-void Function(dynamic msg) pagePrint(CommandPage page) {
-  return (dynamic msg) {
-    if (currentPage == page) print(msg);
+PrintFn pagePrint(CommandPage page) {
+  return (dynamic msg, [bool newLine = true]) {
+    if (currentPage == page) (newLine ? print : stdout.write)(msg);
   };
 }
 
@@ -61,13 +61,18 @@ readCommand() async {
 void main(List<String> arguments) async {
   var parser = registerCommand(commands.values.toList());
   final args = parser.parse(arguments);
-  currentPage = CommandPage.chatroom;
 
-  await commands[currentPage]?.page('');
+  if (args['help']) {
+    print(parser.usage);
+    return;
+  }
 
   for (var cmd in commands.entries) {
     await cmd.value.exec(args, pagePrint(cmd.key));
   }
+
+  currentPage = CommandPage.chatroom;
+  await commands[currentPage]?.page('');
 
   // 如果不是 Windows 系统
   readCommand();

@@ -14,13 +14,15 @@ class Instance {
   static Config get cfg => _config;
 }
 
+typedef PrintFn = void Function(dynamic msg, [bool newLine]);
+
 /// 命令行实例
 abstract class CommandInstance {
   /// 注册命令行参数
   ArgParser command(ArgParser parser);
 
   /// 执行命令行参数
-  Future<void> exec(ArgResults args, void Function(dynamic msg) print);
+  Future<void> exec(ArgResults args, PrintFn print);
 
   /// 执行输入命令
   Future<bool> call(String command);
@@ -30,7 +32,7 @@ abstract class CommandInstance {
 }
 
 ArgParser registerCommand(List<CommandInstance> register) {
-  var parser = ArgParser();
+  var parser = ArgParser()..addFlag('help', abbr: 'h');
   for (var item in register) {
     parser = item.command(parser);
   }
@@ -59,11 +61,16 @@ class Config {
     return config;
   }
 
-  Map set(String key, Map<String, dynamic> data) {
-    var cfg = Map.from(config[key] ?? {});
-    data.forEach((k, v) {
-      cfg[k] = v;
-    });
+  dynamic set(String key, dynamic data) {
+    dynamic cfg;
+    if (data is Map) {
+      cfg = Map.from(config[key] ?? {});
+      data.forEach((k, v) {
+        cfg[k] = v;
+      });
+    } else {
+      cfg = data;
+    }
     config[key] = cfg;
     return cfg;
   }
@@ -71,16 +78,25 @@ class Config {
 
 String htmlToText(String html, {String? userName}) {
   return html
-  .replaceAllMapped(RegExp(r'@<a [^>]*?>([^<]*?)</a>'), (match) => '@\x1B[4m${match.group(1)}\x1B[0m')
-  .replaceAllMapped(RegExp(r'<a [^>]*?href="([^"]*?)"[^>]*?>([^<]*?)</a>'), (match) => '[${match.group(2)}](${match.group(1)})')
-  .replaceAllMapped(RegExp(r'<a [^>]*?>([^<]*?)</a>'), (match) => match.group(1)??'')
-  .replaceAllMapped(RegExp(r'<img\s+alt="([^"]*?)"\s+class="emoji"([^>]*?>)'), (match) => '[${match.group(1)}]')
-  .replaceAllMapped(RegExp(r'<img\s+src="([^"]*?)"\s+alt="图片表情"([^>]*?>)'), (match) => '[动画表情]')
-  .replaceAllMapped(RegExp(r'<img\s+src="([^"]*?)"([^>]*?>)'), (match) => '[图片]')
-  .replaceAllMapped(RegExp(r'<audio[^>]*?>.*?<\/audio>'), (match) => '[音乐]')
-  .replaceAllMapped(RegExp(r'<video[^>]*?>.*?<\/video>'), (match) => '[视频]')
-  .replaceAllMapped(RegExp(r'<(\w+)>(.*?)<\/\1>'), (match) => '<span>${match.group(2)}</span>')
-  .replaceAllMapped(RegExp(r'<iframe.*?<\/iframe>'), (match) => '[内联网页]')
-  .replaceAllMapped(RegExp(r'<(\/)*[^>]*?>'), (match) => '')
-  .replaceAllMapped(RegExp('@$userName'), (match) => '\x1B[7m@\x1B[4m$userName\x1B[0m');
+      .replaceAllMapped(RegExp(r'@<a [^>]*?>([^<]*?)</a>'),
+          (match) => '@\x1B[4m${match.group(1)}\x1B[0m')
+      .replaceAllMapped(RegExp(r'<a [^>]*?href="([^"]*?)"[^>]*?>([^<]*?)</a>'),
+          (match) => '[${match.group(2)}](${match.group(1)})')
+      .replaceAllMapped(
+          RegExp(r'<a [^>]*?>([^<]*?)</a>'), (match) => match.group(1) ?? '')
+      .replaceAllMapped(
+          RegExp(r'<img\s+alt="([^"]*?)"\s+class="emoji"([^>]*?>)'),
+          (match) => '[${match.group(1)}]')
+      .replaceAllMapped(RegExp(r'<img\s+src="([^"]*?)"\s+alt="图片表情"([^>]*?>)'),
+          (match) => '[动画表情]')
+      .replaceAllMapped(
+          RegExp(r'<img\s+src="([^"]*?)"([^>]*?>)'), (match) => '[图片]')
+      .replaceAllMapped(RegExp(r'<audio[^>]*?>.*?<\/audio>'), (match) => '[音乐]')
+      .replaceAllMapped(RegExp(r'<video[^>]*?>.*?<\/video>'), (match) => '[视频]')
+      .replaceAllMapped(RegExp(r'<(\w+)>(.*?)<\/\1>'),
+          (match) => '<span>${match.group(2)}</span>')
+      .replaceAllMapped(RegExp(r'<iframe.*?<\/iframe>'), (match) => '[内联网页]')
+      .replaceAllMapped(RegExp(r'<(\/)*[^>]*?>'), (match) => '')
+      .replaceAllMapped(
+          RegExp('@$userName'), (match) => '\x1B[7m@\x1B[4m$userName\x1B[0m');
 }
