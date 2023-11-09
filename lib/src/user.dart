@@ -2,16 +2,25 @@ import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 
 class User {
-  String token = '';
+  String _token = '';
+  UserInfo _infoCache = UserInfo();
+  String get token => _token;
+  set token(String token) {
+    _token = token;
+    _infoCache = UserInfo();
+  }
+  UserInfo get current => _infoCache;
 
   /// 查询登录用户信息
-  Future<UserInfo> info() async {
+  Future<UserInfo> info([bool cache=true]) async {
     try {
+      if (_infoCache.userName.isNotEmpty && cache) return _infoCache;
+
       var rsp = await Request.get('api/user', params: {'apiKey': token});
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      return UserInfo.from(rsp['data']);
+      return _infoCache = UserInfo.from(rsp['data']);
     } catch (e) {
       return Future.error(e);
     }

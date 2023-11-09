@@ -5,7 +5,6 @@ import '../main.dart';
 import 'base.dart';
 
 class UserCmd implements CommandInstance {
-  UserInfo info = UserInfo();
   @override
   ArgParser command(ArgParser parser) {
     return parser
@@ -18,20 +17,20 @@ class UserCmd implements CommandInstance {
   @override
   Future<void> exec(ArgResults args, PrintFn print) async {
     var username = args['username'] ?? Instance.cfg.config['auth']?['username'];
-    var token = args['token'];
+    String? token = args['token'];
     var code = args['code'];
     var passwd = args['passwd'];
     String? mfaCode;
 
-    if (username == Instance.cfg.config['auth']?['username'] && token == null) {
-      token = (Instance.cfg.config['auth']?['token'] as String).trim();
+    if (username == Instance.cfg.config['auth']?['username'] && token == null && Instance.cfg.config['auth']?['token'] != null) {
+      token = (Instance.cfg.config['auth']?['token'] as String).trim().replaceAll('\n', '');
     }
 
     if (token != null && token.isNotEmpty) {
       Instance.get.token = token;
-      info = await Instance.get.user.info();
-      Instance.cfg.set('auth', {'token': token, 'username': info.userName});
-    } else if (args['username'] != null) {
+      var info = await Instance.get.user.info();
+      Instance.cfg.set('auth', {'token': token.replaceAll('\n', ''), 'username': info.userName});
+    } else if (username != null) {
       setCurrentPage(CommandPage.user);
 
       if (passwd == null) {
@@ -50,13 +49,13 @@ class UserCmd implements CommandInstance {
       ))
           .then((value) async {
         token = value.trim();
-        info = await Instance.get.user.info();
         Instance.cfg.set('auth', {'token': token, 'username': username});
       }).catchError((err) {
         print('登录失败: $err');
         exit(0);
       });
     }
+    var info = await Instance.get.user.info();
     print('欢迎回来！ ${info.name}~');
     Instance.cfg.save();
   }

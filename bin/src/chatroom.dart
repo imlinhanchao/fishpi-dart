@@ -4,7 +4,6 @@ import '../main.dart';
 import 'base.dart';
 
 class ChatRoomCmd implements CommandInstance {
-  UserInfo info = UserInfo();
   @override
   ArgParser command(ArgParser parser) {
     return parser..addOption('talk', help: '发送消息到聊天室（需曾经登录过或添加 -u 参数）');
@@ -44,7 +43,6 @@ class ChatRoomCmd implements CommandInstance {
       }
     });
     Instance.get.chatroom.reconnect();
-    if (Instance.get.isLogin) info = await Instance.get.user.info();
     setCurrentPage(CommandPage.chatroom);
   }
 
@@ -85,7 +83,7 @@ class ChatRoomCmd implements CommandInstance {
 
   String msgView(ChatRoomMessage msg) {
     if (msg.isRedpacket) return redPacketView(msg);
-    return '\x1B[1m${userNameView(msg)}\x1B[90m [${msg.time}]\x1B[0m: ${htmlToText(msg.content, userName: info.userName).replaceAll('\n', '')}';
+    return '\x1B[1m${userNameView(msg)}\x1B[90m [${msg.time}]\x1B[0m: ${htmlToText(msg.content, userName: Instance.get.user.current.userName).replaceAll('\n', '')}';
   }
 
   String redPacketView(ChatRoomMessage msg) {

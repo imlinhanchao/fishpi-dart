@@ -5,7 +5,6 @@ import '../main.dart';
 import 'base.dart';
 
 class ChatCmd implements CommandInstance {
-  UserInfo info = UserInfo();
   String currentUser = '';
   @override
   ArgParser command(ArgParser parser) {
@@ -47,6 +46,9 @@ class ChatCmd implements CommandInstance {
             if (argv.length > 2) {
               await Instance.get.chat.send(currentUser, argv[2]);
             }
+          } else {
+            currentUser = '';
+            await page('/page chat');
           }
           break;
         }
@@ -83,10 +85,10 @@ class ChatCmd implements CommandInstance {
   }
 
   String msgView(ChatData msg) {
-    return '\x1B[1m${msg.senderUserName}\x1B[90m [${msg.time}]\x1B[0m: ${htmlToText(msg.content, userName: info.userName).replaceAll('\n', '')}';
+    return '\x1B[1m${msg.senderUserName}\x1B[90m [${msg.time}]\x1B[0m: ${htmlToText(msg.content, userName: Instance.get.user.current.userName).replaceAll('\n', '')}';
   }
 
   String itemView(ChatData msg) {
-    return '\x1B[1m${msg.senderUserName}\x1B[90m [${msg.time}]\x1B[0m\t';
+    return '\x1B[1m${msg.senderUserName == Instance.get.user.current.userName ? msg.receiverUserName : msg.senderUserName}\x1B[90m [${msg.time}]\x1B[0m\t';
   }
 }
