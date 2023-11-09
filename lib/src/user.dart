@@ -9,10 +9,12 @@ class User {
     _token = token;
     _infoCache = UserInfo();
   }
+
+  /// 当前登录用户信息，需至少调用一次 `info` 方法
   UserInfo get current => _infoCache;
 
   /// 查询登录用户信息
-  Future<UserInfo> info([bool cache=true]) async {
+  Future<UserInfo> info([bool cache = true]) async {
     try {
       if (_infoCache.userName.isNotEmpty && cache) return _infoCache;
 
