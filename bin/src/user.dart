@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import '../main.dart';
 import 'base.dart';
 
 class UserCmd implements CommandInstance {
@@ -26,17 +27,19 @@ class UserCmd implements CommandInstance {
       token = (Instance.cfg.config['auth']?['token'] as String).trim();
     }
 
-    if (token != null) {
+    if (token != null && token.isNotEmpty) {
       Instance.get.token = token;
       info = await Instance.get.user.info();
       Instance.cfg.set('auth', {'token': token, 'username': info.userName});
     } else if (args['username'] != null) {
+      setCurrentPage(CommandPage.user);
+
       if (passwd == null) {
-        print('密码:', false);
+        print('密码: ', false);
         passwd = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
       }
       if (code) {
-        print('二次验证码:', false);
+        print('二次验证码: ', false);
         mfaCode = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
       }
       await Instance.get
@@ -46,15 +49,15 @@ class UserCmd implements CommandInstance {
         mfaCode: mfaCode,
       ))
           .then((value) async {
-        token = value;
-        var info = await Instance.get.user.info();
-        print('欢迎回来！ ${info.name}~');
+        token = value.trim();
+        info = await Instance.get.user.info();
         Instance.cfg.set('auth', {'token': token, 'username': username});
       }).catchError((err) {
         print('登录失败: $err');
         exit(0);
       });
     }
+    print('欢迎回来！ ${info.name}~');
     Instance.cfg.save();
   }
 

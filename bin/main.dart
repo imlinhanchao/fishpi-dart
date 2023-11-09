@@ -2,23 +2,29 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'src/base.dart';
+import 'src/utils.dart';
 import 'src/user.dart';
 import 'src/chatroom.dart';
-import 'src/utils.dart';
+import 'src/chat.dart';
 
 enum CommandPage {
   utils,
   user,
   chatroom,
+  chat,
 }
 
 var commands = {
   CommandPage.utils: UtilsCmd(),
   CommandPage.user: UserCmd(),
   CommandPage.chatroom: ChatRoomCmd(),
+  CommandPage.chat: ChatCmd(),
 };
 
 CommandPage currentPage = CommandPage.user;
+void setCurrentPage(CommandPage page) {
+  currentPage = page;
+}
 
 PrintFn pagePrint(CommandPage page) {
   return (dynamic msg, [bool newLine = true]) {
@@ -71,7 +77,6 @@ void main(List<String> arguments) async {
     await cmd.value.exec(args, pagePrint(cmd.key));
   }
 
-  currentPage = CommandPage.chatroom;
   await commands[currentPage]?.page('');
 
   // 如果不是 Windows 系统
