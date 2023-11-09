@@ -12,6 +12,17 @@
       "console": "terminal",
     },
     {
+      "name": "Login",
+      "type": "dart",
+      "request": "launch",
+      "program": "bin/main.dart",
+      "console": "terminal",
+      "args": [
+        "-u",
+        "username",
+      ]
+    },
+    {
       "name": "Talk",
       "type": "dart",
       "request": "launch",
