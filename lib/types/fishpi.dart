@@ -6,6 +6,8 @@ export 'chatroom.dart';
 export 'chat.dart';
 export 'redpacket.dart';
 export 'breezemoon.dart';
+export 'notice.dart';
+export 'article.dart';
 
 class ApiResponse<T> {
   /// 请求状态
