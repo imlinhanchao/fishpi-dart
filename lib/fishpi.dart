@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fishpi/fishpi.dart';
+import 'package:fishpi/src/breezemoon.dart';
 import 'package:fishpi/src/request.dart';
 
 export 'types/fishpi.dart';
@@ -14,6 +15,7 @@ class Fishpi {
   User user = User();
   Chatroom chatroom = Chatroom();
   Chat chat = Chat();
+  Breezemoon breezemoon = Breezemoon();
 
   static setOrigin(String? url) {
     if (url == null) return;
@@ -44,6 +46,7 @@ class Fishpi {
     user.token = token;
     chatroom.token = token;
     chat.token = token;
+    breezemoon.token = token;
   }
 
   /// 登录
