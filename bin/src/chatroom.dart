@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import '../main.dart';
 import 'base.dart';
 
 class ChatRoomCmd implements CommandInstance {
@@ -12,7 +13,11 @@ class ChatRoomCmd implements CommandInstance {
   @override
   Future<void> exec(ArgResults args, PrintFn print) async {
     if (args['talk'] != null) {
-      Instance.get.chatroom.send(args['talk']).then(print);
+      if (!Instance.get.isLogin) {
+        print('请先登录。');
+      } else {
+        Instance.get.chatroom.send(args['talk']).then(print);
+      }
       exit(0);
     }
     Instance.get.chatroom.addListener((msg) {
@@ -40,12 +45,13 @@ class ChatRoomCmd implements CommandInstance {
     });
     Instance.get.chatroom.reconnect();
     if (Instance.get.isLogin) info = await Instance.get.user.info();
+    setCurrentPage(CommandPage.chatroom);
   }
 
   @override
   Future<bool> call(String command) async {
     if (command.trim().isEmpty) return false;
-    var argv = command.split(' ');
+    var argv = command.trim().split(' ');
     switch (argv[0]) {
       default:
         {
