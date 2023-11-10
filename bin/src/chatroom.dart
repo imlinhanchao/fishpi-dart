@@ -33,28 +33,32 @@ class ChatRoomCmd implements CommandInstance {
       exit(0);
     }
     Instance.get.chatroom.addListener((msg) {
-      switch (msg.type) {
-        case ChatRoomMessageType.online:
-          break;
-        case ChatRoomMessageType.barrager:
-          print(barragerView(msg.data));
-          break;
-        case ChatRoomMessageType.discussChanged:
-          break;
-        case ChatRoomMessageType.msg:
-          print(msgView(msg.data));
-          break;
-        case ChatRoomMessageType.revoke:
-          break;
-        case ChatRoomMessageType.redPacket:
-          print(redPacketView(msg.data));
-          break;
-        case ChatRoomMessageType.redPacketStatus:
-          break;
-        case ChatRoomMessageType.custom:
-          print(
-              '${Command.from('#888888').color}${msg.data}${Command.restore}');
-          break;
+      try {
+        switch (msg.type) {
+          case ChatRoomMessageType.online:
+            break;
+          case ChatRoomMessageType.barrager:
+            print(barragerView(msg.data));
+            break;
+          case ChatRoomMessageType.discussChanged:
+            break;
+          case ChatRoomMessageType.msg:
+            print(msgView(msg.data));
+            break;
+          case ChatRoomMessageType.revoke:
+            break;
+          case ChatRoomMessageType.redPacket:
+            print(redPacketView(msg.data));
+            break;
+          case ChatRoomMessageType.redPacketStatus:
+            break;
+          case ChatRoomMessageType.custom:
+            print(
+                '${Command.from('#888888').color}${msg.data}${Command.restore}');
+            break;
+        }
+      } catch (e) {
+        print('${Command.from('#FF0000')}未知异常：$e');
       }
     });
     Instance.get.chatroom.reconnect();
