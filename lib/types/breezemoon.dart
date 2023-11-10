@@ -39,15 +39,15 @@ class BreezemoonContent {
   });
 
   BreezemoonContent.from(Map<String, dynamic> data)
-      : breezemoonAuthorName = data['breezemoonAuthorName'],
-        breezemoonUpdated = data['breezemoonUpdated'],
+      : breezemoonAuthorName = data['breezemoonAuthorName'] ?? '',
+        breezemoonUpdated = data['breezemoonUpdated']?.toString() ?? '',
         oId = data['oId'],
-        breezemoonCreated = data['breezemoonCreated'],
-        breezemoonAuthorThumbnailURL48 = data['breezemoonAuthorThumbnailURL48'],
-        timeAgo = data['timeAgo'],
-        breezemoonContent = data['breezemoonContent'],
-        breezemoonCreateTime = data['breezemoonCreateTime'],
-        breezemoonCity = data['breezemoonCity'];
+        breezemoonCreated = data['breezemoonCreated']?.toString() ?? '',
+        breezemoonAuthorThumbnailURL48 = data['breezemoonAuthorThumbnailURL48'] ?? '',
+        timeAgo = data['timeAgo'] ?? '',
+        breezemoonContent = data['breezemoonContent'] ?? '',
+        breezemoonCreateTime = data['breezemoonCreateTime'] ?? '',
+        breezemoonCity = data['breezemoonCity'] ?? '';
 
   Map<String, dynamic> toJson() => {
         'breezemoonAuthorName': breezemoonAuthorName,

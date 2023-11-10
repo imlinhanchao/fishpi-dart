@@ -19,7 +19,7 @@ class Breezemoon {
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      return List.from(rsp['data'])
+      return List.from(rsp['breezemoons'])
           .map((e) => BreezemoonContent.from(e))
           .toList();
     } catch (e) {
