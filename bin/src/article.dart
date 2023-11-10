@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import '../main.dart';
 import 'base.dart';
 
 enum ArticlePage { list, detail }
@@ -169,17 +170,47 @@ class ArticleCmd implements CommandInstance {
           }
           break;
         }
+      case ':reward':
+        {
+          if (_currentPage != ArticlePage.detail) break;
+          if (_currentDetail.articleRewardPoint == 0) {
+            print('该文章不支持打赏');
+            break;
+          }
+          if (_currentDetail.articleRewardPoint == 0) {
+            print('该文章不支持打赏');
+            break;
+          }
+          if (!Instance.get.isLogin) {
+            print('请先登录。');
+            break;
+          }
+          if (_currentDetail.rewarded) {
+            print('你已经打赏过了。');
+            break;
+          }
+          stdout
+              .write('确认要打赏${_currentDetail.articleRewardPoint}积分给作者吗？[y/N]：');
+          var confirm = stdin.readLineSync() ?? '';
+          if (confirm.toLowerCase() != 'y') break;
+          await Instance.get.article.reward(_currentDetail.oId).then((value) {
+            page(':page article ${_currentDetail.oId}');
+          }).catchError((err) {
+            print('打赏失败：$err');
+          });
+        }
       case ':help':
         {
           print('''${Command.bold}文章模块命令${Command.restore}
 :page article [page] [type] 查看文章，page 为页码，type 为文章类型
 :type <type> 查看某个类型的文章
 :tag <tag> 查看某个 Tag 下的文章
-:to <page> 跳转到某一页
+:to <page> 跳转到(文章或评论)某一页
 :all 查看所有文章（清除 Tag）
 :next 下一页
 :prev 上一页
 :view <index|id> 查看某一篇文章
+:reward 打赏当前文章
 :reply <index> <content> 回复某一条评论
 <content> 发送正在查看的文章评论 (Windows 不支持此命令)
 ''');
@@ -242,6 +273,12 @@ class ArticleCmd implements CommandInstance {
           print(
               '${Command.from('#555555').color}👤 ${_currentDetail.articleAuthor.name} | 👀  ${_currentDetail.articleHeat} | 👍  ${_currentDetail.articleGoodCnt} | ❤️  ${_currentDetail.articleThankCnt} ${Command.restore}');
           print(htmlToText(_currentDetail.articleContent));
+          if (_currentDetail.articleRewardContent.isNotEmpty) {
+            print('''
+${Command.from('#232425').back}🎁 ${_currentDetail.articleRewardPoint} (x${_currentDetail.rewardedCnt})
+${_currentDetail.rewarded ? _currentDetail.articleRewardContent : '${Command.italic}尚未打赏'} ${Command.restore}
+            ''');
+          }
           print(
               '------ 评论 ($_commentPage / ${_currentDetail.pagination?.paginationPageCount ?? 1}) ------');
           for (var i = 0; i < _currentDetail.articleComments.length; i++) {
