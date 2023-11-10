@@ -7,6 +7,7 @@ import 'src/user.dart';
 import 'src/chatroom.dart';
 import 'src/chat.dart';
 import 'src/breezemoon.dart';
+import 'src/article.dart';
 
 enum CommandPage {
   utils,
@@ -14,6 +15,7 @@ enum CommandPage {
   chatroom,
   chat,
   breezemoon,
+  article,
 }
 
 var commands = {
@@ -22,6 +24,7 @@ var commands = {
   CommandPage.chatroom: ChatRoomCmd(),
   CommandPage.chat: ChatCmd(),
   CommandPage.breezemoon: BreezemoonCmd(),
+  CommandPage.article: ArticleCmd(),
 };
 
 CommandPage currentPage = CommandPage.user;

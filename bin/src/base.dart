@@ -87,6 +87,25 @@ String htmlToText(String html, {String? userName}) {
       .replaceAllMapped(
           RegExp(r'<a [^>]*?>([^<]*?)</a>'), (match) => match.group(1) ?? '')
       .replaceAllMapped(
+          RegExp(r'<blockquote[^>]*?>'),
+          (match) =>
+              '${Command.from('#AAAAAA').color}${Command.from('#131415').back}\n${Command.italic}')
+      .replaceAllMapped(
+          RegExp(r'</blockquote>'), (match) => '${Command.restore}\n')
+      .replaceAllMapped(RegExp(r'<li[^>]*?>'), (match) => '- ')
+      .replaceAllMapped(RegExp(r'</li>'), (match) => '')
+      .replaceAllMapped(
+          RegExp(r'<pre[^>]*?>\s*<code[^>]*?>'),
+          (match) =>
+              '\n${Command.from('#9dd96f').color}${Command.italic}${Command.bold}')
+      .replaceAllMapped(
+          RegExp(r'</code></pre>'), (match) => '${Command.restore}\n')
+      .replaceAllMapped(
+          RegExp(r'<code[^>]*?>'),
+          (match) =>
+              '${Command.from('#444444').back}${Command.italic}${Command.bold} ')
+      .replaceAllMapped(RegExp(r'</code>'), (match) => ' ${Command.restore}')
+      .replaceAllMapped(
           RegExp(r'<img\s+alt="([^"]*?)"\s+class="emoji"([^>]*?>)'),
           (match) => '[${match.group(1)}]')
       .replaceAllMapped(RegExp(r'<img\s+src="([^"]*?)"\s+alt="图片表情"([^>]*?>)'),
