@@ -104,10 +104,10 @@ class UserCmd implements CommandInstance {
     }
 
     print!('''
-${Command.bold}${info.allName}${Command.restore} - [${info.userOnlineFlag ? '${Command.from('#00FF00').color}在线${Command.restore}' : '${Command.from('#AAAAAA').color}离线${Command.restore}'}]
-${Command.from('#AAAAAA').color}👤${info.userRole}${Command.restore}\t${Command.bold}No.${Command.restore}${info.userNo}\t
-💲${info.userPoint}\t📍${info.userCity.isEmpty ? '' : info.userCity}
-${info.userIntro.isEmpty ? '' : '📝 ${Command.italic}${info.userIntro}${Command.restore}'}
+${Command.bold}${info.allName}${Command.restore} - [${info.isOnline ? '${Command.from('#00FF00').color}在线${Command.restore}' : '${Command.from('#AAAAAA').color}离线${Command.restore}'}]
+${Command.from('#AAAAAA').color}👤${info.role}${Command.restore}\t${Command.bold}No.${Command.restore}${info.userNo}\t
+💲${info.point}\t📍${info.city.isEmpty ? '' : info.city}
+${info.intro.isEmpty ? '' : '📝 ${Command.italic}${info.intro}${Command.restore}'}
 ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.restore}'}''');
     for (var i = 0; i < info.sysMetal.length; i++) {
       print!('🏅 ${info.sysMetal[i].name}   ', false);

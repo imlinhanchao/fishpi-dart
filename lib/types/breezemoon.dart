@@ -1,68 +1,68 @@
 class BreezemoonContent {
   /// 发布者用户名
-  String breezemoonAuthorName;
+  String authorName;
 
   /// 最后更新时间
-  String breezemoonUpdated;
+  String updated;
 
   /// 清风明月ID
   String oId;
 
   /// 创建时间
-  String breezemoonCreated;
+  String created;
 
   /// 发布者头像URL
-  String breezemoonAuthorThumbnailURL48;
+  String thumbnailURL48;
 
   /// 发布时间
   String timeAgo;
 
   /// 正文
-  String breezemoonContent;
+  String content;
 
   /// 创建时间
-  String breezemoonCreateTime;
+  String createTime;
 
   /// 发布城市（可能为空，请注意做判断）
-  String breezemoonCity;
+  String city;
 
   BreezemoonContent({
-    this.breezemoonAuthorName = '',
-    this.breezemoonUpdated = '',
+    this.authorName = '',
+    this.updated = '',
     this.oId = '',
-    this.breezemoonCreated = '',
-    this.breezemoonAuthorThumbnailURL48 = '',
+    this.created = '',
+    this.thumbnailURL48 = '',
     this.timeAgo = '',
-    this.breezemoonContent = '',
-    this.breezemoonCreateTime = '',
-    this.breezemoonCity = '',
+    this.content = '',
+    this.createTime = '',
+    this.city = '',
   });
 
   BreezemoonContent.from(Map<String, dynamic> data)
-      : breezemoonAuthorName = data['breezemoonAuthorName'] ?? '',
-        breezemoonUpdated = data['breezemoonUpdated']?.toString() ?? '',
+      : authorName = data['breezemoonAuthorName'] ?? '',
+        updated = data['breezemoonUpdated']?.toString() ?? '',
         oId = data['oId'],
-        breezemoonCreated = data['breezemoonCreated']?.toString() ?? '',
-        breezemoonAuthorThumbnailURL48 = data['breezemoonAuthorThumbnailURL48'] ?? '',
+        created = data['breezemoonCreated']?.toString() ?? '',
+        thumbnailURL48 = data['breezemoonAuthorThumbnailURL48'] ?? '',
         timeAgo = data['timeAgo'] ?? '',
-        breezemoonContent = data['breezemoonContent'] ?? '',
-        breezemoonCreateTime = data['breezemoonCreateTime'] ?? '',
-        breezemoonCity = data['breezemoonCity'] ?? '';
+        content = data['breezemoonContent'] ?? '',
+        createTime = data['breezemoonCreateTime'] ?? '',
+        city = data['breezemoonCity'] ?? '';
 
   Map<String, dynamic> toJson() => {
-        'breezemoonAuthorName': breezemoonAuthorName,
-        'breezemoonUpdated': breezemoonUpdated,
+        'breezemoonAuthorName': authorName,
+        'breezemoonUpdated': updated,
         'oId': oId,
-        'breezemoonCreated': breezemoonCreated,
-        'breezemoonAuthorThumbnailURL48': breezemoonAuthorThumbnailURL48,
+        'breezemoonCreated': created,
+        'breezemoonAuthorThumbnailURL48': thumbnailURL48,
         'timeAgo': timeAgo,
-        'breezemoonContent': breezemoonContent,
-        'breezemoonCreateTime': breezemoonCreateTime,
-        'breezemoonCity': breezemoonCity,
+        'breezemoonContent': content,
+        'breezemoonCreateTime': createTime,
+        'breezemoonCity': city,
       };
 
   @override
   String toString() {
-    return 'BreezemoonContent{breezemoonAuthorName: $breezemoonAuthorName, breezemoonUpdated: $breezemoonUpdated, oId: $oId, breezemoonCreated: $breezemoonCreated, breezemoonAuthorThumbnailURL48: $breezemoonAuthorThumbnailURL48, timeAgo: $timeAgo, breezemoonContent: $breezemoonContent, breezemoonCreateTime: $breezemoonCreateTime, breezemoonCity: $breezemoonCity}';
+    return 'BreezemoonContent{breezemoonAuthorName: $authorName, breezemoonUpdated: $updated, oId: $oId, breezemoonCreated: $created, breezemoonAuthorThumbnailURL48: $thumbnailURL48, timeAgo: $timeAgo, breezemoonContent: $content, breezemoonCreateTime: $createTime, breezemoonCity: $city}';
   }
 }

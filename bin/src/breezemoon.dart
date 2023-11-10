@@ -119,9 +119,9 @@ class BreezemoonCmd implements CommandInstance {
     Instance.get.breezemoon.list(page: page, size: size).then((list) {
       for (var item in list.reversed) {
         print(
-            '${Command.bold}${item.breezemoonAuthorName}${Command.restore} ${Command.from('#AAAAAA').color}[${item.timeAgo}]${Command.restore} 📍${item.breezemoonCity}');
+            '${Command.bold}${item.authorName}${Command.restore} ${Command.from('#AAAAAA').color}[${item.timeAgo}]${Command.restore} 📍${item.city}');
         print(
-            '${Command.italic}${htmlToText(item.breezemoonContent, userName: Instance.get.user.current.userName)}${Command.restore}');
+            '${Command.italic}${htmlToText(item.content, userName: Instance.get.user.current.userName)}${Command.restore}');
         print('');
       }
     });

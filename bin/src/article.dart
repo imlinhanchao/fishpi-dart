@@ -71,8 +71,8 @@ class ArticleCmd implements CommandInstance {
             if (argv.length < 2) {
               stdout.write('要查看哪一篇：');
               var index = int.parse(stdin.readLineSync() ?? '1');
-              if (index > 0 && index <= _current.articles.length) {
-                oId = _current.articles[index - 1].oId;
+              if (index > 0 && index <= _current.list.length) {
+                oId = _current.list[index - 1].oId;
               } else {
                 throw Exception('找不到对应编号或索引的文章');
               }
@@ -80,7 +80,7 @@ class ArticleCmd implements CommandInstance {
               oId = argv[1];
             } else {
               var index = int.parse(argv[1]);
-              oId = _current.articles[index - 1].oId;
+              oId = _current.list[index - 1].oId;
             }
             await page(':page article $oId');
           } catch (e) {
@@ -146,14 +146,14 @@ class ArticleCmd implements CommandInstance {
             if (argv.length < 2) {
               stdout.write('要回复哪一条评论：');
               var index = int.parse(stdin.readLineSync() ?? '1');
-              if (index > 0 && index <= _current.articles.length) {
-                replyId = _currentDetail.articleComments[index - 1].oId;
+              if (index > 0 && index <= _current.list.length) {
+                replyId = _currentDetail.comments[index - 1].oId;
               } else {
                 throw Exception('找不到对应编号的评论');
               }
             } else {
               var index = int.parse(argv[1]);
-              replyId = _currentDetail.articleComments[index - 1].oId;
+              replyId = _currentDetail.comments[index - 1].oId;
             }
 
             var content = argv.length > 2
@@ -173,11 +173,11 @@ class ArticleCmd implements CommandInstance {
       case ':reward':
         {
           if (_currentPage != ArticlePage.detail) break;
-          if (_currentDetail.articleRewardPoint == 0) {
+          if (_currentDetail.rewardPoint == 0) {
             print('该文章不支持打赏');
             break;
           }
-          if (_currentDetail.articleRewardPoint == 0) {
+          if (_currentDetail.rewardPoint == 0) {
             print('该文章不支持打赏');
             break;
           }
@@ -189,8 +189,7 @@ class ArticleCmd implements CommandInstance {
             print('你已经打赏过了。');
             break;
           }
-          stdout
-              .write('确认要打赏${_currentDetail.articleRewardPoint}积分给作者吗？[y/N]：');
+          stdout.write('确认要打赏${_currentDetail.rewardPoint}积分给作者吗？[y/N]：');
           var confirm = stdin.readLineSync() ?? '';
           if (confirm.toLowerCase() != 'y') break;
           await Instance.get.article.reward(_currentDetail.oId).then((value) {
@@ -242,7 +241,7 @@ class ArticleCmd implements CommandInstance {
   comment(CommentPost comment) {
     return Instance.get.comment.send(comment).then((value) => {
           _commentPage = (_currentDetail.pagination?.count ?? 1) +
-              (_currentDetail.articleComments.length == 30 ? 1 : 0),
+              (_currentDetail.comments.length == 30 ? 1 : 0),
           page(':page article ${_currentDetail.oId}')
         });
   }
@@ -268,21 +267,20 @@ class ArticleCmd implements CommandInstance {
             .then((value) {
           _currentDetail = value;
           _currentPage = ArticlePage.detail;
+          print('${Command.bold}${_currentDetail.titleEmoj}${Command.restore}');
           print(
-              '${Command.bold}${_currentDetail.articleTitleEmoj}${Command.restore}');
-          print(
-              '${Command.from('#555555').color}👤 ${_currentDetail.articleAuthor.name} | 👀  ${_currentDetail.articleHeat} | 👍  ${_currentDetail.articleGoodCnt} | ❤️  ${_currentDetail.articleThankCnt} ${Command.restore}');
-          print(htmlToText(_currentDetail.articleContent));
-          if (_currentDetail.articleRewardContent.isNotEmpty) {
+              '${Command.from('#555555').color}👤 ${_currentDetail.author.name} | 👀  ${_currentDetail.heat} | 👍  ${_currentDetail.goodCnt} | ❤️  ${_currentDetail.thankCnt} ${Command.restore}');
+          print(htmlToText(_currentDetail.content));
+          if (_currentDetail.rewardContent.isNotEmpty) {
             print('''
-${Command.from('#232425').back}🎁 ${_currentDetail.articleRewardPoint} (x${_currentDetail.rewardedCnt})
-${_currentDetail.rewarded ? _currentDetail.articleRewardContent : '${Command.italic}尚未打赏'} ${Command.restore}
+${Command.from('#232425').back}🎁 ${_currentDetail.rewardPoint} (x${_currentDetail.rewardedCnt})
+${_currentDetail.rewarded ? _currentDetail.rewardContent : '${Command.italic}尚未打赏'} ${Command.restore}
             ''');
           }
           print(
               '------ 评论 ($_commentPage / ${_currentDetail.pagination?.count ?? 1}) ------');
-          for (var i = 0; i < _currentDetail.articleComments.length; i++) {
-            var item = _currentDetail.articleComments[i];
+          for (var i = 0; i < _currentDetail.comments.length; i++) {
+            var item = _currentDetail.comments[i];
             print(
                 '${Command.from('#AAAAAA').color}{${i + 1}} ${Command.from('#888888').color}${Command.bold}${item.commenter.name}${Command.restore} ${Command.from('#555555').color}[${item.createTimeStr}]${Command.restore}: ${htmlToText(item.content)}');
           }
@@ -301,10 +299,10 @@ ${_currentDetail.rewarded ? _currentDetail.articleRewardContent : '${Command.ita
       await Instance.get.article
           .list(type: type, page: page, tag: tag)
           .then((list) {
-        for (var i = 0; i < list.articles.length; i++) {
-          var item = list.articles[i];
+        for (var i = 0; i < list.list.length; i++) {
+          var item = list.list[i];
           print(
-              '${(i + 1).toString().padLeft(2, '0')}.${Command.bold}${Command.from('#555555').color}[${item.articleAuthor.name}]${Command.restore} ${item.articleTitleEmoj}${Command.from('#222222').back}${Command.from('#a1e999').color} ${item.articleHeat} ${Command.restore}');
+              '${(i + 1).toString().padLeft(2, '0')}.${Command.bold}${Command.from('#555555').color}[${item.author.name}]${Command.restore} ${item.titleEmoj}${Command.from('#222222').back}${Command.from('#a1e999').color} ${item.heat} ${Command.restore}');
         }
         print('第 $page / ${list.pagination.count} 页');
         _current = list;

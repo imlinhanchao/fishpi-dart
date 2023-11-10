@@ -93,13 +93,13 @@ class ChatRoomMessage {
   String userName = '';
 
   /// 用户昵称
-  String userNickname = '';
+  String nickname = '';
 
   String get allName =>
-      userNickname.isEmpty ? userName : '$userNickname($userName)';
+      nickname.isEmpty ? userName : '$nickname($userName)';
 
   /// 用户头像
-  String userAvatarURL = '';
+  String avatarURL = '';
 
   /// 用户徽章
   MetalList sysMetal = [];
@@ -128,8 +128,8 @@ class ChatRoomMessage {
   ChatRoomMessage({
     this.oId = '',
     this.userName = '',
-    this.userNickname = '',
-    this.userAvatarURL = '',
+    this.nickname = '',
+    this.avatarURL = '',
     this.sysMetal = const [],
     ChatSource? via,
     this.content = '',
@@ -143,8 +143,8 @@ class ChatRoomMessage {
   ChatRoomMessage.from(Map<String, dynamic> data) {
     oId = data['oId'] ?? '';
     userName = data['userName'] ?? '';
-    userNickname = data['userNickname'] ?? '';
-    userAvatarURL = data['userAvatarURL'] ?? '';
+    nickname = data['userNickname'] ?? '';
+    avatarURL = data['userAvatarURL'] ?? '';
     sysMetal = toMetal(data['sysMetal']);
     via = ChatSource.from(data['client']);
     content = data['content'];
@@ -159,8 +159,8 @@ class ChatRoomMessage {
   toJson() => {
         'oId': oId,
         'userName': userName,
-        'userNickname': userNickname,
-        'userAvatarURL': userAvatarURL,
+        'userNickname': nickname,
+        'userAvatarURL': avatarURL,
         'sysMetal': sysMetal.map((e) => e.toJson()).toList(),
         'client': client,
         'content': content,
@@ -172,7 +172,7 @@ class ChatRoomMessage {
 
   @override
   String toString() {
-    return "ChatRoomMessage{ oId=$oId, userName=$userName, userNickname=$userNickname, userAvatarURL=$userAvatarURL, sysMetal=$sysMetal, client=$client, via=$via, content=$content, redpacket=$redpacket, time=$time }";
+    return "ChatRoomMessage{ oId=$oId, userName=$userName, userNickname=$nickname, userAvatarURL=$avatarURL, sysMetal=$sysMetal, client=$client, via=$via, content=$content, redpacket=$redpacket, time=$time }";
   }
 }
 
@@ -264,26 +264,26 @@ class BarragerMsg {
   String barragerColor;
 
   /// 用户头像地址
-  String userAvatarURL;
+  String avatarURL;
 
   /// 用户头像地址 20x20
-  String userAvatarURL20;
+  String avatarURL20;
 
   /// 用户头像地址 48x48
-  String userAvatarURL48;
+  String avatarURL48;
 
   /// 用户头像地址 210x210
-  String userAvatarURL210;
+  String avatarURL210;
 
   BarragerMsg({
     this.userName = '',
     this.userNickname = '',
     this.barragerContent = '',
     this.barragerColor = '',
-    this.userAvatarURL = '',
-    this.userAvatarURL20 = '',
-    this.userAvatarURL48 = '',
-    this.userAvatarURL210 = '',
+    this.avatarURL = '',
+    this.avatarURL20 = '',
+    this.avatarURL48 = '',
+    this.avatarURL210 = '',
   });
 
   BarragerMsg.from(Map data)
@@ -291,25 +291,25 @@ class BarragerMsg {
         userNickname = data['userNickname'] ?? '',
         barragerContent = data['barragerContent'] ?? '',
         barragerColor = data['barragerColor'] ?? '',
-        userAvatarURL = data['userAvatarURL'] ?? '',
-        userAvatarURL20 = data['userAvatarURL20'] ?? '',
-        userAvatarURL48 = data['userAvatarURL48'] ?? '',
-        userAvatarURL210 = data['userAvatarURL210'] ?? '';
+        avatarURL = data['userAvatarURL'] ?? '',
+        avatarURL20 = data['userAvatarURL20'] ?? '',
+        avatarURL48 = data['userAvatarURL48'] ?? '',
+        avatarURL210 = data['userAvatarURL210'] ?? '';
 
   toJson() => {
         'userName': userName,
         'userNickname': userNickname,
         'barragerContent': barragerContent,
         'barragerColor': barragerColor,
-        'userAvatarURL': userAvatarURL,
-        'userAvatarURL20': userAvatarURL20,
-        'userAvatarURL48': userAvatarURL48,
-        'userAvatarURL210': userAvatarURL210,
+        'userAvatarURL': avatarURL,
+        'userAvatarURL20': avatarURL20,
+        'userAvatarURL48': avatarURL48,
+        'userAvatarURL210': avatarURL210,
       };
 
   @override
   String toString() {
-    return "BarragerMsg{ userName=$userName, userNickname=$userNickname, barragerContent=$barragerContent, barragerColor=$barragerColor, userAvatarURL=$userAvatarURL, userAvatarURL20=$userAvatarURL20, userAvatarURL48=$userAvatarURL48, userAvatarURL210=$userAvatarURL210 }";
+    return "BarragerMsg{ userName=$userName, userNickname=$userNickname, barragerContent=$barragerContent, barragerColor=$barragerColor, userAvatarURL=$avatarURL, userAvatarURL20=$avatarURL20, userAvatarURL48=$avatarURL48, userAvatarURL210=$avatarURL210 }";
   }
 }
 
@@ -319,31 +319,31 @@ class OnlineInfo {
   String homePage;
 
   /// 用户头像
-  String userAvatarURL;
+  String avatarURL;
 
   /// 用户名
   String userName;
 
   OnlineInfo({
     this.homePage = '',
-    this.userAvatarURL = '',
+    this.avatarURL = '',
     this.userName = '',
   });
 
   OnlineInfo.from(Map data)
       : homePage = data['homePage'] ?? '',
-        userAvatarURL = data['userAvatarURL'] ?? '',
+        avatarURL = data['userAvatarURL'] ?? '',
         userName = data['userName'] ?? '';
 
   toJson() => {
         'homePage': homePage,
-        'userAvatarURL': userAvatarURL,
+        'userAvatarURL': avatarURL,
         'userName': userName,
       };
 
   @override
   String toString() {
-    return "OnlineInfo{ homePage=$homePage, userAvatarURL=$userAvatarURL, userName=$userName }";
+    return "OnlineInfo{ homePage=$homePage, userAvatarURL=$avatarURL, userName=$userName }";
   }
 }
 
@@ -385,36 +385,36 @@ class MuteItem {
   int time;
 
   /// 用户头像
-  String userAvatarURL;
+  String avatarURL;
 
   /// 用户名
   String userName;
 
   /// 用户昵称
-  String userNickname;
+  String nickname;
 
   MuteItem({
     required this.time,
-    required this.userAvatarURL,
+    required this.avatarURL,
     required this.userName,
-    required this.userNickname,
+    required this.nickname,
   });
 
   MuteItem.from(Map<String, dynamic> data)
       : time = data['time'] ?? '',
-        userAvatarURL = data['userAvatarURL'] ?? '',
+        avatarURL = data['userAvatarURL'] ?? '',
         userName = data['userName'] ?? '',
-        userNickname = data['userNickname'] ?? '';
+        nickname = data['userNickname'] ?? '';
 
   Map<String, dynamic> toJson() => {
         'time': time,
-        'userAvatarURL': userAvatarURL,
+        'userAvatarURL': avatarURL,
         'userName': userName,
-        'userNickname': userNickname,
+        'userNickname': nickname,
       };
 
   @override
   String toString() {
-    return 'MuteItem{ time: $time, userAvatarURL: $userAvatarURL, userName: $userName, userNickname: $userNickname }';
+    return 'MuteItem{ time: $time, userAvatarURL: $avatarURL, userName: $userName, userNickname: $nickname }';
   }
 }

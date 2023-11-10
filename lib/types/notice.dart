@@ -129,81 +129,76 @@ class NoticeType {
 /// 通知数
 class NoticeCount {
   /// 用户是否启用 Web 通知
-  bool userNotifyStatus;
+  bool notifyStatus;
 
   /// 未读通知数
-  int unreadNotificationCnt;
+  int count;
 
   /// 未读回复通知数
-  int unreadReplyNotificationCnt;
+  int reply;
 
   /// 未读积分通知数
-  int unreadPointNotificationCnt;
+  int point;
 
   /// 未读 @ 通知数
-  int unreadAtNotificationCnt;
+  int at;
 
   /// 未读同城通知数
-  int unreadBroadcastNotificationCnt;
+  int broadcast;
 
   /// 未读系统通知数
-  int unreadSysAnnounceNotificationCnt;
+  int sysAnnounce;
 
   /// 未读关注者通知数
-  int unreadNewFollowerNotificationCnt;
+  int newFollower;
 
   /// 未读关注通知数
-  int unreadFollowingNotificationCnt;
+  int following;
 
   /// 未读评论通知数
-  int unreadCommentedNotificationCnt;
+  int commented;
 
   NoticeCount({
-    required this.userNotifyStatus,
-    required this.unreadNotificationCnt,
-    required this.unreadReplyNotificationCnt,
-    required this.unreadPointNotificationCnt,
-    required this.unreadAtNotificationCnt,
-    required this.unreadBroadcastNotificationCnt,
-    required this.unreadSysAnnounceNotificationCnt,
-    required this.unreadNewFollowerNotificationCnt,
-    required this.unreadFollowingNotificationCnt,
-    required this.unreadCommentedNotificationCnt,
+    required this.notifyStatus,
+    required this.count,
+    required this.reply,
+    required this.point,
+    required this.at,
+    required this.broadcast,
+    required this.sysAnnounce,
+    required this.newFollower,
+    required this.following,
+    required this.commented,
   });
 
   NoticeCount.from(Map<String, dynamic> data)
-      : userNotifyStatus = data['userNotifyStatus'] != 0,
-        unreadNotificationCnt = data['unreadNotificationCnt'] ?? 0,
-        unreadReplyNotificationCnt = data['unreadReplyNotificationCnt'] ?? 0,
-        unreadPointNotificationCnt = data['unreadPointNotificationCnt'] ?? 0,
-        unreadAtNotificationCnt = data['unreadAtNotificationCnt'] ?? 0,
-        unreadBroadcastNotificationCnt =
-            data['unreadBroadcastNotificationCnt'] ?? 0,
-        unreadSysAnnounceNotificationCnt =
-            data['unreadSysAnnounceNotificationCnt'] ?? 0,
-        unreadNewFollowerNotificationCnt =
-            data['unreadNewFollowerNotificationCnt'] ?? 0,
-        unreadFollowingNotificationCnt =
-            data['unreadFollowingNotificationCnt'] ?? 0,
-        unreadCommentedNotificationCnt =
-            data['unreadCommentedNotificationCnt'] ?? 0;
+      : notifyStatus = data['userNotifyStatus'] != 0,
+        count = data['unreadNotificationCnt'] ?? 0,
+        reply = data['unreadReplyNotificationCnt'] ?? 0,
+        point = data['unreadPointNotificationCnt'] ?? 0,
+        at = data['unreadAtNotificationCnt'] ?? 0,
+        broadcast = data['unreadBroadcastNotificationCnt'] ?? 0,
+        sysAnnounce = data['unreadSysAnnounceNotificationCnt'] ?? 0,
+        newFollower = data['unreadNewFollowerNotificationCnt'] ?? 0,
+        following = data['unreadFollowingNotificationCnt'] ?? 0,
+        commented = data['unreadCommentedNotificationCnt'] ?? 0;
 
   toJson() => {
-        'userNotifyStatus': userNotifyStatus,
-        'unreadNotificationCnt': unreadNotificationCnt,
-        'unreadReplyNotificationCnt': unreadReplyNotificationCnt,
-        'unreadPointNotificationCnt': unreadPointNotificationCnt,
-        'unreadAtNotificationCnt': unreadAtNotificationCnt,
-        'unreadBroadcastNotificationCnt': unreadBroadcastNotificationCnt,
-        'unreadSysAnnounceNotificationCnt': unreadSysAnnounceNotificationCnt,
-        'unreadNewFollowerNotificationCnt': unreadNewFollowerNotificationCnt,
-        'unreadFollowingNotificationCnt': unreadFollowingNotificationCnt,
-        'unreadCommentedNotificationCnt': unreadCommentedNotificationCnt,
+        'userNotifyStatus': notifyStatus,
+        'unreadNotificationCnt': count,
+        'unreadReplyNotificationCnt': reply,
+        'unreadPointNotificationCnt': point,
+        'unreadAtNotificationCnt': at,
+        'unreadBroadcastNotificationCnt': broadcast,
+        'unreadSysAnnounceNotificationCnt': sysAnnounce,
+        'unreadNewFollowerNotificationCnt': newFollower,
+        'unreadFollowingNotificationCnt': following,
+        'unreadCommentedNotificationCnt': commented,
       };
 
   @override
   toString() =>
-      "NoticeCount{userNotifyStatus=$userNotifyStatus, unreadNotificationCnt=$unreadNotificationCnt, unreadReplyNotificationCnt=$unreadReplyNotificationCnt, unreadPointNotificationCnt=$unreadPointNotificationCnt, unreadAtNotificationCnt=$unreadAtNotificationCnt, unreadBroadcastNotificationCnt=$unreadBroadcastNotificationCnt, unreadSysAnnounceNotificationCnt=$unreadSysAnnounceNotificationCnt, unreadNewFollowerNotificationCnt=$unreadNewFollowerNotificationCnt, unreadFollowingNotificationCnt=$unreadFollowingNotificationCnt, unreadCommentedNotificationCnt=$unreadCommentedNotificationCnt}";
+      "NoticeCount{userNotifyStatus=$notifyStatus, unreadNotificationCnt=$count, unreadReplyNotificationCnt=$reply, unreadPointNotificationCnt=$point, unreadAtNotificationCnt=$at, unreadBroadcastNotificationCnt=$broadcast, unreadSysAnnounceNotificationCnt=$sysAnnounce, unreadNewFollowerNotificationCnt=$newFollower, unreadFollowingNotificationCnt=$following, unreadCommentedNotificationCnt=$commented}";
 }
 
 /// 积分通知
@@ -271,73 +266,73 @@ class NoticeComment {
   String oId;
 
   /// 文章标题
-  String commentArticleTitle;
+  String title;
 
   /// 文章作者
-  String commentAuthorName;
+  String author;
 
   /// 作者头像
-  String commentAuthorThumbnailURL;
+  String thumbnailURL;
 
   /// 文章类型
-  int commentArticleType;
+  ArticleType type;
 
   /// 是否精选
-  int commentArticlePerfect;
+  bool perfect;
 
   /// 评论内容
-  String commentContent;
+  String content;
 
   /// 评论地址
-  String commentSharpURL;
+  String sharpURL;
 
   /// 是否已读
   bool hasRead;
 
   /// 评论时间
-  String commentCreateTime;
+  String createTime;
 
   NoticeComment({
     this.oId = '',
-    this.commentArticleTitle = '',
-    this.commentAuthorName = '',
-    this.commentAuthorThumbnailURL = '',
-    this.commentArticleType = 0,
-    this.commentArticlePerfect = 0,
-    this.commentContent = '',
-    this.commentSharpURL = '',
+    this.title = '',
+    this.author = '',
+    this.thumbnailURL = '',
+    this.type = ArticleType.Normal,
+    this.perfect = false,
+    this.content = '',
+    this.sharpURL = '',
     this.hasRead = false,
-    this.commentCreateTime = '',
+    this.createTime = '',
   });
 
   NoticeComment.from(Map<String, dynamic> data)
       : oId = data['oId'] ?? '',
-        commentArticleTitle = data['commentArticleTitle'] ?? '',
-        commentAuthorName = data['commentAuthorName'] ?? '',
-        commentAuthorThumbnailURL = data['commentAuthorThumbnailURL'] ?? '',
-        commentArticleType = data['commentArticleType'] ?? 0,
-        commentArticlePerfect = data['commentArticlePerfect'] ?? 0,
-        commentContent = data['commentContent'] ?? '',
-        commentSharpURL = data['commentSharpURL'] ?? '',
+        title = data['commentArticleTitle'] ?? '',
+        author = data['commentAuthorName'] ?? '',
+        thumbnailURL = data['commentAuthorThumbnailURL'] ?? '',
+        type = ArticleType.values[data['commentArticleType'] ?? 0],
+        perfect = (data['commentArticlePerfect'] ?? 0) == 1,
+        content = data['commentContent'] ?? '',
+        sharpURL = data['commentSharpURL'] ?? '',
         hasRead = data['hasRead'] ?? false,
-        commentCreateTime = data['commentCreateTime'] ?? '';
+        createTime = data['commentCreateTime'] ?? '';
 
   Map<String, dynamic> toJson() => {
         'oId': oId,
-        'commentArticleTitle': commentArticleTitle,
-        'commentAuthorName': commentAuthorName,
-        'commentAuthorThumbnailURL': commentAuthorThumbnailURL,
-        'commentArticleType': commentArticleType,
-        'commentArticlePerfect': commentArticlePerfect,
-        'commentContent': commentContent,
-        'commentSharpURL': commentSharpURL,
+        'commentArticleTitle': title,
+        'commentAuthorName': author,
+        'commentAuthorThumbnailURL': thumbnailURL,
+        'commentArticleType': type,
+        'commentArticlePerfect': perfect,
+        'commentContent': content,
+        'commentSharpURL': sharpURL,
         'hasRead': hasRead,
-        'commentCreateTime': commentCreateTime,
+        'commentCreateTime': createTime,
       };
 
   @override
   String toString() {
-    return 'NoticeComment{oId: $oId, commentArticleTitle: $commentArticleTitle, commentAuthorName: $commentAuthorName, commentAuthorThumbnailURL: $commentAuthorThumbnailURL, commentArticleType: $commentArticleType, commentArticlePerfect: $commentArticlePerfect, commentContent: $commentContent, commentSharpURL: $commentSharpURL, hasRead: $hasRead, commentCreateTime: $commentCreateTime}';
+    return 'NoticeComment{oId: $oId, commentArticleTitle: $title, commentAuthorName: $author, commentAuthorThumbnailURL: $thumbnailURL, commentArticleType: $type, commentArticlePerfect: $perfect, commentContent: $content, commentSharpURL: $sharpURL, hasRead: $hasRead, commentCreateTime: $createTime}';
   }
 }
 
@@ -353,7 +348,7 @@ class NoticeAt {
   String userName;
 
   /// 用户头像
-  String userAvatarURL;
+  String avatarURL;
 
   /// 通知内容
   String content;
@@ -368,7 +363,7 @@ class NoticeAt {
     this.oId = '',
     this.dataType = 0,
     this.userName = '',
-    this.userAvatarURL = '',
+    this.avatarURL = '',
     this.content = '',
     this.hasRead = false,
     this.createTime = '',
@@ -378,7 +373,7 @@ class NoticeAt {
       : oId = data['oId'] ?? '',
         dataType = data['dataType'] ?? 0,
         userName = data['userName'] ?? '',
-        userAvatarURL = data['userAvatarURL'] ?? '',
+        avatarURL = data['userAvatarURL'] ?? '',
         content = data['content'] ?? '',
         hasRead = data['hasRead'] ?? false,
         createTime = data['createTime'] ?? '';
@@ -387,7 +382,7 @@ class NoticeAt {
         'oId': oId,
         'dataType': dataType,
         'userName': userName,
-        'userAvatarURL': userAvatarURL,
+        'userAvatarURL': avatarURL,
         'content': content,
         'hasRead': hasRead,
         'createTime': createTime,
@@ -395,7 +390,7 @@ class NoticeAt {
 
   @override
   String toString() {
-    return 'NoticeAt{oId: $oId, dataType: $dataType, userName: $userName, userAvatarURL: $userAvatarURL, content: $content, hasRead: $hasRead, createTime: $createTime}';
+    return 'NoticeAt{oId: $oId, dataType: $dataType, userName: $userName, userAvatarURL: $avatarURL, content: $content, hasRead: $hasRead, createTime: $createTime}';
   }
 }
 
@@ -410,10 +405,10 @@ class NoticeFollow {
   int dataType;
 
   /// 文章标题
-  String articleTitle;
+  String title;
 
   /// 作者
-  String authorName;
+  String author;
 
   /// 通知内容
   String content;
@@ -425,19 +420,19 @@ class NoticeFollow {
   String thumbnailURL;
 
   /// 文章评论数
-  int articleCommentCount;
+  int commentCnt;
 
   /// 是否精选
-  int articlePerfect;
+  bool perfect;
 
   /// 文章标签列表
-  List<ArticleTag> articleTagObjs;
+  List<ArticleTag> tagObjs;
 
   /// 文章标签
-  String articleTags;
+  String tags;
 
   /// 文章类型
-  int articleType;
+  int type;
 
   /// 是否已读
   bool hasRead;
@@ -449,16 +444,16 @@ class NoticeFollow {
     this.oId = '',
     this.url = '',
     this.dataType = 0,
-    this.articleTitle = '',
-    this.authorName = '',
+    this.title = '',
+    this.author = '',
     this.content = '',
     this.isComment = false,
     this.thumbnailURL = '',
-    this.articleCommentCount = 0,
-    this.articlePerfect = 0,
-    this.articleTagObjs = const [],
-    this.articleTags = '',
-    this.articleType = 0,
+    this.commentCnt = 0,
+    this.perfect = false,
+    this.tagObjs = const [],
+    this.tags = '',
+    this.type = 0,
     this.hasRead = false,
     this.createTime = '',
   });
@@ -467,18 +462,18 @@ class NoticeFollow {
       : oId = data['oId'] ?? '',
         url = data['url'] ?? '',
         dataType = data['dataType'] ?? 0,
-        articleTitle = data['articleTitle'] ?? '',
-        authorName = data['authorName'] ?? '',
+        title = data['articleTitle'] ?? '',
+        author = data['authorName'] ?? '',
         content = data['content'] ?? '',
         isComment = data['isComment'] ?? false,
         thumbnailURL = data['thumbnailURL'] ?? '',
-        articleCommentCount = data['articleCommentCount'] ?? 0,
-        articlePerfect = data['articlePerfect'] ?? 0,
-        articleTagObjs = List.from(data['articleTagObjs'] ?? [])
+        commentCnt = data['articleCommentCount'] ?? 0,
+        perfect = (data['articlePerfect'] ?? 0) == 1,
+        tagObjs = List.from(data['articleTagObjs'] ?? [])
             .map((i) => ArticleTag.from(i))
             .toList(),
-        articleTags = data['articleTags'] ?? '',
-        articleType = data['articleType'] ?? 0,
+        tags = data['articleTags'] ?? '',
+        type = data['articleType'] ?? 0,
         hasRead = data['hasRead'] ?? false,
         createTime = data['createTime'] ?? '';
 
@@ -486,23 +481,23 @@ class NoticeFollow {
         'oId': oId,
         'url': url,
         'dataType': dataType,
-        'articleTitle': articleTitle,
-        'authorName': authorName,
+        'articleTitle': title,
+        'authorName': author,
         'content': content,
         'isComment': isComment,
         'thumbnailURL': thumbnailURL,
-        'articleCommentCount': articleCommentCount,
-        'articlePerfect': articlePerfect,
-        'articleTagObjs': articleTagObjs.map((i) => i.toJson()).toList(),
-        'articleTags': articleTags,
-        'articleType': articleType,
+        'articleCommentCount': commentCnt,
+        'articlePerfect': perfect ? 1 : 0,
+        'articleTagObjs': tagObjs.map((i) => i.toJson()).toList(),
+        'articleTags': tags,
+        'articleType': type,
         'hasRead': hasRead,
         'createTime': createTime,
       };
 
   @override
   String toString() =>
-      'NoticeFollow{oId: $oId, url: $url, dataType: $dataType, articleTitle: $articleTitle, authorName: $authorName, content: $content, isComment: $isComment, thumbnailURL: $thumbnailURL, articleCommentCount: $articleCommentCount, articlePerfect: $articlePerfect, articleTagObjs: $articleTagObjs, articleTags: $articleTags, articleType: $articleType, hasRead: $hasRead, createTime: $createTime}';
+      'NoticeFollow{oId: $oId, url: $url, dataType: $dataType, articleTitle: $title, authorName: $author, content: $content, isComment: $isComment, thumbnailURL: $thumbnailURL, articleCommentCount: $commentCnt, articlePerfect: $perfect, articleTagObjs: $tagObjs, articleTags: $tags, articleType: $type, hasRead: $hasRead, createTime: $createTime}';
 }
 
 /// 系统通知数据
@@ -582,7 +577,7 @@ class NoticeMsg {
   String userId;
 
   /// 全局公告内容，仅 `warnBroadcast` 有信息
-  String? warnBroadcastText;
+  String? content;
 
   /// 全局公告发布者，仅 `warnBroadcast` 有信息
   String? who;
@@ -590,26 +585,26 @@ class NoticeMsg {
   NoticeMsg({
     this.command = NoticeMsgType.refresh,
     this.userId = '',
-    this.warnBroadcastText,
+    this.content,
     this.who,
   });
 
   NoticeMsg.from(Map<String, dynamic> data)
       : command = data['command'] ?? NoticeMsgType.refresh,
         userId = data['userId'] ?? '',
-        warnBroadcastText = data['warnBroadcastText'],
+        content = data['warnBroadcastText'],
         who = data['who'];
 
   Map<String, dynamic> toJson() => {
         'command': command,
         'userId': userId,
-        'warnBroadcastText': warnBroadcastText,
+        'warnBroadcastText': content,
         'who': who,
       };
 
   @override
   String toString() {
-    return 'NoticeMsg{command: $command, userId: $userId, warnBroadcastText: $warnBroadcastText, who: $who}';
+    return 'NoticeMsg{command: $command, userId: $userId, warnBroadcastText: $content, who: $who}';
   }
 }
 

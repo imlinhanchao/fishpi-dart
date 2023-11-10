@@ -148,23 +148,23 @@ class FileInfo {
 
 class UploadResult {
   /// 上传失败文件
-  List<String> errFiles;
+  List<String> errs;
 
   /// 上传成功文件
-  List<FileInfo> succFiles;
+  List<FileInfo> success;
 
-  UploadResult({this.errFiles = const [], this.succFiles = const []});
+  UploadResult({this.errs = const [], this.success = const []});
 
   UploadResult.from(Map<String, dynamic> map)
-      : errFiles = List<String>.from(map['errFiles'] ?? []),
-        succFiles = ((map['succMap'] ?? {}) as Map<String, dynamic>)
+      : errs = List<String>.from(map['errFiles'] ?? []),
+        success = ((map['succMap'] ?? {}) as Map<String, dynamic>)
             .entries
             .map((entry) => FileInfo(filename: entry.key, url: entry.value))
             .toList();
 
   toJson() => {
-        'errFiles': errFiles,
-        'succMap': succFiles
+        'errFiles': errs,
+        'succMap': success
             .map((e) => {
                   'filename': e.filename,
                   'url': e.url,
@@ -174,7 +174,7 @@ class UploadResult {
 
   @override
   toString() {
-    return "UploadResult{ errFiles=${errFiles.join(',')}, succFiles=$succFiles }";
+    return "UploadResult{ errFiles=${errs.join(',')}, succFiles=$success }";
   }
 }
 

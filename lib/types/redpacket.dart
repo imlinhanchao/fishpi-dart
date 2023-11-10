@@ -61,7 +61,7 @@ class RedPacketGot {
   String avatar;
 
   /// 领取到的积分
-  int userMoney;
+  int money;
 
   /// 领取积分时间
   String time;
@@ -70,7 +70,7 @@ class RedPacketGot {
     this.userId = '',
     this.userName = '',
     this.avatar = '',
-    this.userMoney = 0,
+    this.money = 0,
     this.time = '',
   });
 
@@ -78,20 +78,20 @@ class RedPacketGot {
       : userId = data['userId'] ?? '',
         userName = data['userName'] ?? '',
         avatar = data['avatar'] ?? '',
-        userMoney = data['userMoney'] ?? 0,
+        money = data['userMoney'] ?? 0,
         time = data['time'] ?? '';
 
   toJson() => {
         'userId': userId,
         'userName': userName,
         'avatar': avatar,
-        'userMoney': userMoney,
+        'userMoney': money,
         'time': time,
       };
 
   @override
   String toString() {
-    return "RedPacketGot{ userId=$userId, userName=$userName, avatar=$avatar, userMoney=$userMoney, time=$time }";
+    return "RedPacketGot{ userId=$userId, userName=$userName, avatar=$avatar, userMoney=$money, time=$time }";
   }
 }
 
@@ -187,7 +187,7 @@ class RedPacketBase {
   String userName;
 
   /// 用户头像
-  String userAvatarURL;
+  String avatarURL;
 
   RedPacketBase({
     this.count = 0,
@@ -195,7 +195,7 @@ class RedPacketBase {
     this.got = 0,
     this.msg = '',
     this.userName = '',
-    this.userAvatarURL = '',
+    this.avatarURL = '',
   });
 
   RedPacketBase.from(Map data)
@@ -206,7 +206,7 @@ class RedPacketBase {
         got = data['got'] ?? 0,
         msg = data['msg'] ?? '',
         userName = data['userName'] ?? '',
-        userAvatarURL = data['userAvatarURL'] ?? '';
+        avatarURL = data['userAvatarURL'] ?? '';
 
   toJson() => {
         'count': count,
@@ -214,12 +214,12 @@ class RedPacketBase {
         'got': got,
         'msg': msg,
         'userName': userName,
-        'userAvatarURL': userAvatarURL,
+        'userAvatarURL': avatarURL,
       };
 
   @override
   String toString() {
-    return "RedPacketBase{ count=$count, gesture=$gesture, got=$got, msg=$msg, userName=$userName, userAvatarURL=$userAvatarURL }";
+    return "RedPacketBase{ count=$count, gesture=$gesture, got=$got, msg=$msg, userName=$userName, userAvatarURL=$avatarURL }";
   }
 }
 
@@ -279,13 +279,13 @@ class RedPacketStatusMsg {
   String whoGot;
 
   /// 领取者头像 20x20
-  String userAvatarURL20;
+  String avatarURL20;
 
   /// 领取者头像 48x48
-  String userAvatarURL48;
+  String avatarURL48;
 
   /// 领取者头像 210x210
-  String userAvatarURL210;
+  String avatarURL210;
 
   RedPacketStatusMsg({
     this.oId = '',
@@ -293,9 +293,9 @@ class RedPacketStatusMsg {
     this.got = 0,
     this.whoGive = '',
     this.whoGot = '',
-    this.userAvatarURL20 = '',
-    this.userAvatarURL48 = '',
-    this.userAvatarURL210 = '',
+    this.avatarURL20 = '',
+    this.avatarURL48 = '',
+    this.avatarURL210 = '',
   });
 
   RedPacketStatusMsg.from(Map data)
@@ -304,9 +304,9 @@ class RedPacketStatusMsg {
         got = data['got'] ?? 0,
         whoGive = data['whoGive'] ?? '',
         whoGot = data['whoGot'] ?? '',
-        userAvatarURL20 = data['userAvatarURL20'] ?? '',
-        userAvatarURL48 = data['userAvatarURL48'] ?? '',
-        userAvatarURL210 = data['userAvatarURL210'] ?? '';
+        avatarURL20 = data['userAvatarURL20'] ?? '',
+        avatarURL48 = data['userAvatarURL48'] ?? '',
+        avatarURL210 = data['userAvatarURL210'] ?? '';
 
   toJson() => {
         'oId': oId,
@@ -314,13 +314,13 @@ class RedPacketStatusMsg {
         'got': got,
         'whoGive': whoGive,
         'whoGot': whoGot,
-        'userAvatarURL20': userAvatarURL20,
-        'userAvatarURL48': userAvatarURL48,
-        'userAvatarURL210': userAvatarURL210,
+        'userAvatarURL20': avatarURL20,
+        'userAvatarURL48': avatarURL48,
+        'userAvatarURL210': avatarURL210,
       };
 
   @override
   String toString() {
-    return "RedPacketStatusMsg{ oId=$oId, count=$count, got=$got, whoGive=$whoGive, whoGot=$whoGot, userAvatarURL20=$userAvatarURL20, userAvatarURL48=$userAvatarURL48, userAvatarURL210=$userAvatarURL210 }";
+    return "RedPacketStatusMsg{ oId=$oId, count=$count, got=$got, whoGive=$whoGive, whoGot=$whoGot, userAvatarURL20=$avatarURL20, userAvatarURL48=$avatarURL48, userAvatarURL210=$avatarURL210 }";
   }
 }

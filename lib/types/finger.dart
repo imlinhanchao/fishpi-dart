@@ -27,26 +27,26 @@ class MoFishGame {
 }
 
 class UserIP {
-  String userLatestLoginIp;
+  String latestLoginIP;
   String userId;
 
   UserIP({
-    this.userLatestLoginIp = '',
+    this.latestLoginIP = '',
     this.userId = '',
   });
 
   UserIP.from(Map data)
-      : userLatestLoginIp = data['userLatestLoginIp'] ?? '',
+      : latestLoginIP = data['userLatestLoginIp'] ?? '',
         userId = data['userId'] ?? '';
 
   toJson() => {
-        'userLatestLoginIp': userLatestLoginIp,
+        'userLatestLoginIp': latestLoginIP,
         'userId': userId,
       };
 
   @override
   String toString() {
-    return "UserIP{ userLatestLoginIp=$userLatestLoginIp, userId=$userId }";
+    return "UserIP{ userLatestLoginIp=$latestLoginIP, userId=$userId }";
   }
 }
 

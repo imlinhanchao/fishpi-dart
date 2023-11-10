@@ -136,49 +136,48 @@ class UserInfo {
   /// 用户编号
   String userNo;
 
-  String get name => userNickname.isEmpty ? userName : userNickname;
+  String get name => nickname.isEmpty ? userName : nickname;
 
-  String get allName =>
-      userNickname.isEmpty ? userName : '$userNickname($userName)';
+  String get allName => nickname.isEmpty ? userName : '$nickname($userName)';
 
   /// 用户名
   String userName;
 
   /// 昵称
-  String userNickname;
+  String nickname;
 
   /// 首页地址
   String userURL;
 
   /// 所在城市
-  String userCity;
+  String city;
 
   /// 签名
-  String userIntro;
+  String intro;
 
   /// 是否在线
-  bool userOnlineFlag;
+  bool isOnline;
 
   /// 用户积分
-  int userPoint;
+  int point;
 
   /// 用户组
-  String userRole;
+  String role;
 
   /// 角色
-  UserAppRole userAppRole;
+  UserAppRole appRole;
 
   /// 用户头像地址
-  String userAvatarURL;
+  String avatarURL;
 
   /// 用户卡片背景
   String cardBg;
 
   /// 用户关注数
-  int followingUserCount;
+  int followingCnt;
 
   /// 用户被关注数
-  int followerCount;
+  int followerCnt;
 
   /// 在线时长，单位分钟
   int onlineMinute;
@@ -187,7 +186,7 @@ class UserInfo {
   String canFollow;
 
   /// 用户所有勋章列表，包含未佩戴
-  MetalList allMetalOwned;
+  MetalList allMetals;
 
   /// 用户勋章列表
   MetalList sysMetal;
@@ -196,21 +195,21 @@ class UserInfo {
     this.oId = '',
     this.userNo = '',
     this.userName = '',
-    this.userNickname = '',
+    this.nickname = '',
     this.userURL = '',
-    this.userCity = '',
-    this.userIntro = '',
-    this.userOnlineFlag = false,
-    this.userPoint = 0,
-    this.userRole = '',
-    this.userAppRole = UserAppRole.Hack,
-    this.userAvatarURL = '',
+    this.city = '',
+    this.intro = '',
+    this.isOnline = false,
+    this.point = 0,
+    this.role = '',
+    this.appRole = UserAppRole.Hack,
+    this.avatarURL = '',
     this.cardBg = '',
-    this.followingUserCount = 0,
-    this.followerCount = 0,
+    this.followingCnt = 0,
+    this.followerCnt = 0,
     this.onlineMinute = 0,
     this.canFollow = 'hide',
-    this.allMetalOwned = const [],
+    this.allMetals = const [],
     this.sysMetal = const [],
   });
 
@@ -218,47 +217,47 @@ class UserInfo {
       : oId = data['oId'] ?? '',
         userNo = data['userNo'] ?? '',
         userName = data['userName'] ?? '',
-        userNickname = data['userNickname'] ?? '',
+        nickname = data['userNickname'] ?? '',
         userURL = data['userURL'] ?? '',
-        userCity = data['userCity'] ?? '',
-        userIntro = data['userIntro'] ?? '',
-        userOnlineFlag = data['userOnlineFlag'] ?? '',
-        userPoint = data['userPoint'] ?? '',
-        userRole = data['userRole'] ?? '',
-        userAppRole = UserAppRole.values[int.parse(data['userAppRole'] ?? '0')],
-        userAvatarURL = data['userAvatarURL'] ?? '',
+        city = data['userCity'] ?? '',
+        intro = data['userIntro'] ?? '',
+        isOnline = data['userOnlineFlag'] ?? '',
+        point = data['userPoint'] ?? '',
+        role = data['userRole'] ?? '',
+        appRole = UserAppRole.values[int.parse(data['userAppRole'] ?? '0')],
+        avatarURL = data['userAvatarURL'] ?? '',
         cardBg = data['cardBg'] ?? '',
-        followingUserCount = data['followingUserCount'] ?? '',
-        followerCount = data['followerCount'] ?? '',
+        followingCnt = data['followingUserCount'] ?? '',
+        followerCnt = data['followerCount'] ?? '',
         onlineMinute = data['onlineMinute'] ?? '',
         canFollow = data['canFollow'] ?? 'self',
-        allMetalOwned = toMetal(data['allMetalOwned'] ?? '[]'),
+        allMetals = toMetal(data['allMetalOwned'] ?? '[]'),
         sysMetal = toMetal(data['sysMetal'] ?? '[]');
 
   toJson() => {
         'oId': oId,
         'userNo': userNo,
         'userName': userName,
-        'userNickname': userNickname,
+        'userNickname': nickname,
         'userURL': userURL,
-        'userCity': userCity,
-        'userIntro': userIntro,
-        'userOnlineFlag': userOnlineFlag,
-        'userPoint': userPoint,
-        'userRole': userRole,
-        'userAppRole': userAppRole.index,
-        'userAvatarURL': userAvatarURL,
+        'userCity': city,
+        'userIntro': intro,
+        'userOnlineFlag': isOnline,
+        'userPoint': point,
+        'userRole': role,
+        'userAppRole': appRole.index,
+        'userAvatarURL': avatarURL,
         'cardBg': cardBg,
-        'followingUserCount': followingUserCount,
-        'followerCount': followerCount,
+        'followingUserCount': followingCnt,
+        'followerCount': followerCnt,
         'onlineMinute': onlineMinute,
         'canFollow': canFollow,
-        'allMetalOwned': allMetalOwned.map((e) => e.toJson()).toList(),
+        'allMetalOwned': allMetals.map((e) => e.toJson()).toList(),
         'sysMetal': sysMetal.map((e) => e.toJson()).toList(),
       };
 
   @override
   toString() {
-    return "{ oId=$oId, userNo=$userNo, userName=$userName, userNickname=$userNickname, userURL=$userURL, userCity=$userCity, userIntro=$userIntro, userOnlineFlag=$userOnlineFlag, userPoint=$userPoint, userRole=$userRole, userAppRole=$userAppRole, userAvatarURL=$userAvatarURL, cardBg=$cardBg, followingUserCount=$followingUserCount, followerCount=$followerCount, onlineMinute=$onlineMinute, canFollow=$canFollow, allMetalOwned=$allMetalOwned, sysMetal=$sysMetal }";
+    return "{ oId=$oId, userNo=$userNo, userName=$userName, userNickname=$nickname, userURL=$userURL, userCity=$city, userIntro=$intro, userOnlineFlag=$isOnline, userPoint=$point, userRole=$role, userAppRole=$appRole, userAvatarURL=$avatarURL, cardBg=$cardBg, followingUserCount=$followingCnt, followerCount=$followerCnt, onlineMinute=$onlineMinute, canFollow=$canFollow, allMetalOwned=$allMetals, sysMetal=$sysMetal }";
   }
 }

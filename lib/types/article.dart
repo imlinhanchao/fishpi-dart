@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:fishpi/src/utils.dart';
 
 import 'fishpi.dart';
@@ -110,19 +112,19 @@ class ArticleTag {
   int badCnt;
 
   /// 标签回帖计数
-  int commentCount;
+  int commentCnt;
 
   /// 关注数
-  int followerCount;
+  int followerCnt;
 
   /// 点赞数
   int goodCnt;
 
   /// 引用计数
-  int referenceCount;
+  int referenceCnt;
 
   /// 标签相关链接计数
-  int linkCount;
+  int linkCnt;
 
   /// 标签 SEO 描述
   String seoDesc;
@@ -153,11 +155,11 @@ class ArticleTag {
     this.uri = '',
     this.diyCSS = '',
     this.badCnt = 0,
-    this.commentCount = 0,
-    this.followerCount = 0,
+    this.commentCnt = 0,
+    this.followerCnt = 0,
     this.goodCnt = 0,
-    this.referenceCount = 0,
-    this.linkCount = 0,
+    this.referenceCnt = 0,
+    this.linkCnt = 0,
     this.seoDesc = '',
     this.seoKeywords = '',
     this.seoTitle = '',
@@ -175,11 +177,11 @@ class ArticleTag {
         uri = data['tagURI'] ?? '',
         diyCSS = data['tagCSS'] ?? '',
         badCnt = data['tagBadCnt'] ?? 0,
-        commentCount = data['tagCommentCount'] ?? 0,
-        followerCount = data['tagFollowerCount'] ?? 0,
+        commentCnt = data['tagCommentCount'] ?? 0,
+        followerCnt = data['tagFollowerCount'] ?? 0,
         goodCnt = data['tagGoodCnt'] ?? 0,
-        referenceCount = data['tagReferenceCount'] ?? 0,
-        linkCount = data['tagLinkCount'] ?? 0,
+        referenceCnt = data['tagReferenceCount'] ?? 0,
+        linkCnt = data['tagLinkCount'] ?? 0,
         seoDesc = data['tagSeoDesc'] ?? '',
         seoKeywords = data['tagSeoKeywords'] ?? '',
         seoTitle = data['tagSeoTitle'] ?? '',
@@ -196,11 +198,11 @@ class ArticleTag {
         'tagURI': uri,
         'tagCSS': diyCSS,
         'tagBadCnt': badCnt,
-        'tagCommentCount': commentCount,
-        'tagFollowerCount': followerCount,
+        'tagCommentCount': commentCnt,
+        'tagFollowerCount': followerCnt,
         'tagGoodCnt': goodCnt,
-        'tagReferenceCount': referenceCount,
-        'tagLinkCount': linkCount,
+        'tagReferenceCount': referenceCnt,
+        'tagLinkCount': linkCnt,
         'tagSeoDesc': seoDesc,
         'tagSeoKeywords': seoKeywords,
         'tagSeoTitle': seoTitle,
@@ -212,16 +214,7 @@ class ArticleTag {
 
   @override
   String toString() =>
-      'ArticleTag{oId: $oId, tagTitle: $title, tagDescription: $description, tagIconPath: $iconPath, tagURI: $uri, tagCSS: $diyCSS, tagBadCnt: $badCnt, tagCommentCount: $commentCount, tagFollowerCount: $followerCount, tagGoodCnt: $goodCnt, tagReferenceCount: $referenceCount, tagLinkCount: $linkCount, tagSeoDesc: $seoDesc, tagSeoKeywords: $seoKeywords, tagSeoTitle: $seoTitle, tagAd: $tagAd, tagShowSideAd: $showSideAd, tagStatus: $status, tagRandomDouble: $randomDouble}';
-}
-
-/// 公开状态
-enum PublicStatus {
-  /// 公开
-  Public,
-
-  /// 私有
-  Private,
+      'ArticleTag{oId: $oId, tagTitle: $title, tagDescription: $description, tagIconPath: $iconPath, tagURI: $uri, tagCSS: $diyCSS, tagBadCnt: $badCnt, tagCommentCount: $commentCnt, tagFollowerCount: $followerCnt, tagGoodCnt: $goodCnt, tagReferenceCount: $referenceCnt, tagLinkCount: $linkCnt, tagSeoDesc: $seoDesc, tagSeoKeywords: $seoKeywords, tagSeoTitle: $seoTitle, tagAd: $tagAd, tagShowSideAd: $showSideAd, tagStatus: $status, tagRandomDouble: $randomDouble}';
 }
 
 /// 投票状态，点赞与否
@@ -234,18 +227,6 @@ enum VoteStatus {
 
   /// 点踩
   down,
-}
-
-/// 点赞类型
-class VoteType {
-  static const int Voted = 0; // 点赞
-  static const int Unvote = -1; // 取消点赞
-}
-
-/// 是否状态
-enum YesNoStatus {
-  yes,
-  no,
 }
 
 /// 文章状态
@@ -268,16 +249,16 @@ class ArticleAuthor {
   int onlineMinute;
 
   /// 是否公开积分列表
-  PublicStatus pointStatus;
+  bool pointStatus;
 
   /// 是否公开关注者列表
-  PublicStatus followerStatus;
+  bool followerStatus;
 
   /// 用户完成新手指引步数
   int guideStep;
 
   /// 是否公开在线状态
-  PublicStatus onlineStatus;
+  bool onlineStatus;
 
   /// 当前连续签到起始日
   int currentCheckinStreakStart;
@@ -289,7 +270,7 @@ class ArticleAuthor {
   String tags;
 
   /// 是否公开回帖列表
-  PublicStatus commentStatus;
+  bool commentStatus;
 
   /// 用户时区
   String timezone;
@@ -301,7 +282,7 @@ class ArticleAuthor {
   bool isEnableForwardPage;
 
   /// 是否公开 UA 信息
-  PublicStatus userUAStatus;
+  bool userUAStatus;
 
   /// 自定义首页跳转地址
   String userIndexRedirectURL;
@@ -313,7 +294,7 @@ class ArticleAuthor {
   int tagCount;
 
   /// 昵称
-  String userNickname;
+  String nickname;
 
   /// 回帖浏览模式
   int listViewMode;
@@ -331,10 +312,10 @@ class ArticleAuthor {
   int updateTime;
 
   /// userSubMailStatus
-  YesNoStatus subMailStatus;
+  bool subMailStatus;
 
   /// 是否加入积分排行
-  YesNoStatus isJoinPointRank;
+  bool isJoinPointRank;
 
   /// 用户最后登录时间
   int latestLoginTime;
@@ -352,7 +333,7 @@ class ArticleAuthor {
   int longestCheckinStreakEnd;
 
   /// 是否公开关注帖子列表
-  PublicStatus watchingArticleStatus;
+  bool watchingArticleStatus;
 
   /// 上次回帖时间
   int latestCmtTime;
@@ -367,43 +348,43 @@ class ArticleAuthor {
   int userNo;
 
   /// 用户头像
-  String userAvatarURL;
+  String avatarURL;
 
   /// 是否公开关注标签列表
-  PublicStatus followingTagStatus;
+  bool followingTagStatus;
 
   /// 用户语言
   String userLanguage;
 
   /// 是否加入消费排行
-  YesNoStatus isJoinUsedPointRank;
+  bool isJoinUsedPointRank;
 
   /// 上次签到日期
   int currentCheckinStreakEnd;
 
   /// 是否公开收藏帖子列表
-  PublicStatus followingArticleStatus;
+  bool followingArticleStatus;
 
   /// 是否启用键盘快捷键
-  YesNoStatus keyboardShortcutsStatus;
+  bool keyboardShortcutsStatus;
 
   /// 是否回帖后自动关注帖子
-  YesNoStatus replyWatchArticleStatus;
+  bool replyWatchArticleStatus;
 
   /// 回帖浏览模式
   int commentViewMode;
 
   /// 是否公开清风明月列表
-  PublicStatus breezemoonStatus;
+  bool breezemoonStatus;
 
   /// 用户上次签到时间
   int userCheckinTime;
 
   /// 用户消费积分
-  int userUsedPoint;
+  int usedPoint;
 
   /// 是否公开发帖列表
-  PublicStatus articleStatus;
+  bool articleStatus;
 
   /// 用户积分
   int userPoint;
@@ -427,7 +408,7 @@ class ArticleAuthor {
   String userName;
 
   /// 是否公开 IP 地理信息
-  PublicStatus geoStatus;
+  bool geoStatus;
 
   /// 最长连续签到起始日
   int longestCheckinStreakStart;
@@ -436,10 +417,10 @@ class ArticleAuthor {
   String userSkin;
 
   /// 是否启用 Web 通知
-  YesNoStatus notifyStatus;
+  bool notifyStatus;
 
   /// 公开关注用户列表
-  PublicStatus followingUserStatus;
+  bool followingUserStatus;
 
   /// 文章数
   int articleCount;
@@ -450,60 +431,59 @@ class ArticleAuthor {
   /// 徽章
   MetalList sysMetal;
 
-  String get name => userNickname.isEmpty ? userName : userNickname;
+  String get name => nickname.isEmpty ? userName : nickname;
 
-  String get allName =>
-      userNickname.isEmpty ? userName : '$userNickname($userName)';
+  String get allName => nickname.isEmpty ? userName : '$nickname($userName)';
 
   ArticleAuthor({
     this.isOnline = false,
     this.onlineMinute = 0,
-    this.pointStatus = PublicStatus.Public,
-    this.followerStatus = PublicStatus.Public,
+    this.pointStatus = true,
+    this.followerStatus = true,
     this.guideStep = 0,
-    this.onlineStatus = PublicStatus.Public,
+    this.onlineStatus = true,
     this.currentCheckinStreakStart = 0,
     this.isAutoBlur = false,
     this.tags = '',
-    this.commentStatus = PublicStatus.Public,
+    this.commentStatus = true,
     this.timezone = '',
     this.homePage = '',
     this.isEnableForwardPage = false,
-    this.userUAStatus = PublicStatus.Public,
+    this.userUAStatus = true,
     this.userIndexRedirectURL = '',
     this.latestArticleTime = 0,
     this.tagCount = 0,
-    this.userNickname = '',
+    this.nickname = '',
     this.listViewMode = 0,
     this.longestCheckinStreak = 0,
     this.avatarType = 0,
     this.subMailSendTime = 0,
     this.updateTime = 0,
-    this.subMailStatus = YesNoStatus.yes,
-    this.isJoinPointRank = YesNoStatus.yes,
+    this.subMailStatus = true,
+    this.isJoinPointRank = true,
     this.latestLoginTime = 0,
     this.userAppRole = 0,
     this.userAvatarViewMode = 0,
     this.userStatus = 0,
     this.longestCheckinStreakEnd = 0,
-    this.watchingArticleStatus = PublicStatus.Public,
+    this.watchingArticleStatus = true,
     this.latestCmtTime = 0,
     this.province = '',
     this.currentCheckinStreak = 0,
     this.userNo = 0,
-    this.userAvatarURL = '',
-    this.followingTagStatus = PublicStatus.Public,
+    this.avatarURL = '',
+    this.followingTagStatus = true,
     this.userLanguage = '',
-    this.isJoinUsedPointRank = YesNoStatus.yes,
+    this.isJoinUsedPointRank = true,
     this.currentCheckinStreakEnd = 0,
-    this.followingArticleStatus = PublicStatus.Public,
-    this.keyboardShortcutsStatus = YesNoStatus.yes,
-    this.replyWatchArticleStatus = YesNoStatus.yes,
+    this.followingArticleStatus = true,
+    this.keyboardShortcutsStatus = true,
+    this.replyWatchArticleStatus = true,
     this.commentViewMode = 0,
-    this.breezemoonStatus = PublicStatus.Public,
+    this.breezemoonStatus = true,
     this.userCheckinTime = 0,
-    this.userUsedPoint = 0,
-    this.articleStatus = PublicStatus.Public,
+    this.usedPoint = 0,
+    this.articleStatus = true,
     this.userPoint = 0,
     this.commentCount = 0,
     this.userIntro = '',
@@ -511,11 +491,11 @@ class ArticleAuthor {
     this.listPageSize = 0,
     this.oId = '',
     this.userName = '',
-    this.geoStatus = PublicStatus.Public,
+    this.geoStatus = true,
     this.longestCheckinStreakStart = 0,
     this.userSkin = '',
-    this.notifyStatus = YesNoStatus.yes,
-    this.followingUserStatus = PublicStatus.Public,
+    this.notifyStatus = true,
+    this.followingUserStatus = true,
     this.articleCount = 0,
     this.userRole = '',
     this.sysMetal = const [],
@@ -524,59 +504,54 @@ class ArticleAuthor {
   ArticleAuthor.from(Map<String, dynamic> data)
       : isOnline = data['userOnlineFlag'] ?? false,
         onlineMinute = data['onlineMinute'] ?? 0,
-        pointStatus = PublicStatus.values[data['userPointStatus'] ?? 0],
-        followerStatus = PublicStatus.values[data['userFollowerStatus'] ?? 0],
+        pointStatus = (data['userPointStatus'] ?? 0) == 0,
+        followerStatus = (data['userFollowerStatus'] ?? 0) == 0,
         guideStep = data['userGuideStep'] ?? 0,
-        onlineStatus = PublicStatus.values[data['userOnlineStatus'] ?? 0],
+        onlineStatus = (data['userOnlineStatus'] ?? 0) == 0,
         currentCheckinStreakStart = data['userCurrentCheckinStreakStart'] ?? 0,
         isAutoBlur = (data['chatRoomPictureStatus'] ?? 0) == 1,
         tags = data['userTags'] ?? '',
-        commentStatus = PublicStatus.values[data['userCommentStatus'] ?? 0],
+        commentStatus = (data['userCommentStatus'] ?? 0) == 0,
         timezone = data['userTimezone'] ?? '',
         homePage = data['userURL'] ?? '',
         isEnableForwardPage = (data['userForwardPageStatus'] ?? 0) == 1,
-        userUAStatus = PublicStatus.values[data['userUAStatus'] ?? 0],
+        userUAStatus = (data['userUAStatus'] ?? 0) == 0,
         userIndexRedirectURL = data['userIndexRedirectURL'] ?? '',
         latestArticleTime = data['userLatestArticleTime'] ?? 0,
         tagCount = data['userTagCount'] ?? 0,
-        userNickname = data['userNickname'] ?? '',
+        nickname = data['userNickname'] ?? '',
         listViewMode = data['userListViewMode'] ?? 0,
         longestCheckinStreak = data['userLongestCheckinStreak'] ?? 0,
         avatarType = data['userAvatarType'] ?? 0,
         subMailSendTime = data['userSubMailSendTime'] ?? 0,
         updateTime = data['userUpdateTime'] ?? 0,
-        subMailStatus = YesNoStatus.values[data['userSubMailStatus'] ?? 0],
-        isJoinPointRank = YesNoStatus.values[data['userJoinPointRank'] ?? 0],
+        subMailStatus = (data['userSubMailStatus'] ?? 0) == 0,
+        isJoinPointRank = (data['userJoinPointRank'] ?? 0) == 0,
         latestLoginTime = data['userLatestLoginTime'] ?? 0,
         userAppRole = data['userAppRole'] ?? 0,
         userAvatarViewMode = data['userAvatarViewMode'] ?? 0,
         userStatus = data['userStatus'] ?? 0,
         longestCheckinStreakEnd = data['userLongestCheckinStreakEnd'] ?? 0,
-        watchingArticleStatus =
-            PublicStatus.values[data['userWatchingArticleStatus'] ?? 0],
+        watchingArticleStatus = (data['userWatchingArticleStatus'] ?? 0) == 0,
         latestCmtTime = data['userLatestCmtTime'] ?? 0,
         province = data['userProvince'] ?? '',
         currentCheckinStreak = data['userCurrentCheckinStreak'] ?? 0,
         userNo = data['userNo'] ?? 0,
-        userAvatarURL = data['userAvatarURL'] ?? '',
-        followingTagStatus =
-            PublicStatus.values[data['userFollowingTagStatus'] ?? 0],
+        avatarURL = data['userAvatarURL'] ?? '',
+        followingTagStatus = (data['userFollowingTagStatus'] ?? 0) == 0,
         userLanguage = data['userLanguage'] ?? '',
-        isJoinUsedPointRank =
-            YesNoStatus.values[data['userJoinUsedPointRank'] ?? 0],
+        isJoinUsedPointRank = (data['userJoinUsedPointRank'] ?? 0) == 0,
         currentCheckinStreakEnd = data['userCurrentCheckinStreakEnd'] ?? 0,
-        followingArticleStatus =
-            PublicStatus.values[data['userFollowingArticleStatus'] ?? 0],
+        followingArticleStatus = (data['userFollowingArticleStatus'] ?? 0) == 0,
         keyboardShortcutsStatus =
-            YesNoStatus.values[data['userKeyboardShortcutsStatus'] ?? 0],
+            (data['userKeyboardShortcutsStatus'] ?? 0) == 0,
         replyWatchArticleStatus =
-            YesNoStatus.values[data['userReplyWatchArticleStatus'] ?? 0],
+            (data['userReplyWatchArticleStatus'] ?? 0) == 0,
         commentViewMode = data['userCommentViewMode'] ?? 0,
-        breezemoonStatus =
-            PublicStatus.values[data['userBreezemoonStatus'] ?? 0],
+        breezemoonStatus = (data['userBreezemoonStatus'] ?? 0) == 0,
         userCheckinTime = data['userCheckinTime'] ?? 0,
-        userUsedPoint = data['userUsedPoint'] ?? 0,
-        articleStatus = PublicStatus.values[data['userArticleStatus'] ?? 0],
+        usedPoint = data['userUsedPoint'] ?? 0,
+        articleStatus = (data['userArticleStatus'] ?? 0) == 0,
         userPoint = data['userPoint'] ?? 0,
         commentCount = data['userCommentCount'] ?? 0,
         userIntro = data['userIntro'] ?? '',
@@ -584,12 +559,11 @@ class ArticleAuthor {
         listPageSize = data['userListPageSize'] ?? 0,
         oId = data['oId'] ?? '',
         userName = data['userName'] ?? '',
-        geoStatus = PublicStatus.values[data['userGeoStatus'] ?? 0],
+        geoStatus = (data['userGeoStatus'] ?? 0) == 0,
         longestCheckinStreakStart = data['userLongestCheckinStreakStart'] ?? 0,
         userSkin = data['userSkin'] ?? '',
-        notifyStatus = YesNoStatus.values[data['userNotifyStatus'] ?? 0],
-        followingUserStatus =
-            PublicStatus.values[data['userFollowingUserStatus'] ?? 0],
+        notifyStatus = (data['userNotifyStatus'] ?? 0) == 0,
+        followingUserStatus = (data['userFollowingUserStatus'] ?? 0) == 0,
         articleCount = data['userArticleCount'] ?? 0,
         userRole = data['userRole'] ?? '',
         sysMetal = List.from(data['sysMetal'] ?? [])
@@ -599,52 +573,52 @@ class ArticleAuthor {
   Map<String, dynamic> toJson() => {
         'userOnlineFlag': isOnline,
         'onlineMinute': onlineMinute,
-        'userPointStatus': pointStatus.index,
-        'userFollowerStatus': followerStatus.index,
+        'userPointStatus': pointStatus ? 0 : 1,
+        'userFollowerStatus': followerStatus ? 0 : 1,
         'userGuideStep': guideStep,
-        'userOnlineStatus': onlineStatus.index,
+        'userOnlineStatus': onlineStatus ? 0 : 1,
         'userCurrentCheckinStreakStart': currentCheckinStreakStart,
         'chatRoomPictureStatus': isAutoBlur,
         'userTags': tags,
-        'userCommentStatus': commentStatus.index,
+        'userCommentStatus': commentStatus ? 0 : 1,
         'userTimezone': timezone,
         'userURL': homePage,
         'userForwardPageStatus': isEnableForwardPage,
-        'userUAStatus': userUAStatus.index,
+        'userUAStatus': userUAStatus ? 0 : 1,
         'userIndexRedirectURL': userIndexRedirectURL,
         'userLatestArticleTime': latestArticleTime,
         'userTagCount': tagCount,
-        'userNickname': userNickname,
+        'userNickname': nickname,
         'userListViewMode': listViewMode,
         'userLongestCheckinStreak': longestCheckinStreak,
         'userAvatarType': avatarType,
         'userSubMailSendTime': subMailSendTime,
         'userUpdateTime': updateTime,
-        'userSubMailStatus': subMailStatus.index,
-        'userJoinPointRank': isJoinPointRank.index,
+        'userSubMailStatus': subMailStatus ? 0 : 1,
+        'userJoinPointRank': isJoinPointRank ? 0 : 1,
         'userLatestLoginTime': latestLoginTime,
         'userAppRole': userAppRole,
         'userAvatarViewMode': userAvatarViewMode,
         'userStatus': userStatus,
         'userLongestCheckinStreakEnd': longestCheckinStreakEnd,
-        'userWatchingArticleStatus': watchingArticleStatus.index,
+        'userWatchingArticleStatus': watchingArticleStatus ? 0 : 1,
         'userLatestCmtTime': latestCmtTime,
         'userProvince': province,
         'userCurrentCheckinStreak': currentCheckinStreak,
         'userNo': userNo,
-        'userAvatarURL': userAvatarURL,
-        'userFollowingTagStatus': followingTagStatus.index,
+        'userAvatarURL': avatarURL,
+        'userFollowingTagStatus': followingTagStatus ? 0 : 1,
         'userLanguage': userLanguage,
-        'userJoinUsedPointRank': isJoinUsedPointRank.index,
+        'userJoinUsedPointRank': isJoinUsedPointRank ? 0 : 1,
         'userCurrentCheckinStreakEnd': currentCheckinStreakEnd,
-        'userFollowingArticleStatus': followingArticleStatus.index,
-        'userKeyboardShortcutsStatus': keyboardShortcutsStatus.index,
-        'userReplyWatchArticleStatus': replyWatchArticleStatus.index,
+        'userFollowingArticleStatus': followingArticleStatus ? 0 : 1,
+        'userKeyboardShortcutsStatus': keyboardShortcutsStatus ? 0 : 1,
+        'userReplyWatchArticleStatus': replyWatchArticleStatus ? 0 : 1,
         'userCommentViewMode': commentViewMode,
-        'userBreezemoonStatus': breezemoonStatus.index,
+        'userBreezemoonStatus': breezemoonStatus ? 0 : 1,
         'userCheckinTime': userCheckinTime,
-        'userUsedPoint': userUsedPoint,
-        'userArticleStatus': articleStatus.index,
+        'userUsedPoint': usedPoint,
+        'userArticleStatus': articleStatus ? 0 : 1,
         'userPoint': userPoint,
         'userCommentCount': commentCount,
         'userIntro': userIntro,
@@ -652,11 +626,11 @@ class ArticleAuthor {
         'userListPageSize': listPageSize,
         'oId': oId,
         'userName': userName,
-        'userGeoStatus': geoStatus.index,
+        'userGeoStatus': geoStatus ? 0 : 1,
         'userLongestCheckinStreakStart': longestCheckinStreakStart,
         'userSkin': userSkin,
-        'userNotifyStatus': notifyStatus.index,
-        'userFollowingUserStatus': followingUserStatus.index,
+        'userNotifyStatus': notifyStatus ? 0 : 1,
+        'userFollowingUserStatus': followingUserStatus ? 0 : 1,
         'userArticleCount': articleCount,
         'userRole': userRole,
         'sysMetal': sysMetal.map((e) => e.toJson()).toList(),
@@ -674,7 +648,7 @@ class ArticleComment {
   String createTimeStr;
 
   /// 评论作者 id
-  String commentAuthorId;
+  String authorId;
 
   /// 评论分数
   String score;
@@ -695,7 +669,7 @@ class ArticleComment {
   String timeAgo;
 
   /// 回复评论 id
-  String originalCommentId;
+  String replyId;
 
   /// 徽章
   List<Metal> sysMetal;
@@ -704,7 +678,7 @@ class ArticleComment {
   int goodCnt;
 
   /// 评论是否可见
-  YesNoStatus visible;
+  bool visible;
 
   /// 文章 id
   String articleId;
@@ -734,7 +708,7 @@ class ArticleComment {
   CommentAuthor commenter = CommentAuthor();
 
   /// 评论作者用户名
-  String authorName;
+  String author;
 
   /// 评论感谢数
   int thankCnt;
@@ -746,7 +720,7 @@ class ArticleComment {
   bool rewarded;
 
   /// 评论作者头像
-  String authorThumbnailURL;
+  String thumbnailURL;
 
   /// 评论音频地址
   String audioURL;
@@ -757,17 +731,17 @@ class ArticleComment {
   ArticleComment(
       {this.isNice = false,
       this.createTimeStr = '',
-      this.commentAuthorId = '',
+      this.authorId = '',
       this.score = '',
       this.createTime = '',
       this.authorURL = '',
       this.vote = VoteStatus.normal,
       this.revisionCount = 0,
       this.timeAgo = '',
-      this.originalCommentId = '',
+      this.replyId = '',
       this.sysMetal = const [],
       this.goodCnt = 0,
-      this.visible = YesNoStatus.yes,
+      this.visible = true,
       this.articleId = '',
       this.rewardedCnt = 0,
       this.sharpURL = '',
@@ -776,11 +750,11 @@ class ArticleComment {
       this.oId = '',
       this.content = '',
       this.status = ArticleStatus.Normal,
-      this.authorName = '',
+      this.author = '',
       this.thankCnt = 0,
       this.badCnt = 0,
       this.rewarded = false,
-      this.authorThumbnailURL = '',
+      this.thumbnailURL = '',
       this.audioURL = '',
       this.offered = 0,
       commenter}) {
@@ -790,19 +764,19 @@ class ArticleComment {
   ArticleComment.from(Map<String, dynamic> data)
       : isNice = data['commentNice'] ?? false,
         createTimeStr = data['commentCreateTimeStr'] ?? '',
-        commentAuthorId = data['commentAuthorId'] ?? '',
+        authorId = data['commentAuthorId'] ?? '',
         score = (data['commentScore'] ?? 0).toString(),
         createTime = data['commentCreateTime'] ?? '',
         authorURL = data['commentAuthorURL'] ?? '',
         vote = VoteStatus.values[(data['commentVote'] ?? 0) + 1],
         revisionCount = data['commentRevisionCount'] ?? 0,
         timeAgo = data['timeAgo'] ?? '',
-        originalCommentId = data['commentOriginalCommentId'] ?? '',
+        replyId = data['commentOriginalCommentId'] ?? '',
         sysMetal = List.from(data['sysMetal'])
             .map((e) => analyzeMetalAttr(e))
             .toList(),
         goodCnt = data['commentGoodCnt'] ?? 0,
-        visible = YesNoStatus.values[data['commentVisible'] ?? 0],
+        visible = (data['commentVisible'] ?? 0) == 0,
         articleId = data['commentOnArticleId'] ?? '',
         rewardedCnt = data['rewardedCnt'] ?? 0,
         sharpURL = data['commentSharpURL'] ?? '',
@@ -811,11 +785,11 @@ class ArticleComment {
         oId = data['oId'] ?? '',
         content = data['commentContent'] ?? '',
         status = ArticleStatus.values[data['commentStatus'] ?? 0],
-        authorName = data['commentAuthorName'] ?? '',
+        author = data['commentAuthorName'] ?? '',
         thankCnt = data['commentThankCnt'] ?? 0,
         badCnt = data['commentBadCnt'] ?? 0,
         rewarded = data['rewarded'] ?? false,
-        authorThumbnailURL = data['commentAuthorThumbnailURL'] ?? '',
+        thumbnailURL = data['commentAuthorThumbnailURL'] ?? '',
         audioURL = data['commentAudioURL'] ?? '',
         offered = data['commentQnAOffered'] ?? 0,
         commenter = CommentAuthor.from(data['commenter'] ?? {});
@@ -823,17 +797,17 @@ class ArticleComment {
   Map<String, dynamic> toJson() => {
         'commentNice': isNice,
         'commentCreateTimeStr': createTimeStr,
-        'commentAuthorId': commentAuthorId,
+        'commentAuthorId': authorId,
         'commentScore': score,
         'commentCreateTime': createTime,
         'commentAuthorURL': authorURL,
         'commentVote': vote.index,
         'commentRevisionCount': revisionCount,
         'timeAgo': timeAgo,
-        'commentOriginalCommentId': originalCommentId,
+        'commentOriginalCommentId': replyId,
         'sysMetal': sysMetal.map((e) => e.toJson()).toList(),
         'commentGoodCnt': goodCnt,
-        'commentVisible': visible.index,
+        'commentVisible': visible ? 0 : 1,
         'commentOnArticleId': articleId,
         'rewardedCnt': rewardedCnt,
         'commentSharpURL': sharpURL,
@@ -842,11 +816,11 @@ class ArticleComment {
         'oId': oId,
         'commentContent': content,
         'commentStatus': status.index,
-        'commentAuthorName': authorName,
+        'commentAuthorName': author,
         'commentThankCnt': thankCnt,
         'commentBadCnt': badCnt,
         'rewarded': rewarded,
-        'commentAuthorThumbnailURL': authorThumbnailURL,
+        'commentAuthorThumbnailURL': thumbnailURL,
         'commentAudioURL': audioURL,
         'commentQnAOffered': offered,
         'commenter': commenter.toJson(),
@@ -888,85 +862,85 @@ enum ArticleType {
 /// 文章详情
 class ArticleDetail {
   /// 是否在列表展示
-  bool articleShowInList;
+  bool showInList;
 
   /// 文章创建时间
-  String articleCreateTime;
+  String createTime;
 
   /// 发布者Id
-  String articleAuthorId;
+  String authorId;
 
   /// 反对数
-  int articleBadCnt;
+  int badCnt;
 
-  /// 文章最后修改时间
-  String articleLatestCmtTime;
+  /// 文章最后评论时间
+  String latestCmtTime;
 
   /// 赞同数
-  int articleGoodCnt;
+  int goodCnt;
 
   /// 悬赏积分
-  int articleQnAOfferPoint;
+  int offerPoint;
 
   /// 作者头像缩略图
-  String articleThumbnailURL;
+  String thumbnailURL;
 
   /// 置顶序号
-  int articleStickRemains;
+  int stickRemains;
 
   /// 发布时间简写
   String timeAgo;
 
   /// 文章更新时间
-  String articleUpdateTimeStr;
+  String updateTimeStr;
 
   /// 作者用户名
-  String articleAuthorName;
+  String authorName;
 
   /// 文章类型
-  ArticleType articleType;
+  ArticleType type;
 
   /// 是否悬赏
   bool offered;
 
   /// 文章创建时间字符串
-  String articleCreateTimeStr;
+  String createTimeStr;
 
   /// 文章浏览数
-  int articleViewCount;
+  int viewCnt;
 
   /// 作者头像缩略图
-  String articleAuthorThumbnailURL20;
+  String thumbnailURL20;
 
   /// 关注数
-  int articleWatchCnt;
+  int watchCnt;
 
   /// 文章预览内容
-  String articlePreviewContent;
+  String previewContent;
 
   /// 文章标题
-  String articleTitleEmoj;
+  String titleEmoj;
 
   /// 文章标题（Unicode 的 Emoji）
-  String articleTitleEmojUnicode;
+  String titleEmojUnicode;
 
   /// 文章标题
-  String articleTitle;
+  String title;
 
   /// 作者头像缩略图
-  String articleAuthorThumbnailURL48;
+  String thumbnailURL48;
 
   /// 文章评论数
-  int articleCommentCount;
+  int commentCnt;
 
   /// 收藏数
-  int articleCollectCnt;
+  int collectCnt;
 
   /// 文章最后评论者
-  String articleLatestCmterName;
+  String latestCmterName;
 
   /// 文章标签
-  String articleTags;
+  String tags;
 
   /// 文章 id
   String oId;
@@ -975,52 +949,52 @@ class ArticleDetail {
   String cmtTimeAgo;
 
   /// 是否置顶
-  int articleStick;
+  int stick;
 
   /// 文章标签信息
-  List<ArticleTag> articleTagObjs;
+  List<ArticleTag> tagObjs;
 
   /// 文章最后评论时间
-  String articleLatestCmtTimeStr;
+  String latestCmtTimeStr;
 
   /// 是否匿名
-  bool articleAnonymous;
+  bool anonymous;
 
   /// 文章感谢数
-  int articleThankCnt;
+  int thankCnt;
 
   /// 文章更新时间
-  String articleUpdateTime;
+  String updateTime;
 
   /// 文章状态
-  ArticleStatus articleStatus;
+  ArticleStatus status;
 
   /// 文章点击数
-  int articleHeat;
+  int heat;
 
   /// 文章是否优选
-  bool articlePerfect;
+  bool perfect;
 
   /// 作者头像缩略图
-  String articleAuthorThumbnailURL210;
+  String thumbnailURL210;
 
   /// 文章固定链接
-  String articlePermalink;
+  String permalink;
 
   /// 作者用户信息
-  ArticleAuthor articleAuthor = ArticleAuthor();
+  ArticleAuthor author = ArticleAuthor();
 
   /// 文章感谢数
   int thankedCnt;
 
   /// 文章匿名浏览量
-  int articleAnonymousView;
+  int anonymousView;
 
   /// 文章浏览量简写
-  String articleViewCntDisplayFormat;
+  String viewCntFormat;
 
   /// 文章是否启用评论
-  bool articleCommentable;
+  bool commentable;
 
   /// 是否已打赏
   bool rewarded;
@@ -1029,7 +1003,7 @@ class ArticleDetail {
   int rewardedCnt;
 
   /// 文章打赏积分
-  int articleRewardPoint;
+  int rewardPoint;
 
   /// 是否已收藏
   bool isFollowing;
@@ -1044,46 +1018,46 @@ class ArticleDetail {
   bool thanked;
 
   /// 编辑器类型
-  int articleEditorType;
+  int editorType;
 
   /// 文章音频地址
-  String articleAudioURL;
+  String audioURL;
 
   /// 文章目录 HTML
-  String articleToC;
+  String table;
 
   /// 文章内容 HTML
-  String articleContent;
+  String content;
 
   /// 文章内容 Markdown
-  String articleOriginalContent;
+  String source;
 
   /// 文章缩略图
-  String articleImg1URL;
+  String img1URL;
 
   /// 文章点赞状态
-  VoteStatus articleVote;
+  VoteStatus vote;
 
   /// 文章随机数
-  double articleRandomDouble;
+  double randomDouble;
 
   /// 作者签名
-  String articleAuthorIntro;
+  String authorIntro;
 
   /// 发布城市
-  String articleCity;
+  String city;
 
   /// 发布者 IP
-  String articleIP;
+  String IP;
 
   /// 作者首页地址
-  String articleAuthorURL;
+  String authorURL;
 
   /// 推送 Email 推送顺序
-  int articlePushOrder;
+  int pushOrder;
 
   /// 打赏内容
-  String articleRewardContent;
+  String rewardContent;
 
   /// reddit分数
   String redditScore;
@@ -1092,262 +1066,260 @@ class ArticleDetail {
   Pagination? pagination;
 
   /// 评论是否可见
-  bool discussionViewable;
+  bool commentViewable;
 
   /// 文章修改次数
-  int articleRevisionCount;
+  int revisionCount;
 
   /// 文章的评论
-  List<ArticleComment> articleComments;
+  List<ArticleComment> comments;
 
   /// 文章最佳评论
-  List<ArticleComment> articleNiceComments;
+  List<ArticleComment> niceComments;
 
   ArticleDetail({
-    this.articleShowInList = false,
-    this.articleCreateTime = '',
-    this.articleAuthorId = '',
-    this.articleBadCnt = 0,
-    this.articleLatestCmtTime = '',
-    this.articleGoodCnt = 0,
-    this.articleQnAOfferPoint = 0,
-    this.articleThumbnailURL = '',
-    this.articleStickRemains = 0,
+    this.showInList = false,
+    this.createTime = '',
+    this.authorId = '',
+    this.badCnt = 0,
+    this.latestCmtTime = '',
+    this.goodCnt = 0,
+    this.offerPoint = 0,
+    this.thumbnailURL = '',
+    this.stickRemains = 0,
     this.timeAgo = '',
-    this.articleUpdateTimeStr = '',
-    this.articleAuthorName = '',
-    this.articleType = ArticleType.Normal,
+    this.updateTimeStr = '',
+    this.authorName = '',
+    this.type = ArticleType.Normal,
     this.offered = false,
-    this.articleCreateTimeStr = '',
-    this.articleViewCount = 0,
-    this.articleAuthorThumbnailURL20 = '',
-    this.articleWatchCnt = 0,
-    this.articlePreviewContent = '',
-    this.articleTitleEmoj = '',
-    this.articleTitleEmojUnicode = '',
-    this.articleTitle = '',
-    this.articleAuthorThumbnailURL48 = '',
-    this.articleCommentCount = 0,
-    this.articleCollectCnt = 0,
-    this.articleLatestCmterName = '',
-    this.articleTags = '',
+    this.createTimeStr = '',
+    this.viewCnt = 0,
+    this.thumbnailURL20 = '',
+    this.watchCnt = 0,
+    this.previewContent = '',
+    this.titleEmoj = '',
+    this.titleEmojUnicode = '',
+    this.title = '',
+    this.thumbnailURL48 = '',
+    this.commentCnt = 0,
+    this.collectCnt = 0,
+    this.latestCmterName = '',
+    this.tags = '',
     this.oId = '',
     this.cmtTimeAgo = '',
-    this.articleStick = 0,
-    this.articleTagObjs = const [],
-    this.articleLatestCmtTimeStr = '',
-    this.articleAnonymous = false,
-    this.articleThankCnt = 0,
-    this.articleUpdateTime = '',
-    this.articleStatus = ArticleStatus.Normal,
-    this.articleHeat = 0,
-    this.articlePerfect = false,
-    this.articleAuthorThumbnailURL210 = '',
-    this.articlePermalink = '',
+    this.stick = 0,
+    this.tagObjs = const [],
+    this.latestCmtTimeStr = '',
+    this.anonymous = false,
+    this.thankCnt = 0,
+    this.updateTime = '',
+    this.status = ArticleStatus.Normal,
+    this.heat = 0,
+    this.perfect = false,
+    this.thumbnailURL210 = '',
+    this.permalink = '',
     articleAuthor,
     this.thankedCnt = 0,
-    this.articleAnonymousView = 0,
-    this.articleViewCntDisplayFormat = '',
-    this.articleCommentable = false,
+    this.anonymousView = 0,
+    this.viewCntFormat = '',
+    this.commentable = false,
     this.rewarded = false,
     this.rewardedCnt = 0,
-    this.articleRewardPoint = 0,
+    this.rewardPoint = 0,
     this.isFollowing = false,
     this.isWatching = false,
     this.isMyArticle = false,
     this.thanked = false,
-    this.articleEditorType = 0,
-    this.articleAudioURL = '',
-    this.articleToC = '',
-    this.articleContent = '',
-    this.articleOriginalContent = '',
-    this.articleImg1URL = '',
-    this.articleVote = VoteStatus.normal,
-    this.articleRandomDouble = 0.0,
-    this.articleAuthorIntro = '',
-    this.articleCity = '',
-    this.articleIP = '',
-    this.articleAuthorURL = '',
-    this.articlePushOrder = 0,
-    this.articleRewardContent = '',
+    this.editorType = 0,
+    this.audioURL = '',
+    this.table = '',
+    this.content = '',
+    this.source = '',
+    this.img1URL = '',
+    this.vote = VoteStatus.normal,
+    this.randomDouble = 0.0,
+    this.authorIntro = '',
+    this.city = '',
+    this.IP = '',
+    this.authorURL = '',
+    this.pushOrder = 0,
+    this.rewardContent = '',
     this.redditScore = '',
     this.pagination,
-    this.discussionViewable = false,
-    this.articleRevisionCount = 0,
-    this.articleComments = const [],
-    this.articleNiceComments = const [],
+    this.commentViewable = false,
+    this.revisionCount = 0,
+    this.comments = const [],
+    this.niceComments = const [],
   }) {
-    this.articleAuthor = articleAuthor ?? ArticleAuthor();
+    this.author = articleAuthor ?? ArticleAuthor();
   }
 
   ArticleDetail.from(Map<String, dynamic> data)
-      : articleShowInList = (data['articleShowInList'] ?? 0) == 1,
-        articleCreateTime = data['articleCreateTime'] ?? '',
-        articleAuthorId = data['articleAuthorId'] ?? '',
-        articleBadCnt = data['articleBadCnt'] ?? 0,
-        articleLatestCmtTime = data['articleLatestCmtTime'] ?? '',
-        articleGoodCnt = data['articleGoodCnt'] ?? 0,
-        articleQnAOfferPoint = data['articleQnAOfferPoint'] ?? 0,
-        articleThumbnailURL = data['articleThumbnailURL'] ?? '',
-        articleStickRemains = data['articleStickRemains'] ?? 0,
+      : showInList = (data['articleShowInList'] ?? 0) == 1,
+        createTime = data['articleCreateTime'] ?? '',
+        authorId = data['articleAuthorId'] ?? '',
+        badCnt = data['articleBadCnt'] ?? 0,
+        latestCmtTime = data['articleLatestCmtTime'] ?? '',
+        goodCnt = data['articleGoodCnt'] ?? 0,
+        offerPoint = data['articleQnAOfferPoint'] ?? 0,
+        thumbnailURL = data['articleThumbnailURL'] ?? '',
+        stickRemains = data['articleStickRemains'] ?? 0,
         timeAgo = data['timeAgo'] ?? '',
-        articleUpdateTimeStr = data['articleUpdateTimeStr'] ?? '',
-        articleAuthorName = data['articleAuthorName'] ?? '',
-        articleType = ArticleType.values[data['articleType'] ?? 0],
+        updateTimeStr = data['articleUpdateTimeStr'] ?? '',
+        authorName = data['articleAuthorName'] ?? '',
+        type = ArticleType.values[data['articleType'] ?? 0],
         offered = data['offered'] ?? false,
-        articleCreateTimeStr = data['articleCreateTimeStr'] ?? '',
-        articleViewCount = data['articleViewCount'] ?? 0,
-        articleAuthorThumbnailURL20 = data['articleAuthorThumbnailURL20'] ?? '',
-        articleWatchCnt = data['articleWatchCnt'] ?? 0,
-        articlePreviewContent = data['articlePreviewContent'] ?? '',
-        articleTitleEmoj = data['articleTitleEmoj'] ?? '',
-        articleTitleEmojUnicode = data['articleTitleEmojUnicode'] ?? '',
-        articleTitle = data['articleTitle'] ?? '',
-        articleAuthorThumbnailURL48 = data['articleAuthorThumbnailURL48'] ?? '',
-        articleCommentCount = data['articleCommentCount'] ?? 0,
-        articleCollectCnt = data['articleCollectCnt'] ?? 0,
-        articleLatestCmterName = data['articleLatestCmterName'] ?? '',
-        articleTags = data['articleTags'] ?? '',
+        createTimeStr = data['articleCreateTimeStr'] ?? '',
+        viewCnt = data['articleViewCount'] ?? 0,
+        thumbnailURL20 = data['articleAuthorThumbnailURL20'] ?? '',
+        watchCnt = data['articleWatchCnt'] ?? 0,
+        previewContent = data['articlePreviewContent'] ?? '',
+        titleEmoj = data['articleTitleEmoj'] ?? '',
+        titleEmojUnicode = data['articleTitleEmojUnicode'] ?? '',
+        title = data['articleTitle'] ?? '',
+        thumbnailURL48 = data['articleAuthorThumbnailURL48'] ?? '',
+        commentCnt = data['articleCommentCount'] ?? 0,
+        collectCnt = data['articleCollectCnt'] ?? 0,
+        latestCmterName = data['articleLatestCmterName'] ?? '',
+        tags = data['articleTags'] ?? '',
         oId = data['oId'] ?? '',
         cmtTimeAgo = data['cmtTimeAgo'] ?? '',
-        articleStick = data['articleStick'] ?? 0,
-        articleTagObjs = List.from(data['articleTagObjs'] ?? [])
+        stick = data['articleStick'] ?? 0,
+        tagObjs = List.from(data['articleTagObjs'] ?? [])
             .map((e) => ArticleTag.from(e))
             .toList(),
-        articleLatestCmtTimeStr = data['articleLatestCmtTimeStr'] ?? '',
-        articleAnonymous = (data['articleAnonymous'] ?? 0) == 1,
-        articleThankCnt = data['articleThankCnt'] ?? 0,
-        articleUpdateTime = data['articleUpdateTime'] ?? '',
-        articleStatus = ArticleStatus.values[data['articleStatus'] ?? 0],
-        articleHeat = data['articleHeat'] ?? 0,
-        articlePerfect = (data['articlePerfect'] ?? 0) == 1,
-        articleAuthorThumbnailURL210 =
-            data['articleAuthorThumbnailURL210'] ?? '',
-        articlePermalink = data['articlePermalink'] ?? '',
-        articleAuthor = ArticleAuthor.from(data['articleAuthor'] ?? {}),
+        latestCmtTimeStr = data['articleLatestCmtTimeStr'] ?? '',
+        anonymous = (data['articleAnonymous'] ?? 0) == 1,
+        thankCnt = data['articleThankCnt'] ?? 0,
+        updateTime = data['articleUpdateTime'] ?? '',
+        status = ArticleStatus.values[data['articleStatus'] ?? 0],
+        heat = data['articleHeat'] ?? 0,
+        perfect = (data['articlePerfect'] ?? 0) == 1,
+        thumbnailURL210 = data['articleAuthorThumbnailURL210'] ?? '',
+        permalink = data['articlePermalink'] ?? '',
+        author = ArticleAuthor.from(data['articleAuthor'] ?? {}),
         thankedCnt = data['thankedCnt'] ?? 0,
-        articleAnonymousView = data['articleAnonymousView'] ?? 0,
-        articleViewCntDisplayFormat = data['articleViewCntDisplayFormat'] ?? '',
-        articleCommentable = data['articleCommentable'] ?? false,
+        anonymousView = data['articleAnonymousView'] ?? 0,
+        viewCntFormat = data['articleViewCntDisplayFormat'] ?? '',
+        commentable = data['articleCommentable'] ?? false,
         rewarded = data['rewarded'] ?? false,
         rewardedCnt = data['rewardedCnt'] ?? 0,
-        articleRewardPoint = data['articleRewardPoint'] ?? 0,
+        rewardPoint = data['articleRewardPoint'] ?? 0,
         isFollowing = data['isFollowing'] ?? false,
         isWatching = data['isWatching'] ?? false,
         isMyArticle = data['isMyArticle'] ?? false,
         thanked = data['thanked'] ?? false,
-        articleEditorType = data['articleEditorType'] ?? 0,
-        articleAudioURL = data['articleAudioURL'] ?? '',
-        articleToC = data['articleToC'] ?? '',
-        articleContent = data['articleContent'] ?? '',
-        articleOriginalContent = data['articleOriginalContent'] ?? '',
-        articleImg1URL = data['articleImg1URL'] ?? '',
-        articleVote = VoteStatus.values[(data['articleVote'] ?? 0) + 1],
-        articleRandomDouble = data['articleRandomDouble'] ?? 0.0,
-        articleAuthorIntro = data['articleAuthorIntro'] ?? '',
-        articleCity = data['articleCity'] ?? '',
-        articleIP = data['articleIP'] ?? '',
-        articleAuthorURL = data['articleAuthorURL'] ?? '',
-        articlePushOrder = data['articlePushOrder'] ?? 0,
-        articleRewardContent = data['articleRewardContent'] ?? '',
+        editorType = data['articleEditorType'] ?? 0,
+        audioURL = data['articleAudioURL'] ?? '',
+        table = data['articleToC'] ?? '',
+        content = data['articleContent'] ?? '',
+        source = data['articleOriginalContent'] ?? '',
+        img1URL = data['articleImg1URL'] ?? '',
+        vote = VoteStatus.values[(data['articleVote'] ?? 0) + 1],
+        randomDouble = data['articleRandomDouble'] ?? 0.0,
+        authorIntro = data['articleAuthorIntro'] ?? '',
+        city = data['articleCity'] ?? '',
+        IP = data['articleIP'] ?? '',
+        authorURL = data['articleAuthorURL'] ?? '',
+        pushOrder = data['articlePushOrder'] ?? 0,
+        rewardContent = data['articleRewardContent'] ?? '',
         redditScore = (data['redditScore'] ?? 0).toString(),
         pagination = data['pagination'] != null
             ? Pagination.from(data['pagination'])
             : null,
-        discussionViewable = data['discussionViewable'] ?? false,
-        articleRevisionCount = data['articleRevisionCount'] ?? 0,
-        articleComments = List.from(data['articleComments'] ?? [])
+        commentViewable = data['discussionViewable'] ?? false,
+        revisionCount = data['articleRevisionCount'] ?? 0,
+        comments = List.from(data['articleComments'] ?? [])
             .map((e) => ArticleComment.from(e))
             .toList(),
-        articleNiceComments = List.from(data['articleNiceComments'] ?? [])
+        niceComments = List.from(data['articleNiceComments'] ?? [])
             .map((e) => ArticleComment.from(e))
             .toList();
 
   Map<String, dynamic> toJson() => {
-        'articleShowInList': articleShowInList,
-        'articleCreateTime': articleCreateTime,
-        'articleAuthorId': articleAuthorId,
-        'articleBadCnt': articleBadCnt,
-        'articleLatestCmtTime': articleLatestCmtTime,
-        'articleGoodCnt': articleGoodCnt,
-        'articleQnAOfferPoint': articleQnAOfferPoint,
-        'articleThumbnailURL': articleThumbnailURL,
-        'articleStickRemains': articleStickRemains,
+        'articleShowInList': showInList,
+        'articleCreateTime': createTime,
+        'articleAuthorId': authorId,
+        'articleBadCnt': badCnt,
+        'articleLatestCmtTime': latestCmtTime,
+        'articleGoodCnt': goodCnt,
+        'articleQnAOfferPoint': offerPoint,
+        'articleThumbnailURL': thumbnailURL,
+        'articleStickRemains': stickRemains,
         'timeAgo': timeAgo,
-        'articleUpdateTimeStr': articleUpdateTimeStr,
-        'articleAuthorName': articleAuthorName,
-        'articleType': articleType.index,
+        'articleUpdateTimeStr': updateTimeStr,
+        'articleAuthorName': authorName,
+        'articleType': type.index,
         'offered': offered,
-        'articleCreateTimeStr': articleCreateTimeStr,
-        'articleViewCount': articleViewCount,
-        'articleAuthorThumbnailURL20': articleAuthorThumbnailURL20,
-        'articleWatchCnt': articleWatchCnt,
-        'articlePreviewContent': articlePreviewContent,
-        'articleTitleEmoj': articleTitleEmoj,
-        'articleTitleEmojUnicode': articleTitleEmojUnicode,
-        'articleTitle': articleTitle,
-        'articleAuthorThumbnailURL48': articleAuthorThumbnailURL48,
-        'articleCommentCount': articleCommentCount,
-        'articleCollectCnt': articleCollectCnt,
-        'articleLatestCmterName': articleLatestCmterName,
-        'articleTags': articleTags,
+        'articleCreateTimeStr': createTimeStr,
+        'articleViewCount': viewCnt,
+        'articleAuthorThumbnailURL20': thumbnailURL20,
+        'articleWatchCnt': watchCnt,
+        'articlePreviewContent': previewContent,
+        'articleTitleEmoj': titleEmoj,
+        'articleTitleEmojUnicode': titleEmojUnicode,
+        'articleTitle': title,
+        'articleAuthorThumbnailURL48': thumbnailURL48,
+        'articleCommentCount': commentCnt,
+        'articleCollectCnt': collectCnt,
+        'articleLatestCmterName': latestCmterName,
+        'articleTags': tags,
         'oId': oId,
         'cmtTimeAgo': cmtTimeAgo,
-        'articleStick': articleStick,
-        'articleTagObjs': articleTagObjs.map((e) => e.toJson()).toList(),
-        'articleLatestCmtTimeStr': articleLatestCmtTimeStr,
-        'articleAnonymous': articleAnonymous,
-        'articleThankCnt': articleThankCnt,
-        'articleUpdateTime': articleUpdateTime,
-        'articleStatus': articleStatus.index,
-        'articleHeat': articleHeat,
-        'articlePerfect': articlePerfect,
-        'articleAuthorThumbnailURL210': articleAuthorThumbnailURL210,
-        'articlePermalink': articlePermalink,
-        'articleAuthor': articleAuthor.toJson(),
+        'articleStick': stick,
+        'articleTagObjs': tagObjs.map((e) => e.toJson()).toList(),
+        'articleLatestCmtTimeStr': latestCmtTimeStr,
+        'articleAnonymous': anonymous,
+        'articleThankCnt': thankCnt,
+        'articleUpdateTime': updateTime,
+        'articleStatus': status.index,
+        'articleHeat': heat,
+        'articlePerfect': perfect,
+        'articleAuthorThumbnailURL210': thumbnailURL210,
+        'articlePermalink': permalink,
+        'articleAuthor': author.toJson(),
         'thankedCnt': thankedCnt,
-        'articleAnonymousView': articleAnonymousView,
-        'articleViewCntDisplayFormat': articleViewCntDisplayFormat,
-        'articleCommentable': articleCommentable,
+        'articleAnonymousView': anonymousView,
+        'articleViewCntDisplayFormat': viewCntFormat,
+        'articleCommentable': commentable,
         'rewarded': rewarded,
         'rewardedCnt': rewardedCnt,
-        'articleRewardPoint': articleRewardPoint,
+        'articleRewardPoint': rewardPoint,
         'isFollowing': isFollowing,
         'isWatching': isWatching,
         'isMyArticle': isMyArticle,
         'thanked': thanked,
-        'articleEditorType': articleEditorType,
-        'articleAudioURL': articleAudioURL,
-        'articleToC': articleToC,
-        'articleContent': articleContent,
-        'articleOriginalContent': articleOriginalContent,
-        'articleImg1URL': articleImg1URL,
-        'articleVote': articleVote.index,
-        'articleRandomDouble': articleRandomDouble,
-        'articleAuthorIntro': articleAuthorIntro,
-        'articleCity': articleCity,
-        'articleIP': articleIP,
-        'articleAuthorURL': articleAuthorURL,
-        'articlePushOrder': articlePushOrder,
-        'articleRewardContent': articleRewardContent,
+        'articleEditorType': editorType,
+        'articleAudioURL': audioURL,
+        'articleToC': table,
+        'articleContent': content,
+        'articleOriginalContent': source,
+        'articleImg1URL': img1URL,
+        'articleVote': vote.index,
+        'articleRandomDouble': randomDouble,
+        'articleAuthorIntro': authorIntro,
+        'articleCity': city,
+        'articleIP': IP,
+        'articleAuthorURL': authorURL,
+        'articlePushOrder': pushOrder,
+        'articleRewardContent': rewardContent,
         'redditScore': redditScore,
         'pagination': pagination?.toJson(),
-        'discussionViewable': discussionViewable,
-        'articleRevisionCount': articleRevisionCount,
-        'articleComments': articleComments.map((e) => e.toJson()).toList(),
-        'articleNiceComments':
-            articleNiceComments.map((e) => e.toJson()).toList(),
+        'discussionViewable': commentViewable,
+        'articleRevisionCount': revisionCount,
+        'articleComments': comments.map((e) => e.toJson()).toList(),
+        'articleNiceComments': niceComments.map((e) => e.toJson()).toList(),
       };
 }
 
 /// 文章列表
 class ArticleList {
-  List<ArticleDetail> articles = []; // 文章列表
+  List<ArticleDetail> list = []; // 文章列表
   Pagination pagination = Pagination(); // 分页信息
   ArticleTag? tag; // 标签信息，仅查询标签下文章列表有效
 
   ArticleList({articles, pagination, tag}) {
-    this.articles = articles ?? [];
+    list = articles ?? [];
     this.pagination = pagination ?? Pagination();
     this.tag = tag ?? ArticleTag();
   }
@@ -1355,9 +1327,9 @@ class ArticleList {
   // 从 JSON 数据构造对象
   ArticleList.from(Map<String, dynamic> data) {
     if (data['articles'] != null) {
-      articles = [];
+      list = [];
       data['articles'].forEach((v) {
-        articles.add(ArticleDetail.from(v));
+        list.add(ArticleDetail.from(v));
       });
     }
     pagination = data['pagination'] != null
@@ -1368,7 +1340,7 @@ class ArticleList {
 
   // 将对象转换为 JSON 数据
   Map<String, dynamic> toJson() => {
-        'articles': articles.map((e) => e.toJson()).toList(),
+        'articles': list.map((e) => e.toJson()).toList(),
         'pagination': pagination.toJson(),
         'tag': tag?.toJson(),
       };
