@@ -165,7 +165,7 @@ class Chat {
   ///
   /// 返回 WebSocket 连接
   Future connect(
-      {String? user,
+      {String user = '_user-channel_',
       int timeout = 10,
       Function(dynamic)? error,
       Function? close}) async {
@@ -174,8 +174,7 @@ class Chat {
       _wss[user]?.ws.sink.close();
     }
 
-    var channel = user != null ? 'chat-channel' : 'user-channel';
-    user = user ?? '_user-channel_';
+    var channel = user != '_user-channel_' ? 'chat-channel' : 'user-channel';
     _wss[user] = Request.connect(
       channel,
       params: {'apiKey': token, 'toUser': user},
@@ -187,8 +186,10 @@ class Chat {
         }
         for (ChatListener call in _wsCallbacks[user] ?? []) {
           var type = ChatMsgType.data;
-          if (msg['command']) type = ChatMsgType.notice;
+          if (['chatUnreadCountRefresh', 'newIdleChatMessage']
+              .contains(msg['command'] ?? '')) type = ChatMsgType.notice;
           if (msg['type'] == 'revoke') type = ChatMsgType.revoke;
+          if (type != ChatMsgType.notice && msg['command'] != null) return;
           switch (type) {
             case ChatMsgType.data:
               call(type, data: ChatData.from(msg));
@@ -207,18 +208,18 @@ class Chat {
           ws.sink.close();
           _wss[user]?.steam.cancel();
           _wss.remove(user);
-          connect(user: user);
+          connect(user: user, timeout: timeout, error: error, close: close);
         }),
       },
       onError: (error, ws) => {if (error != null) error(error)},
     );
   }
 
-  /// 添加聊天室消息监听函数
+  /// 添加消息监听函数
   ///
   /// - `wsCallback` 消息监听函数
   /// - `user` 指定为用户消息监听函数，空为新信息监听
-  void addListener(ChatListener wsCallback, {String user = ''}) {
+  void addListener(ChatListener wsCallback, {String user = '_user-channel_'}) {
     if (_wss[user] != null) {
       if (!_wsCallbacks[user]!.contains(wsCallback)) {
         _wsCallbacks[user]!.add(wsCallback);
@@ -231,12 +232,12 @@ class Chat {
     connect(user: user);
   }
 
-  /// 移除聊天室消息监听函数
+  /// 移除消息监听函数
   ///
   /// - `user` 指定用户消息监听函数，空为新信息监听
-  /// -`wsCallback` 要移除的函数，若为空，则清空消息监听
+  /// - `wsCallback` 要移除的函数，若为空，则清空消息监听
   void removeListener({
-    String user = '',
+    String user = '_user-channel_',
     ChatListener? wsCallback,
   }) {
     if (wsCallback == null) {
@@ -253,7 +254,9 @@ class Chat {
   }
 
   Future<WebsocketInfo> send(String user, String content) async {
-    if (_wss[user] == null || _wss[user]!.ws.closeCode != null) await connect(user: user);
+    if (_wss[user] == null || _wss[user]!.ws.closeCode != null) {
+      await connect(user: user);
+    }
     _wss[user]!.ws.sink.add(content);
     return _wss[user]!;
   }

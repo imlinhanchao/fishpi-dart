@@ -286,7 +286,7 @@ class Chatroom {
           ws.sink.close();
           _ws?.steam.cancel();
           _ws = null;
-          reconnect(timeout: timeout, error: error);
+          reconnect(timeout: timeout, error: error, close: close);
         }),
       },
       onError: (error, ws) {
@@ -295,14 +295,20 @@ class Chatroom {
     );
   }
 
-  void clearListener() {
-    _wsCallbacks = [];
-  }
-
-  void removeListener(Function(Message) wsCallback) {
+  /// 移除消息监听函数
+  /// 
+  /// - `wsCallback` 要移除的函数，若为空，则清空消息监听
+  void removeListener(Function(Message)? wsCallback) {
+    if (wsCallback == null) {
+      _wsCallbacks.clear();
+      return;
+    }
     _wsCallbacks.remove(wsCallback);
   }
 
+  /// 添加消息监听函数
+  /// 
+  /// - `wsCallback` 消息监听函数
   Future addListener(Function(Message) wsCallback,
       {int timeout = 10, Function(dynamic)? error, Function? close}) async {
     if (_ws != null && !_wsCallbacks.contains(wsCallback)) {
