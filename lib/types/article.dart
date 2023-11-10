@@ -455,7 +455,6 @@ class ArticleAuthor {
   String get allName =>
       userNickname.isEmpty ? userName : '$userNickname($userName)';
 
-
   ArticleAuthor({
     this.userOnlineFlag = false,
     this.onlineMinute = 0,
@@ -532,12 +531,12 @@ class ArticleAuthor {
         userOnlineStatus = PublicStatus.values[data['userOnlineStatus'] ?? 0],
         userCurrentCheckinStreakStart =
             data['userCurrentCheckinStreakStart'] ?? 0,
-        chatRoomPictureStatus = data['chatRoomPictureStatus'] ?? false,
+        chatRoomPictureStatus = (data['chatRoomPictureStatus'] ?? 0) == 1,
         userTags = data['userTags'] ?? '',
         userCommentStatus = PublicStatus.values[data['userCommentStatus'] ?? 0],
         userTimezone = data['userTimezone'] ?? '',
         userURL = data['userURL'] ?? '',
-        userForwardPageStatus = data['userForwardPageStatus'] ?? false,
+        userForwardPageStatus = (data['userForwardPageStatus'] ?? 0) == 1,
         userUAStatus = PublicStatus.values[data['userUAStatus'] ?? 0],
         userIndexRedirectURL = data['userIndexRedirectURL'] ?? '',
         userLatestArticleTime = data['userLatestArticleTime'] ?? 0,
@@ -596,7 +595,9 @@ class ArticleAuthor {
             PublicStatus.values[data['userFollowingUserStatus'] ?? 0],
         userArticleCount = data['userArticleCount'] ?? 0,
         userRole = data['userRole'] ?? '',
-        sysMetal = toMetal(data['sysMetal']);
+        sysMetal = List.from(data['sysMetal'] ?? [])
+            .map((e) => analyzeMetalAttr(e))
+            .toList();
 
   Map<String, dynamic> toJson() => {
         'userOnlineFlag': userOnlineFlag,
@@ -679,7 +680,7 @@ class ArticleComment {
   String commentAuthorId;
 
   /// 评论分数
-  int commentScore;
+  String commentScore;
 
   /// 评论创建时间
   String commentCreateTime;
@@ -760,7 +761,7 @@ class ArticleComment {
       {this.commentNice = false,
       this.commentCreateTimeStr = '',
       this.commentAuthorId = '',
-      this.commentScore = 0,
+      this.commentScore = '',
       this.commentCreateTime = '',
       this.commentAuthorURL = '',
       this.commentVote = VoteStatus.normal,
@@ -793,20 +794,22 @@ class ArticleComment {
       : commentNice = data['commentNice'] ?? false,
         commentCreateTimeStr = data['commentCreateTimeStr'] ?? '',
         commentAuthorId = data['commentAuthorId'] ?? '',
-        commentScore = data['commentScore'] ?? 0,
+        commentScore = (data['commentScore'] ?? 0).toString(),
         commentCreateTime = data['commentCreateTime'] ?? '',
         commentAuthorURL = data['commentAuthorURL'] ?? '',
-        commentVote = VoteStatus.values[data['commentVote'] ?? 0],
+        commentVote = VoteStatus.values[(data['commentVote'] ?? 0) + 1],
         commentRevisionCount = data['commentRevisionCount'] ?? 0,
         timeAgo = data['timeAgo'] ?? '',
         commentOriginalCommentId = data['commentOriginalCommentId'] ?? '',
-        sysMetal = toMetal(data['sysMetal']),
+        sysMetal = List.from(data['sysMetal'])
+            .map((e) => analyzeMetalAttr(e))
+            .toList(),
         commentGoodCnt = data['commentGoodCnt'] ?? 0,
         commentVisible = YesNoStatus.values[data['commentVisible'] ?? 0],
         commentOnArticleId = data['commentOnArticleId'] ?? '',
         rewardedCnt = data['rewardedCnt'] ?? 0,
         commentSharpURL = data['commentSharpURL'] ?? '',
-        commentAnonymous = data['commentAnonymous'] ?? false,
+        commentAnonymous = (data['commentAnonymous'] ?? 0) == 1,
         commentReplyCnt = data['commentReplyCnt'] ?? 0,
         oId = data['oId'] ?? '',
         commentContent = data['commentContent'] ?? '',
@@ -855,19 +858,19 @@ class ArticleComment {
 
 class Pagination {
   /// 总分页数
-  String paginationPageCount;
+  int paginationPageCount;
 
   /// 建议分页页码
   List<int> paginationPageNums;
 
   Pagination({
-    this.paginationPageCount = '',
+    this.paginationPageCount = 0,
     this.paginationPageNums = const [],
   });
 
   Pagination.from(Map<String, dynamic> data)
-      : paginationPageCount = data['paginationPageCount'] ?? '',
-        paginationPageNums = data['paginationPageNums'] ?? const [];
+      : paginationPageCount = data['paginationPageCount'] ?? 0,
+        paginationPageNums = List.from(data['paginationPageNums'] ?? []);
 
   Map<String, dynamic> toJson() => {
         'paginationPageCount': paginationPageCount,
@@ -1181,7 +1184,7 @@ class ArticleDetail {
   }
 
   ArticleDetail.from(Map<String, dynamic> data)
-      : articleShowInList = data['articleShowInList'] ?? false,
+      : articleShowInList = (data['articleShowInList'] ?? 0) == 1,
         articleCreateTime = data['articleCreateTime'] ?? '',
         articleAuthorId = data['articleAuthorId'] ?? '',
         articleBadCnt = data['articleBadCnt'] ?? 0,
@@ -1211,14 +1214,16 @@ class ArticleDetail {
         oId = data['oId'] ?? '',
         cmtTimeAgo = data['cmtTimeAgo'] ?? '',
         articleStick = data['articleStick'] ?? 0,
-        articleTagObjs = data['articleTagObjs'] ?? const [],
+        articleTagObjs = List.from(data['articleTagObjs'] ?? [])
+            .map((e) => ArticleTag.from(e))
+            .toList(),
         articleLatestCmtTimeStr = data['articleLatestCmtTimeStr'] ?? '',
-        articleAnonymous = data['articleAnonymous'] ?? false,
+        articleAnonymous = (data['articleAnonymous'] ?? 0) == 1,
         articleThankCnt = data['articleThankCnt'] ?? 0,
         articleUpdateTime = data['articleUpdateTime'] ?? '',
         articleStatus = ArticleStatus.values[data['articleStatus'] ?? 0],
         articleHeat = data['articleHeat'] ?? 0,
-        articlePerfect = data['articlePerfect'] ?? false,
+        articlePerfect = (data['articlePerfect'] ?? 0) == 1,
         articleAuthorThumbnailURL210 =
             data['articleAuthorThumbnailURL210'] ?? '',
         articlePermalink = data['articlePermalink'] ?? '',
@@ -1240,7 +1245,7 @@ class ArticleDetail {
         articleContent = data['articleContent'] ?? '',
         articleOriginalContent = data['articleOriginalContent'] ?? '',
         articleImg1URL = data['articleImg1URL'] ?? '',
-        articleVote = VoteStatus.values[data['articleVote'] ?? 0],
+        articleVote = VoteStatus.values[(data['articleVote'] ?? 0) + 1],
         articleRandomDouble = data['articleRandomDouble'] ?? 0.0,
         articleAuthorIntro = data['articleAuthorIntro'] ?? '',
         articleCity = data['articleCity'] ?? '',
@@ -1248,7 +1253,7 @@ class ArticleDetail {
         articleAuthorURL = data['articleAuthorURL'] ?? '',
         articlePushOrder = data['articlePushOrder'] ?? 0,
         articleRewardContent = data['articleRewardContent'] ?? '',
-        redditScore = data['redditScore'] ?? '',
+        redditScore = (data['redditScore'] ?? 0).toString(),
         pagination = data['pagination'] != null
             ? Pagination.from(data['pagination'])
             : null,
@@ -1376,12 +1381,16 @@ class ArticleList {
 class ArticleListType {
   /// 最近
   static const String Recent = 'recent';
+
   /// 热门
   static const String Hot = 'hot';
+
   /// 点赞
   static const String Good = 'good';
+
   /// 最近回复
   static const String Reply = 'reply';
+
   /// 优选，需包含标签
   static const String Perfect = 'perfect';
 
@@ -1407,34 +1416,43 @@ class ArticleListType {
 
 /// 评论发布
 class CommentPost {
-  String articleId; // 文章 Id
-  bool commentAnonymous; // 是否匿名评论
-  bool commentVisible; // 评论是否楼主可见
-  String commentContent; // 评论内容
-  String commentOriginalCommentId; // 回复评论 Id
+  /// 文章 Id
+  String articleId;
+
+  /// 是否匿名评论
+  bool isAnonymous;
+
+  /// 评论是否楼主可见
+  bool isVisible;
+
+  /// 评论内容
+  String content;
+
+  /// 回复评论 Id
+  String replyId;
 
   CommentPost({
     this.articleId = '',
-    this.commentAnonymous = false,
-    this.commentVisible = false,
-    this.commentContent = '',
-    this.commentOriginalCommentId = '',
+    this.isAnonymous = false,
+    this.isVisible = false,
+    this.content = '',
+    this.replyId = '',
   });
 
   // 从 JSON 数据构造对象
   CommentPost.from(Map<String, dynamic> json)
       : articleId = json['articleId'],
-        commentAnonymous = json['commentAnonymous'],
-        commentVisible = json['commentVisible'],
-        commentContent = json['commentContent'],
-        commentOriginalCommentId = json['commentOriginalCommentId'];
+        isAnonymous = json['commentAnonymous'],
+        isVisible = json['commentVisible'],
+        content = json['commentContent'],
+        replyId = json['commentOriginalCommentId'];
 
   // 将对象转换为 JSON 数据
   Map<String, dynamic> toJson() => {
         'articleId': articleId,
-        'commentAnonymous': commentAnonymous,
-        'commentVisible': commentVisible,
-        'commentContent': commentContent,
-        'commentOriginalCommentId': commentOriginalCommentId,
+        'commentAnonymous': isAnonymous,
+        'commentVisible': isVisible,
+        'commentContent': content,
+        'commentOriginalCommentId': replyId,
       };
 }
