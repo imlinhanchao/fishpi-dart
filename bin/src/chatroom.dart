@@ -99,7 +99,7 @@ class ChatRoomCmd implements CommandInstance {
         {
           print('''${Command.bold}聊天室模块命令${Command.restore}
 :barrage [#color] <content> 发送弹幕，color 必须 # 开头，6 位颜色代码，如 #FFFFFF，不填写则为白色（Windows 不支持此命令）
-<chatroom message> 发送消息到聊天室（Windows 不支持此命令）
+<content> 发送消息到聊天室（Windows 不支持此命令）
 ''');
           break;
         }

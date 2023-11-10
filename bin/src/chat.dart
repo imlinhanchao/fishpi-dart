@@ -62,8 +62,9 @@ class ChatCmd implements CommandInstance {
       case ':help':
         {
           print('''${Command.bold}聊天模块命令${Command.restore}
-:chat [username] [message] 私聊，username 为私聊对象，message 为私聊内容
 :page chat [username] 查看聊天记录，username 为私聊对象，不传递 username 则为查看聊天列表
+:chat [username] [message] 私聊，username 为私聊对象，message 为私聊内容 (Windows 不支持此命令)
+<content> 发送消息到当前的聊天者 (Windows 不支持此命令)
 ''');
           break;
         }
@@ -88,11 +89,11 @@ class ChatCmd implements CommandInstance {
       currentUser = commands[2];
     }
     if (currentUser.isEmpty) {
-      print('聊天列表：');
+      print('------ 聊天列表 ------');
       await Instance.get.chat.list().then(
           (value) => {for (var item in value.reversed) print(itemView(item))});
     } else {
-      print('聊天历史：');
+      print('------ 聊天历史 [$currentUser] ------');
       Instance.get.chat.get(user: currentUser).then(
           (value) => {for (var item in value.reversed) print(msgView(item))});
     }

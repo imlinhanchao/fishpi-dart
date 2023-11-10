@@ -179,7 +179,7 @@ class ArticleCmd implements CommandInstance {
 :all 查看所有文章（清除 Tag）
 :next 下一页
 :prev 上一页
-:view <index> 查看某一篇文章
+:view <index|id> 查看某一篇文章
 :reply <index> <content> 回复某一条评论
 <content> 发送正在查看的文章评论 (Windows 不支持此命令)
 ''');
