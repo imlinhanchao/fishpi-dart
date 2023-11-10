@@ -69,6 +69,40 @@ class ChatRoomCmd implements CommandInstance {
     if (command.trim().isEmpty) return false;
     var argv = command.trim().split(' ');
     switch (argv[0]) {
+      case ':barrage':
+        {
+          if (!Instance.get.isLogin) {
+            print('请先登录。');
+            break;
+          }
+          if (!Platform.isWindows) {
+            var content = '';
+            var color = '#FFFFFF';
+            if (argv.length > 1) {
+              if (argv[1].startsWith('#') && argv[1].length == 7) {
+                color = argv[1];
+                content = argv.skip(2).join(' ');
+              } else {
+                content = argv.skip(1).join(' ');
+              }
+            } else {
+              stdout.write('请输入要发送的内容： ');
+              content = stdin.readLineSync() ?? '';
+            }
+            await Instance.get.chatroom.barrage(content, color: color);
+          } else {
+            print('弹幕发送消息不支援 Windows 端。请使用 --barrager 命令行参数发送。');
+          }
+          break;
+        }
+      case ':help':
+        {
+          print('''${Command.bold}聊天室模块命令${Command.restore}
+:barrage [#color] <content> 发送弹幕，color 必须 # 开头，6 位颜色代码，如 #FFFFFF，不填写则为白色（Windows 不支持此命令）
+<chatroom message> 发送消息到聊天室（Windows 不支持此命令）
+''');
+          break;
+        }
       default:
         {
           if (!Instance.get.isLogin) {

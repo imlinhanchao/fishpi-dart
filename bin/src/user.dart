@@ -73,6 +73,19 @@ class UserCmd implements CommandInstance {
           page(':page user ${argv.length > 1 ? argv[1] : ''}');
           break;
         }
+      case ':help':
+        {
+          print!('''${Command.bold}用户模块命令${Command.restore}
+:page user <username> 查看用户信息
+:login <username> <passwd> 登录/切换账号
+:user <username> 查看用户信息
+''');
+          break;
+        }
+      default:
+        {
+          return false;
+        }
     }
     return true;
   }

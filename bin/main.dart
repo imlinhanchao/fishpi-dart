@@ -60,6 +60,17 @@ readCommand() async {
           stdout.write('${Command.clearScreen}${Command.moveTo(0, 0)}');
           commands[currentPage]?.page(command);
           break;
+        case ':help':
+          stdout.write('${Command.clearScreen}${Command.moveTo(0, 0)}');
+          print('''${Command.bold}公共命令${Command.restore}
+:page <page> 切换页面 page: ${CommandPage.values.map((e) => e.name).join(', ')}
+:quit/:q 退出
+:help 帮助
+''');
+          if (commands[currentPage] != null) {
+            commands[currentPage]?.call(command);
+          }
+          break;
         default:
           stdout.write('${Command.moveUp(1)}${Command.clearLine}');
           if (commands[currentPage] != null) {

@@ -169,6 +169,22 @@ class ArticleCmd implements CommandInstance {
           }
           break;
         }
+      case ':help':
+        {
+          print('''${Command.bold}文章模块命令${Command.restore}
+:page article [page] [type] 查看文章，page 为页码，type 为文章类型
+:type <type> 查看某个类型的文章
+:tag <tag> 查看某个 Tag 下的文章
+:to <page> 跳转到某一页
+:all 查看所有文章（清除 Tag）
+:next 下一页
+:prev 上一页
+:view <index> 查看某一篇文章
+:reply <index> <content> 回复某一条评论
+<content> 发送正在查看的文章评论 (Windows 不支持此命令)
+''');
+          break;
+        }
       default:
         {
           if (_currentPage != ArticlePage.detail) break;
@@ -242,6 +258,8 @@ class ArticleCmd implements CommandInstance {
           RegExp(r'^\d+$').hasMatch(commands[2])) {
         page = int.parse(commands[2]);
       }
+
+      print('------ <$_type> 文章列表 ${_tag.isEmpty ? '' : '[$_tag]'}------');
 
       await Instance.get.article
           .list(type: type, page: page, tag: tag)

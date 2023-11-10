@@ -39,11 +39,19 @@ class ChatCmd implements CommandInstance {
     switch (argv[0]) {
       case ':chat':
         {
+          if (Platform.isWindows) {
+            print('命令发送消息不支援 Windows 端。请使用 --say 命令行参数发送，--chat 指定接收者。');
+            break;
+          }
           if (argv.length > 1) {
             currentUser = argv[1];
             await page(':page chat $currentUser');
             if (argv.length > 2) {
               await Instance.get.chat.send(currentUser, argv[2]);
+            } else {
+              stdout.write('请输入要发送的内容： ');
+              await Instance.get.chat
+                  .send(currentUser, stdin.readLineSync() ?? '');
             }
           } else {
             currentUser = '';
@@ -51,11 +59,19 @@ class ChatCmd implements CommandInstance {
           }
           break;
         }
+      case ':help':
+        {
+          print('''${Command.bold}聊天模块命令${Command.restore}
+:chat [username] [message] 私聊，username 为私聊对象，message 为私聊内容
+:page chat [username] 查看聊天记录，username 为私聊对象，不传递 username 则为查看聊天列表
+''');
+          break;
+        }
       default:
         {
           if (currentUser.isEmpty) {
             return call(':chat $command');
-          } else if (!Platform.isWindows) {
+          } else if (Platform.isWindows) {
             print('命令发送消息不支援 Windows 端。请使用 --say 命令行参数发送，--chat 指定接收者。');
           } else {
             Instance.get.chat.send(currentUser, command);

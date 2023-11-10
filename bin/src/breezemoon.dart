@@ -70,6 +70,18 @@ class BreezemoonCmd implements CommandInstance {
           await page(':page breezemoon');
           break;
         }
+      case ':help':
+        {
+          print('''${Command.bold}清风明月模块命令${Command.restore}
+:page breezemoon [page] [size] 查看清风明月，page 为页码，size 为每页显示笔数
+:next 下一页
+:prev 上一页
+:to <page> 跳转到某一页
+:size <size> 每页显示笔数
+<content> 发送清风明月 (Windows 不支持此命令)
+''');
+          break;
+        }
       default:
         {
           if (!Instance.get.isLogin) {
