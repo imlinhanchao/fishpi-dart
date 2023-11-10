@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import '../main.dart';
 import 'base.dart';
+import 'user.dart';
 
 class ChatRoomCmd implements CommandInstance {
   @override
@@ -15,11 +15,10 @@ class ChatRoomCmd implements CommandInstance {
   @override
   Future<void> exec(ArgResults args, PrintFn print) async {
     if (args['talk'] != null) {
-      if (!Instance.get.isLogin) {
-        print('请先登录。');
-      } else {
-        Instance.get.chatroom.send(args['talk']).then(print);
+      if (!Instance.get.isLogin && !await UserCmd().login()) {
+        exit(0);
       }
+      Instance.get.chatroom.send(args['talk']).then(print);
       exit(0);
     }
     if (args['barrager'] != null) {
@@ -94,7 +93,7 @@ class ChatRoomCmd implements CommandInstance {
 
   String msgView(ChatRoomMessage msg) {
     if (msg.isRedpacket) return redPacketView(msg);
-    return '${Command.bold}${msg.allName}${Command.from('#AAAAAA').color} [${msg.time}]${Command.restore}: ${htmlToText(msg.content, userName: Instance.get.user.current.userName).replaceAll('\n', '')}';
+    return '${Command.bold}${msg.allName}${Command.from('#AAAAAA').color} [${msg.time}]${Command.restore}: ${htmlToText(msg.content, userName: Instance.get.user.current.userName).replaceAll('\n', ' ')}';
   }
 
   String redPacketView(ChatRoomMessage msg) {
