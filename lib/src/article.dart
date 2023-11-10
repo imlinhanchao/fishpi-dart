@@ -72,7 +72,7 @@ class Article {
   }) async {
     try {
       var rsp = await Request.get(
-        'api/articles/${tag != null ? "tag/$tag" : "recent"}${ArticleListType.toCode(type)}',
+        'api/articles/${tag != null && tag.isNotEmpty ? "tag/$tag" : "recent"}${ArticleListType.toCode(type)}',
         params: {"p": page, "apiKey": token},
       );
 
@@ -87,6 +87,7 @@ class Article {
   /// 获取文章详情
   ///
   /// - `id` 文章id
+  /// - `p` 评论页码
   ///
   /// 返回文章详情
   Future<ArticleDetail> detail(String id, {int p = 1}) async {
@@ -98,7 +99,7 @@ class Article {
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      return ArticleDetail.from(rsp['data']?['article'] ?? {});
+      return ArticleDetail.from(rsp['data']?['article'] ?? {})..pagination = Pagination.from(rsp['data']?['pagination'] ?? {});
     } catch (e) {
       return Future.error(e);
     }
@@ -238,14 +239,13 @@ class Article {
   /// 返回 WebSocketChannel
   Future<WebsocketInfo> addListener(
       {required String id, int type = 0, required Function cb}) async {
-
     return Request.connect(
       '/article-channel',
       params: {'apiKey': token, 'articleId': id, 'articleType': type},
       onMessage: (msg) {
         try {
           msg = json.decode(msg);
-        // ignore: empty_catches
+          // ignore: empty_catches
         } catch (e) {}
         cb(msg);
       },
