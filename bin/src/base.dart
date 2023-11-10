@@ -79,7 +79,7 @@ class Config {
 String htmlToText(String html, {String? userName}) {
   return html
       .replaceAllMapped(RegExp(r'@<a [^>]*?>([^<]*?)</a>'),
-          (match) => '@\x1B[4m${match.group(1)}\x1B[0m')
+          (match) => '@${Command.underline}${match.group(1)}${Command.restore}')
       .replaceAllMapped(RegExp(r'<a [^>]*?href="([^"]*?)"[^>]*?>([^<]*?)</a>'),
           (match) => '[${match.group(2)}](${match.group(1)})')
       .replaceAllMapped(
@@ -98,5 +98,50 @@ String htmlToText(String html, {String? userName}) {
       .replaceAllMapped(RegExp(r'<iframe.*?<\/iframe>'), (match) => '[内联网页]')
       .replaceAllMapped(RegExp(r'<(\/)*[^>]*?>'), (match) => '')
       .replaceAllMapped(
-          RegExp('@$userName'), (match) => '\x1B[7m@\x1B[4m$userName\x1B[0m');
+          RegExp('@$userName'), (match) => '${Command.reverse}@${Command.underline}$userName${Command.restore}');
+}
+
+class Command {
+  int r;
+  int g;
+  int b;
+
+  Command([this.r=255, this.g=255, this.b=255]);
+  Command.from(String rgb)
+      : r = int.parse(rgb.substring(1, 3), radix: 16),
+        g = int.parse(rgb.substring(3, 5), radix: 16),
+        b = int.parse(rgb.substring(5, 7), radix: 16);
+  
+  get color => '\x1B[38;2;$r;$g;${b}m';
+  get back => '\x1B[48;2;$r;$g;${b}m';
+
+  static get restore => '\x1B[0m';
+  static get bold => '\x1B[1m';
+  static get rbold => '\x1B[21m';
+  static get italic => '\x1B[3m';
+  static get ritalic => '\x1B[23m';
+  static get underline => '\x1B[4m';
+  static get runderline => '\x1B[24m';
+  static get blink => '\x1B[5m';
+  static get rblink => '\x1B[25m';
+  static get reverse => '\x1B[7m';
+  static get rreverse => '\x1B[27m';
+  static get hide => '\x1B[8m';
+  static get rhide => '\x1B[28m';
+  static get strike => '\x1B[9m';
+  static get rstrike => '\x1B[29m';
+
+  static get clearLine => '\x1B[2K';
+  static get clearScreen => '\x1B[2J';
+
+  static String moveUp([int n = 1]) => '\x1B[${n}A';
+  static String moveDown([int n = 1]) => '\x1B[${n}B';
+  static String moveRight([int n = 1]) => '\x1B[${n}C';
+  static String moveLeft([int n = 1]) => '\x1B[${n}D';
+  static String moveTo(int x, int y) => '\x1B[$y;${x}H';
+
+  @override
+  String toString() {
+    return '#${r.toRadixString(16).padLeft(2, '0')}${g.toRadixString(16).padLeft(2, '0')}${b.toRadixString(16).padLeft(2, '0')}';
+  }
 }

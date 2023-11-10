@@ -53,7 +53,7 @@ class UserCmd implements CommandInstance {
     if (command.trim().isEmpty) return false;
     var argv = command.trim().split(' ');
     switch (argv[0]) {
-      case '/login':
+      case ':login':
         {
           String username = '', passwd = '';
           if (argv.length > 1) {
@@ -64,13 +64,13 @@ class UserCmd implements CommandInstance {
           }
           if (await login(username, passwd)) {
             await Instance.get.user.info();
-            page('/page user');
+            page(':page user');
           }
           break;
         }
-      case '/user':
+      case ':user':
         {
-          page('/page user ${argv.length > 1 ? argv[1] : ''}');
+          page(':page user ${argv.length > 1 ? argv[1] : ''}');
           break;
         }
     }
@@ -79,7 +79,7 @@ class UserCmd implements CommandInstance {
 
   @override
   Future<bool> page(String command) async {
-    print!('\x1B[2J\x1B[0;0H');
+    print!('${Command.clearScreen}${Command.moveTo(0, 0)}');
     final commands = command.trim().split(' ');
     UserInfo info = UserInfo();
     if (commands.length > 2 && commands[2].isNotEmpty) {
@@ -91,11 +91,11 @@ class UserCmd implements CommandInstance {
     }
 
     print!('''
-\x1B[1m${info.allName}\x1B[0m - [${info.userOnlineFlag ? '\x1B[32m在线\x1B[0m' : '\x1B[90m离线\x1B[0m'}]
-\x1B[90m👤${info.userRole}\x1B[0m\t\x1B[1mNo.\x1B[0m${info.userNo}\t
+${Command.bold}${info.allName}${Command.restore} - [${info.userOnlineFlag ? '${Command.from('#00FF00').color}在线${Command.restore}' : '${Command.from('#AAAAAA').color}离线${Command.restore}'}]
+${Command.from('#AAAAAA').color}👤${info.userRole}${Command.restore}\t${Command.bold}No.${Command.restore}${info.userNo}\t
 💲${info.userPoint}\t📍${info.userCity.isEmpty ? '' : info.userCity}
-${info.userIntro.isEmpty ? '' : '📝 \x1B[3m${info.userIntro}\x1B[0m'}
-${info.userURL.isEmpty ? '' : '🔗 \x1B[4m${info.userURL}\x1B[0m'}''');
+${info.userIntro.isEmpty ? '' : '📝 ${Command.italic}${info.userIntro}${Command.restore}'}
+${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.restore}'}''');
     for (var i = 0; i < info.sysMetal.length; i++) {
       print!('🏅 ${info.sysMetal[i].name}   ', false);
       if (i % 5 == 4) print!('');

@@ -42,19 +42,20 @@ readCommand() async {
       var commandArgs = command.split(' ');
 
       switch (commandArgs[0]) {
-        case '/quit':
+        case ':quit':
+        case ':q':
           exit(0);
-        case '/page':
+        case ':page':
           for (var element in CommandPage.values) {
             if (element.name == commandArgs[1]) {
               currentPage = element;
             }
           }
-          stdout.write('\x1B[2J\x1B[0;0H');
+          stdout.write('${Command.clearScreen}${Command.moveTo(0, 0)}');
           commands[currentPage]?.page(command);
           break;
         default:
-          stdout.write('\x1B[1A\x1B[2K');
+          stdout.write('${Command.moveUp(1)}${Command.clearLine}');
           if (commands[currentPage] != null) {
             commands[currentPage]?.call(command);
           }

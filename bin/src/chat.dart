@@ -37,24 +37,24 @@ class ChatCmd implements CommandInstance {
     }
     var argv = command.trim().split(' ');
     switch (argv[0]) {
-      case '/chat':
+      case ':chat':
         {
           if (argv.length > 1) {
             currentUser = argv[1];
-            await page('/page chat $currentUser');
+            await page(':page chat $currentUser');
             if (argv.length > 2) {
               await Instance.get.chat.send(currentUser, argv[2]);
             }
           } else {
             currentUser = '';
-            await page('/page chat');
+            await page(':page chat');
           }
           break;
         }
       default:
         {
           if (currentUser.isEmpty) {
-            return call('/chat $command');
+            return call(':chat $command');
           } else if (!Platform.isWindows) {
             print('命令发送消息不支援 Windows 端。请使用 --say 命令行参数发送，--chat 指定接收者。');
           } else {
@@ -84,10 +84,10 @@ class ChatCmd implements CommandInstance {
   }
 
   String msgView(ChatData msg) {
-    return '\x1B[1m${msg.senderUserName}\x1B[90m [${msg.time}]\x1B[0m: ${htmlToText(msg.content, userName: Instance.get.user.current.userName).replaceAll('\n', '')}';
+    return '${Command.bold}${msg.senderUserName}${Command.from('#AAAAAA').color} [${msg.time}]${Command.restore}: ${htmlToText(msg.content, userName: Instance.get.user.current.userName).replaceAll('\n', '')}';
   }
 
   String itemView(ChatData msg) {
-    return '\x1B[1m${msg.senderUserName == Instance.get.user.current.userName ? msg.receiverUserName : msg.senderUserName}\x1B[90m [${msg.time}]\x1B[0m\t';
+    return '${Command.bold}${msg.senderUserName == Instance.get.user.current.userName ? msg.receiverUserName : msg.senderUserName}${Command.from('#AAAAAA').color} [${msg.time}]${Command.restore}\t';
   }
 }

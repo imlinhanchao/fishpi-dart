@@ -6,7 +6,9 @@ import 'base.dart';
 class ChatRoomCmd implements CommandInstance {
   @override
   ArgParser command(ArgParser parser) {
-    return parser..addOption('talk', help: '发送消息到聊天室（需曾经登录过或添加 -u 参数）');
+    return parser..addOption('talk', help: '发送消息到聊天室（需曾经登录过或添加 -u 参数）')
+        ..addOption('barrager', help: '发送弹幕到聊天室（需曾经登录过或添加 -u 参数）')
+        ..addOption('barrager-color', help: '弹幕颜色', defaultsTo: '#FFFFFF');
   }
 
   @override
@@ -16,6 +18,14 @@ class ChatRoomCmd implements CommandInstance {
         print('请先登录。');
       } else {
         Instance.get.chatroom.send(args['talk']).then(print);
+      }
+      exit(0);
+    }
+    if (args['barrager'] != null) {
+      if (!Instance.get.isLogin) {
+        print('请先登录。');
+      } else {
+        Instance.get.chatroom.barrage(args['barrager'], color: args['barrager-color'] ?? '#FFFFFF').then(print);
       }
       exit(0);
     }
@@ -78,11 +88,11 @@ class ChatRoomCmd implements CommandInstance {
 
   String msgView(ChatRoomMessage msg) {
     if (msg.isRedpacket) return redPacketView(msg);
-    return '\x1B[1m${msg.allName}\x1B[90m [${msg.time}]\x1B[0m: ${htmlToText(msg.content, userName: Instance.get.user.current.userName).replaceAll('\n', '')}';
+    return '${Command.bold}${msg.allName}${Command.from('#AAAAAA').color} [${msg.time}]${Command.restore}: ${htmlToText(msg.content, userName: Instance.get.user.current.userName).replaceAll('\n', '')}';
   }
 
   String redPacketView(ChatRoomMessage msg) {
-    return '\x1B[1m${msg.allName}\x1B[0m [${msg.time}]: { 收到一个${RedPacketType.toName(msg.redpacket?.type ?? '')} }';
+    return '${Command.bold}${msg.allName}${Command.restore} [${msg.time}]: { 收到一个${RedPacketType.toName(msg.redpacket?.type ?? '')} }';
   }
 
   String barragerView(BarragerMsg msg) {
