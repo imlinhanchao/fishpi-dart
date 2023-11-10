@@ -11,7 +11,7 @@ class Chatroom {
 
   final ChatSource client = ChatSource();
   WebsocketInfo? _ws;
-  List<ChatroomListener> _wsCallbacks = [];
+  final List<ChatroomListener> _wsCallbacks = [];
 
   Redpacket redpacket = Redpacket();
 
