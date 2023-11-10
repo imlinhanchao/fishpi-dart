@@ -12,7 +12,7 @@ class Comment {
   ///
   /// - `data` 评论信息
   ///
-  /// 返回 ApiResponse
+  /// 返回执行结果
   Future<ResponseResult> send(CommentPost data) async {
     try {
       var rsp = await Request.post(
@@ -81,7 +81,7 @@ class Comment {
   ///
   /// - `id` 评论 Id
   ///
-  /// 返回 ApiResponse
+  /// 返回执行结果
   Future<ResponseResult> thank(String id) async {
     try {
       var rsp = await Request.post(

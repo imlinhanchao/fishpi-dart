@@ -132,7 +132,7 @@ class Article {
   ///
   /// - `id` 文章id
   ///
-  /// 返回 ApiResponse
+  /// 返回执行结果
   Future<ResponseResult> thank(String id) async {
     try {
       var rsp = await Request.post(
@@ -153,7 +153,7 @@ class Article {
   ///
   /// - `id` 文章id
   ///
-  /// 返回 ApiResponse
+  /// 返回执行结果
   Future<ResponseResult> follow(String followingId) async {
     try {
       var rsp = await Request.post(
@@ -174,7 +174,7 @@ class Article {
   ///
   /// - `followingId` 文章id
   ///
-  /// 返回 ApiResponse
+  /// 返回执行结果
   Future<ResponseResult> watch(String followingId) async {
     try {
       var rsp = await Request.post(
@@ -195,7 +195,7 @@ class Article {
   ///
   /// - `id` 文章id
   ///
-  /// 返回 ApiResponse
+  /// 返回执行结果
   Future<ResponseResult> reward(String id) async {
     try {
       var rsp = await Request.post(

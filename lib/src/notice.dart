@@ -32,7 +32,7 @@ class Notice {
   ///
   /// - `type` 消息类型
   ///
-  /// 返回 ApiResponse
+  /// 返回消息列表
   Future<NoticeList> list(String type) async {
     try {
       var rsp = await Request.get('api/getNotifications', params: {
@@ -65,7 +65,7 @@ class Notice {
   ///
   /// - `type` 消息类型
   ///
-  /// 返回 ApiResponse
+  /// 返回执行结果
   Future<ResponseResult> makeRead(String type) async {
     try {
       var rsp = await Request.get('notifications/make-read/$type', params: {
@@ -79,8 +79,6 @@ class Notice {
   }
 
   /// 已读所有消息
-  ///
-  /// 返回 ApiResponse
   Future<void> readAll() async {
     try {
       await Request.get('notifications/all-read', params: {
