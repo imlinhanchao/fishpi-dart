@@ -450,6 +450,12 @@ class ArticleAuthor {
   /// 徽章
   MetalList sysMetal;
 
+  String get name => userNickname.isEmpty ? userName : userNickname;
+
+  String get allName =>
+      userNickname.isEmpty ? userName : '$userNickname($userName)';
+
+
   ArticleAuthor({
     this.userOnlineFlag = false,
     this.onlineMinute = 0,
@@ -848,7 +854,7 @@ class ArticleComment {
 }
 
 class Pagination {
-  /// 评论分页数
+  /// 总分页数
   String paginationPageCount;
 
   /// 建议分页页码
@@ -1368,11 +1374,35 @@ class ArticleList {
 
 /// 帖子列表查询类型
 class ArticleListType {
-  static const String Recent = ''; // 最近
-  static const String Hot = '/hot'; // 热门
-  static const String Good = '/good'; // 点赞
-  static const String Reply = '/reply'; // 最近回复
-  static const String Perfect = '/perfect'; // 优选，需包含标签
+  /// 最近
+  static const String Recent = 'recent';
+  /// 热门
+  static const String Hot = 'hot';
+  /// 点赞
+  static const String Good = 'good';
+  /// 最近回复
+  static const String Reply = 'reply';
+  /// 优选，需包含标签
+  static const String Perfect = 'perfect';
+
+  static String toCode(String type) {
+    switch (type) {
+      case Recent:
+        return '';
+      case Hot:
+        return '/hot';
+      case Good:
+        return '/good';
+      case Reply:
+        return '/reply';
+      case Perfect:
+        return '/perfect';
+      default:
+        return '';
+    }
+  }
+
+  static List<String> get values => [Recent, Hot, Good, Reply, Perfect];
 }
 
 /// 评论发布

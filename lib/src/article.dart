@@ -60,19 +60,19 @@ class Article {
 
   /// 查询文章列表
   ///
-  /// - `type` 查询类型
+  /// - `type` 查询类型，来自 ArticleListType
   /// - `tag` 指定查询标签，可选
   /// - `page` 页码
   ///
   /// 返回文章列表
   Future<ArticleList> list({
-    required ArticleListType type,
+    required String type,
     int page = 1,
     String? tag,
   }) async {
     try {
       var rsp = await Request.get(
-        'api/articles/${tag != null ? "tag/$tag" : "recent"}${type.toString()}',
+        'api/articles/${tag != null ? "tag/$tag" : "recent"}${ArticleListType.toCode(type)}',
         params: {"p": page, "apiKey": token},
       );
 
