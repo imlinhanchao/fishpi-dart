@@ -12,8 +12,8 @@ extension Utils on String {
 }
 
 Metal analyzeMetalAttr(m) {
-  if (!m) return m;
-  if (m['attr'] is! String) return m;
+  if (m == null) throw 'metal is null';
+  if (m['attr'] is! String) return Metal.from(m);
   var attr = m['attr'].split('&');
   m['attr'] = {"src": m['attr']};
   attr.forEach((a) => m['attr'][a.split('=')[0]] = a.split('=')[1]);
