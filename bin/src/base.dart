@@ -32,7 +32,7 @@ abstract class CommandInstance {
 }
 
 ArgParser registerCommand(List<CommandInstance> register) {
-  var parser = ArgParser()..addFlag('help', abbr: 'h');
+  var parser = ArgParser();
   for (var item in register) {
     parser = item.command(parser);
   }

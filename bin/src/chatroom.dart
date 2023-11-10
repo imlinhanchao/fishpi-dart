@@ -43,7 +43,6 @@ class ChatRoomCmd implements CommandInstance {
       }
     });
     Instance.get.chatroom.reconnect();
-    setCurrentPage(CommandPage.chatroom);
   }
 
   @override

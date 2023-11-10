@@ -65,8 +65,22 @@ readCommand() async {
 }
 
 void main(List<String> arguments) async {
-  var parser = registerCommand(commands.values.toList());
-  final args = parser.parse(arguments);
+  var parser = registerCommand(commands.values.toList())
+    ..addFlag('help', abbr: 'h')
+    ..addOption('page',
+        help: '切换启动页面',
+        allowed: CommandPage.values.skip(1).map((e) => e.name).toList(),
+        defaultsTo: 'chatroom');
+
+  late ArgResults args;
+
+  try {
+    args = parser.parse(arguments);
+  } catch (e) {
+    print('命令行参数错误！\n');
+    print(parser.usage);
+    return;
+  }
 
   if (args['help']) {
     print(parser.usage);
@@ -75,6 +89,14 @@ void main(List<String> arguments) async {
 
   for (var cmd in commands.entries) {
     await cmd.value.exec(args, pagePrint(cmd.key));
+  }
+
+  if (args['page'] != null) {
+    CommandPage.values
+        .where((element) => element.name == args['page'])
+        .forEach((element) {
+      currentPage = element;
+    });
   }
 
   await commands[currentPage]?.page('');
