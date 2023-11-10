@@ -102,6 +102,30 @@ class DataType {
   static const redPacket = 39;
 }
 
+/// 通知类型
+class NoticeType {
+  /// 积分
+  static const point = 'point';
+
+  /// 评论
+  static const commented = 'commented';
+
+  /// 回复
+  static const reply = 'reply';
+
+  /// 提及我的
+  static const at = 'at';
+
+  /// 我关注的
+  static const following = 'following';
+
+  /// 同城
+  static const broadcast = 'broadcast';
+
+  /// 系统
+  static const system = 'sys-announce';
+}
+
 /// 通知数
 class NoticeCount {
   /// 用户是否启用 Web 通知
@@ -148,7 +172,7 @@ class NoticeCount {
   });
 
   NoticeCount.from(Map<String, dynamic> data)
-      : userNotifyStatus = data['userNotifyStatus'] ?? false,
+      : userNotifyStatus = data['userNotifyStatus'] != 0,
         unreadNotificationCnt = data['unreadNotificationCnt'] ?? 0,
         unreadReplyNotificationCnt = data['unreadReplyNotificationCnt'] ?? 0,
         unreadPointNotificationCnt = data['unreadPointNotificationCnt'] ?? 0,
@@ -451,8 +475,8 @@ class NoticeFollow {
         articleCommentCount = data['articleCommentCount'] ?? 0,
         articlePerfect = data['articlePerfect'] ?? 0,
         articleTagObjs = List.from(data['articleTagObjs'] ?? [])
-                .map((i) => ArticleTag.from(i))
-                .toList(),
+            .map((i) => ArticleTag.from(i))
+            .toList(),
         articleTags = data['articleTags'] ?? '',
         articleType = data['articleType'] ?? 0,
         hasRead = data['hasRead'] ?? false,
@@ -539,5 +563,57 @@ class NoticeSystem {
   }
 }
 
+class NoticeMsgType {
+  /// 刷新通知数，需调用 Notice.count 获取明细
+  static const refresh = 'refreshNotification';
+
+  /// 全局公告
+  static const warnBroadcast = 'warnBroadcast';
+
+  static List<String> get values => [refresh, warnBroadcast];
+}
+
+/// 通知消息
+class NoticeMsg {
+  /// 通知类型
+  String command;
+
+  /// 通知接收者用户Id
+  String userId;
+
+  /// 全局公告内容，仅 `warnBroadcast` 有信息
+  String? warnBroadcastText;
+
+  /// 全局公告发布者，仅 `warnBroadcast` 有信息
+  String? who;
+
+  NoticeMsg({
+    this.command = NoticeMsgType.refresh,
+    this.userId = '',
+    this.warnBroadcastText,
+    this.who,
+  });
+
+  NoticeMsg.from(Map<String, dynamic> data)
+      : command = data['command'] ?? NoticeMsgType.refresh,
+        userId = data['userId'] ?? '',
+        warnBroadcastText = data['warnBroadcastText'],
+        who = data['who'];
+
+  Map<String, dynamic> toJson() => {
+        'command': command,
+        'userId': userId,
+        'warnBroadcastText': warnBroadcastText,
+        'who': who,
+      };
+
+  @override
+  String toString() {
+    return 'NoticeMsg{command: $command, userId: $userId, warnBroadcastText: $warnBroadcastText, who: $who}';
+  }
+}
+
 /// NoticePoint | NoticeComment | NoticeAt | NoticeFollow | NoticeSystem 列表，根据 NoticeType 变化
 typedef NoticeList = List<dynamic>;
+
+typedef NoticeListener = void Function(NoticeMsg msg);
