@@ -81,7 +81,7 @@ String htmlToText(String html, {String? userName}) {
       .replaceAllMapped(RegExp(r'@<a [^>]*?>([^<]*?)</a>'),
           (match) => '@${match.group(1)}')
       .replaceAllMapped(RegExp(r'<a [^>]*?href="([^"]*?)"[^>]*?>([^<]*?)</a>'),
-          (match) => '[${match.group(2)}](${(match.group(1)??'').startsWith('https://fishpi.cn') ? 
+          (match) => '[${match.group(2)}](${(match.group(1)??'').startsWith('https://fishpi.cn/forward?goto=') ? 
           Uri.decodeFull(match.group(1)?.substring((match.group(1)?.indexOf('goto=') ?? 0) + 5) ?? '') : match.group(1)})')
       .replaceAllMapped(
           RegExp(r'<a [^>]*?>([^<]*?)</a>'), (match) => match.group(1) ?? '')
