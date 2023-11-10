@@ -66,6 +66,12 @@ class UserCmd implements CommandInstance {
             await Instance.get.user.info();
             page('/page user');
           }
+          break;
+        }
+      case '/user':
+        {
+          page('/page user ${argv.length > 1 ? argv[1] : ''}');
+          break;
         }
     }
     return true;
@@ -73,6 +79,7 @@ class UserCmd implements CommandInstance {
 
   @override
   Future<bool> page(String command) async {
+    print!('\x1B[2J\x1B[0;0H');
     final commands = command.trim().split(' ');
     UserInfo info = UserInfo();
     if (commands.length > 2 && commands[2].isNotEmpty) {
@@ -84,13 +91,20 @@ class UserCmd implements CommandInstance {
     }
 
     print!('''
-${info.allName}
-[${info.userRole}]
-\$ ${info.userPoint}
-> \x1B[3m${info.userIntro}\x1B[0m
-    ''');
+\x1B[1m${info.allName}\x1B[0m - [${info.userOnlineFlag ? '\x1B[32m在线\x1B[0m' : '\x1B[90m离线\x1B[0m'}]
+\x1B[90m👤${info.userRole}\x1B[0m\t\x1B[1mNo.\x1B[0m${info.userNo}\t
+💲${info.userPoint}\t📍${info.userCity.isEmpty ? '' : info.userCity}
+${info.userIntro.isEmpty ? '' : '📝 \x1B[3m${info.userIntro}\x1B[0m'}
+${info.userURL.isEmpty ? '' : '🔗 \x1B[4m${info.userURL}\x1B[0m'}''');
+    for (var i = 0; i < info.sysMetal.length; i++) {
+      print!('🏅 ${info.sysMetal[i].name}   ', false);
+      if (i % 5 == 4) print!('');
+    }
 
-    if (Instance.get.isLogin && Instance.get.user.current.userName == info.userName) {
+    print!('');
+
+    if (Instance.get.isLogin &&
+        Instance.get.user.current.userName == info.userName) {
       print!('当前活跃度：${await Instance.get.user.liveness()}');
     }
     return false;
