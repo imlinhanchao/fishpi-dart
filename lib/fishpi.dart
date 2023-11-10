@@ -10,6 +10,8 @@ export 'src/user.dart';
 export 'src/chatroom.dart';
 export 'src/redpacket.dart';
 export 'src/chat.dart';
+export 'src/article.dart';
+export 'src/comment.dart';
 
 class Fishpi {
   String _apiKey = '';
@@ -18,6 +20,8 @@ class Fishpi {
   Chat chat = Chat();
   Breezemoon breezemoon = Breezemoon();
   Emoji emoji = Emoji();
+  Article article = Article();
+  Comment comment = Comment();
 
   static setOrigin(String? url) {
     if (url == null) return;
@@ -50,6 +54,8 @@ class Fishpi {
     chat.token = token;
     breezemoon.token = token;
     emoji.token = token;
+    article.token = token;
+    comment.token = token;
   }
 
   /// 登录

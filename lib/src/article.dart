@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
+import 'package:web_socket_channel/io.dart';
 
 class Article {
   String token = '';
@@ -106,11 +109,11 @@ class Article {
   /// - `id` 文章id
   /// - `type` 点赞类型
   ///
-  /// 返回文章点赞状态 VoteType
-  Future<int> vote(String id, String type) async {
+  /// 返回文章点赞状态，true 为点赞，false 为点踩
+  Future<bool> vote(String id, [bool like = true]) async {
     try {
       var rsp = await Request.post(
-        'vote/$type/article',
+        'vote/${like ? 'up' : 'down'}/article',
         data: {
           'dataId': id,
           'apiKey': token,
@@ -119,9 +122,135 @@ class Article {
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      return rsp['type'];
+      return rsp['type'] == 0;
     } catch (e) {
       return Future.error(e);
     }
+  }
+
+  /// 感谢文章
+  ///
+  /// - `id` 文章id
+  ///
+  /// 返回 ApiResponse
+  Future<ResponseResult> thank(String id) async {
+    try {
+      var rsp = await Request.post(
+        'article/thank',
+        params: {"articleId": id},
+        data: {
+          'apiKey': token,
+        },
+      );
+
+      return ResponseResult.from(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 收藏/取消收藏文章
+  ///
+  /// - `id` 文章id
+  ///
+  /// 返回 ApiResponse
+  Future<ResponseResult> follow(String followingId) async {
+    try {
+      var rsp = await Request.post(
+        'follow/article',
+        data: {
+          'apiKey': token,
+          'followingId': followingId,
+        },
+      );
+
+      return ResponseResult.from(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 关注/取消关注文章
+  ///
+  /// - `followingId` 文章id
+  ///
+  /// 返回 ApiResponse
+  Future<ResponseResult> watch(String followingId) async {
+    try {
+      var rsp = await Request.post(
+        'follow/article-watch',
+        data: {
+          'apiKey': token,
+          'followingId': followingId,
+        },
+      );
+
+      return ResponseResult.from(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 打赏文章
+  ///
+  /// - `id` 文章id
+  ///
+  /// 返回 ApiResponse
+  Future<ResponseResult> reward(String id) async {
+    try {
+      var rsp = await Request.post(
+        'article/reward?articleId=$id',
+        data: {
+          'apiKey': token,
+        },
+      );
+
+      return ResponseResult.from(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 获取文章在线人数
+  ///
+  /// - `id` 文章id
+  ///
+  /// 返回在线人数
+  Future<int> heat(String id) async {
+    try {
+      var rsp =
+          await Request.get('api/article/heat/$id', params: {"apiKey": token});
+
+      if (rsp['code'] != 0) return Future.error(rsp['msg']);
+
+      return rsp["articleHeat"] ?? 0;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  /// 添加文章监听器
+  ///
+  /// - `id` 文章id
+  /// - `type` 文章类型
+  /// - `callback` 监听回调
+  ///
+  /// 返回 WebSocketChannel
+  Future<WebsocketInfo> addListener(
+      {required String id, int type = 0, required Function cb}) async {
+
+    return Request.connect(
+      '/article-channel',
+      params: {'apiKey': token, 'articleId': id, 'articleType': type},
+      onMessage: (msg) {
+        try {
+          msg = json.decode(msg);
+        // ignore: empty_catches
+        } catch (e) {}
+        cb(msg);
+      },
+      onClose: (IOWebSocketChannel ws) => print('WebSocket is closed'),
+      onError: (error, ws) => print(error),
+    );
   }
 }
