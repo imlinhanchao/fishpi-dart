@@ -58,7 +58,7 @@ class ChatRoomCmd implements CommandInstance {
             break;
         }
       } catch (e) {
-        print('${Command.from('#FF0000')}未知异常：$e');
+        print('${Command.from('#FF0000')}未知异常：$e${Command.restore}');
       }
     });
     Instance.get.chatroom.reconnect();
