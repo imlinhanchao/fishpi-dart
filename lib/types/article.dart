@@ -7,82 +7,82 @@ import 'fishpi.dart';
 
 class ArticlePost {
   /// 帖子标题
-  String articleTitle;
+  String title;
 
   /// 帖子内容
-  String articleContent;
+  String content;
 
   /// 帖子标签
-  String articleTags;
+  String tags;
 
   /// 是否允许评论
-  bool articleCommentable;
+  bool commentable;
 
   /// 是否帖子关注者
-  bool articleNotifyFollowers;
+  bool notifyFollowers;
 
-  /// 帖子类型
-  int articleType;
+  /// 帖子类型，ArticleType
+  int type;
 
   /// 是否在列表展示
-  int articleShowInList;
+  int showInList;
 
   /// 打赏内容
-  String? articleRewardContent;
+  String? rewardContent;
 
   /// 打赏积分
-  String? articleRewardPoint;
+  String? rewardPoint;
 
   /// 是否匿名
-  bool? articleAnonymous;
+  bool? anonymous;
 
   /// 提问悬赏积分
-  int? articleQnAOfferPoint;
+  int? offerPoint;
 
   ArticlePost({
-    this.articleTitle = '',
-    this.articleContent = '',
-    this.articleTags = '',
-    this.articleCommentable = false,
-    this.articleNotifyFollowers = false,
-    this.articleType = 0,
-    this.articleShowInList = 0,
-    this.articleRewardContent,
-    this.articleRewardPoint,
-    this.articleAnonymous,
-    this.articleQnAOfferPoint,
+    this.title = '',
+    this.content = '',
+    this.tags = '',
+    this.commentable = false,
+    this.notifyFollowers = false,
+    this.type = 0,
+    this.showInList = 0,
+    this.rewardContent,
+    this.rewardPoint,
+    this.anonymous,
+    this.offerPoint,
   });
 
   ArticlePost.from(Map<String, dynamic> data)
-      : articleTitle = data['articleTitle'] ?? '',
-        articleContent = data['articleContent'] ?? '',
-        articleTags = data['articleTags'] ?? '',
-        articleCommentable = data['articleCommentable'] ?? false,
-        articleNotifyFollowers = data['articleNotifyFollowers'] ?? false,
-        articleType = data['articleType'] ?? 0,
-        articleShowInList = data['articleShowInList'] ?? 0,
-        articleRewardContent = data['articleRewardContent'],
-        articleRewardPoint = data['articleRewardPoint'],
-        articleAnonymous = data['articleAnonymous'],
-        articleQnAOfferPoint = data['articleQnAOfferPoint'];
+      : title = data['articleTitle'] ?? '',
+        content = data['articleContent'] ?? '',
+        tags = data['articleTags'] ?? '',
+        commentable = data['articleCommentable'] ?? false,
+        notifyFollowers = data['articleNotifyFollowers'] ?? false,
+        type = data['articleType'] ?? 0,
+        showInList = data['articleShowInList'] ?? 0,
+        rewardContent = data['articleRewardContent'],
+        rewardPoint = data['articleRewardPoint'],
+        anonymous = data['articleAnonymous'],
+        offerPoint = data['articleQnAOfferPoint'];
 
   Map<String, dynamic> toJson() => {
-        'articleTitle': articleTitle,
-        'articleContent': articleContent,
-        'articleTags': articleTags,
-        'articleCommentable': articleCommentable,
-        'articleNotifyFollowers': articleNotifyFollowers,
-        'articleType': articleType,
-        'articleShowInList': articleShowInList,
-        'articleRewardContent': articleRewardContent,
-        'articleRewardPoint': articleRewardPoint,
-        'articleAnonymous': articleAnonymous,
-        'articleQnAOfferPoint': articleQnAOfferPoint,
+        'articleTitle': title,
+        'articleContent': content,
+        'articleTags': tags,
+        'articleCommentable': commentable,
+        'articleNotifyFollowers': notifyFollowers,
+        'articleType': type,
+        'articleShowInList': showInList,
+        'articleRewardContent': rewardContent,
+        'articleRewardPoint': rewardPoint,
+        'articleAnonymous': anonymous,
+        'articleQnAOfferPoint': offerPoint,
       };
 
   @override
   String toString() {
-    return 'ArticlePost{articleTitle: $articleTitle, articleContent: $articleContent, articleTags: $articleTags, articleCommentable: $articleCommentable, articleNotifyFollowers: $articleNotifyFollowers, articleType: $articleType, articleShowInList: $articleShowInList, articleRewardContent: $articleRewardContent, articleRewardPoint: $articleRewardPoint, articleAnonymous: $articleAnonymous, articleQnAOfferPoint: $articleQnAOfferPoint}';
+    return 'ArticlePost{articleTitle: $title, articleContent: $content, articleTags: $tags, articleCommentable: $commentable, articleNotifyFollowers: $notifyFollowers, articleType: $type, articleShowInList: $showInList, articleRewardContent: $rewardContent, articleRewardPoint: $rewardPoint, articleAnonymous: $anonymous, articleQnAOfferPoint: $offerPoint}';
   }
 }
 
@@ -92,127 +92,127 @@ class ArticleTag {
   String oId;
 
   /// 标签名
-  String tagTitle;
+  String title;
 
   /// 标签描述
-  String tagDescription;
+  String description;
 
   /// icon 地址
-  String tagIconPath;
+  String iconPath;
 
   /// 标签地址
-  String tagURI;
+  String uri;
 
   /// 标签自定义 CSS
-  String tagCSS;
+  String diyCSS;
 
   /// 反对数
-  int tagBadCnt;
+  int badCnt;
 
   /// 标签回帖计数
-  int tagCommentCount;
+  int commentCount;
 
   /// 关注数
-  int tagFollowerCount;
+  int followerCount;
 
   /// 点赞数
-  int tagGoodCnt;
+  int goodCnt;
 
   /// 引用计数
-  int tagReferenceCount;
+  int referenceCount;
 
   /// 标签相关链接计数
-  int tagLinkCount;
+  int linkCount;
 
   /// 标签 SEO 描述
-  String tagSeoDesc;
+  String seoDesc;
 
   /// 标签关键字
-  String tagSeoKeywords;
+  String seoKeywords;
 
   /// 标签 SEO 标题
-  String tagSeoTitle;
+  String seoTitle;
 
   /// 标签广告内容
   String tagAd;
 
   /// 是否展示广告
-  int tagShowSideAd;
+  int showSideAd;
 
   /// 标签状态
-  int tagStatus;
+  int status;
 
   /// 标签随机数
-  double tagRandomDouble;
+  double randomDouble;
 
   ArticleTag({
     this.oId = '',
-    this.tagTitle = '',
-    this.tagDescription = '',
-    this.tagIconPath = '',
-    this.tagURI = '',
-    this.tagCSS = '',
-    this.tagBadCnt = 0,
-    this.tagCommentCount = 0,
-    this.tagFollowerCount = 0,
-    this.tagGoodCnt = 0,
-    this.tagReferenceCount = 0,
-    this.tagLinkCount = 0,
-    this.tagSeoDesc = '',
-    this.tagSeoKeywords = '',
-    this.tagSeoTitle = '',
+    this.title = '',
+    this.description = '',
+    this.iconPath = '',
+    this.uri = '',
+    this.diyCSS = '',
+    this.badCnt = 0,
+    this.commentCount = 0,
+    this.followerCount = 0,
+    this.goodCnt = 0,
+    this.referenceCount = 0,
+    this.linkCount = 0,
+    this.seoDesc = '',
+    this.seoKeywords = '',
+    this.seoTitle = '',
     this.tagAd = '',
-    this.tagShowSideAd = 0,
-    this.tagStatus = 0,
-    this.tagRandomDouble = 0.0,
+    this.showSideAd = 0,
+    this.status = 0,
+    this.randomDouble = 0.0,
   });
 
   ArticleTag.from(Map<String, dynamic> data)
       : oId = data['oId'] ?? '',
-        tagTitle = data['tagTitle'] ?? '',
-        tagDescription = data['tagDescription'] ?? '',
-        tagIconPath = data['tagIconPath'] ?? '',
-        tagURI = data['tagURI'] ?? '',
-        tagCSS = data['tagCSS'] ?? '',
-        tagBadCnt = data['tagBadCnt'] ?? 0,
-        tagCommentCount = data['tagCommentCount'] ?? 0,
-        tagFollowerCount = data['tagFollowerCount'] ?? 0,
-        tagGoodCnt = data['tagGoodCnt'] ?? 0,
-        tagReferenceCount = data['tagReferenceCount'] ?? 0,
-        tagLinkCount = data['tagLinkCount'] ?? 0,
-        tagSeoDesc = data['tagSeoDesc'] ?? '',
-        tagSeoKeywords = data['tagSeoKeywords'] ?? '',
-        tagSeoTitle = data['tagSeoTitle'] ?? '',
+        title = data['tagTitle'] ?? '',
+        description = data['tagDescription'] ?? '',
+        iconPath = data['tagIconPath'] ?? '',
+        uri = data['tagURI'] ?? '',
+        diyCSS = data['tagCSS'] ?? '',
+        badCnt = data['tagBadCnt'] ?? 0,
+        commentCount = data['tagCommentCount'] ?? 0,
+        followerCount = data['tagFollowerCount'] ?? 0,
+        goodCnt = data['tagGoodCnt'] ?? 0,
+        referenceCount = data['tagReferenceCount'] ?? 0,
+        linkCount = data['tagLinkCount'] ?? 0,
+        seoDesc = data['tagSeoDesc'] ?? '',
+        seoKeywords = data['tagSeoKeywords'] ?? '',
+        seoTitle = data['tagSeoTitle'] ?? '',
         tagAd = data['tagAd'] ?? '',
-        tagShowSideAd = data['tagShowSideAd'] ?? 0,
-        tagStatus = data['tagStatus'] ?? 0,
-        tagRandomDouble = data['tagRandomDouble'] ?? 0.0;
+        showSideAd = data['tagShowSideAd'] ?? 0,
+        status = data['tagStatus'] ?? 0,
+        randomDouble = data['tagRandomDouble'] ?? 0.0;
 
   Map<String, dynamic> toJson() => {
         'oId': oId,
-        'tagTitle': tagTitle,
-        'tagDescription': tagDescription,
-        'tagIconPath': tagIconPath,
-        'tagURI': tagURI,
-        'tagCSS': tagCSS,
-        'tagBadCnt': tagBadCnt,
-        'tagCommentCount': tagCommentCount,
-        'tagFollowerCount': tagFollowerCount,
-        'tagGoodCnt': tagGoodCnt,
-        'tagReferenceCount': tagReferenceCount,
-        'tagLinkCount': tagLinkCount,
-        'tagSeoDesc': tagSeoDesc,
-        'tagSeoKeywords': tagSeoKeywords,
-        'tagSeoTitle': tagSeoTitle,
+        'tagTitle': title,
+        'tagDescription': description,
+        'tagIconPath': iconPath,
+        'tagURI': uri,
+        'tagCSS': diyCSS,
+        'tagBadCnt': badCnt,
+        'tagCommentCount': commentCount,
+        'tagFollowerCount': followerCount,
+        'tagGoodCnt': goodCnt,
+        'tagReferenceCount': referenceCount,
+        'tagLinkCount': linkCount,
+        'tagSeoDesc': seoDesc,
+        'tagSeoKeywords': seoKeywords,
+        'tagSeoTitle': seoTitle,
         'tagAd': tagAd,
-        'tagShowSideAd': tagShowSideAd,
-        'tagStatus': tagStatus,
-        'tagRandomDouble': tagRandomDouble,
+        'tagShowSideAd': showSideAd,
+        'tagStatus': status,
+        'tagRandomDouble': randomDouble,
       };
 
   @override
   String toString() =>
-      'ArticleTag{oId: $oId, tagTitle: $tagTitle, tagDescription: $tagDescription, tagIconPath: $tagIconPath, tagURI: $tagURI, tagCSS: $tagCSS, tagBadCnt: $tagBadCnt, tagCommentCount: $tagCommentCount, tagFollowerCount: $tagFollowerCount, tagGoodCnt: $tagGoodCnt, tagReferenceCount: $tagReferenceCount, tagLinkCount: $tagLinkCount, tagSeoDesc: $tagSeoDesc, tagSeoKeywords: $tagSeoKeywords, tagSeoTitle: $tagSeoTitle, tagAd: $tagAd, tagShowSideAd: $tagShowSideAd, tagStatus: $tagStatus, tagRandomDouble: $tagRandomDouble}';
+      'ArticleTag{oId: $oId, tagTitle: $title, tagDescription: $description, tagIconPath: $iconPath, tagURI: $uri, tagCSS: $diyCSS, tagBadCnt: $badCnt, tagCommentCount: $commentCount, tagFollowerCount: $followerCount, tagGoodCnt: $goodCnt, tagReferenceCount: $referenceCount, tagLinkCount: $linkCount, tagSeoDesc: $seoDesc, tagSeoKeywords: $seoKeywords, tagSeoTitle: $seoTitle, tagAd: $tagAd, tagShowSideAd: $showSideAd, tagStatus: $status, tagRandomDouble: $randomDouble}';
 }
 
 /// 公开状态
@@ -262,43 +262,43 @@ enum ArticleStatus {
 
 class ArticleAuthor {
   /// 用户是否在线
-  bool userOnlineFlag;
+  bool isOnline;
 
   /// 用户在线时长
   int onlineMinute;
 
   /// 是否公开积分列表
-  PublicStatus userPointStatus;
+  PublicStatus pointStatus;
 
   /// 是否公开关注者列表
-  PublicStatus userFollowerStatus;
+  PublicStatus followerStatus;
 
   /// 用户完成新手指引步数
-  int userGuideStep;
+  int guideStep;
 
   /// 是否公开在线状态
-  PublicStatus userOnlineStatus;
+  PublicStatus onlineStatus;
 
-  /// 上次登录日期
-  int userCurrentCheckinStreakStart;
+  /// 当前连续签到起始日
+  int currentCheckinStreakStart;
 
   /// 是否聊天室图片自动模糊
-  bool chatRoomPictureStatus;
+  bool isAutoBlur;
 
   /// 用户标签
-  String userTags;
+  String tags;
 
   /// 是否公开回帖列表
-  PublicStatus userCommentStatus;
+  PublicStatus commentStatus;
 
   /// 用户时区
-  String userTimezone;
+  String timezone;
 
   /// 用户个人主页
-  String userURL;
+  String homePage;
 
   /// 是否启用站外链接跳转页面
-  bool userForwardPageStatus;
+  bool isEnableForwardPage;
 
   /// 是否公开 UA 信息
   PublicStatus userUAStatus;
@@ -307,37 +307,37 @@ class ArticleAuthor {
   String userIndexRedirectURL;
 
   /// 最近发帖时间
-  int userLatestArticleTime;
+  int latestArticleTime;
 
   /// 标签计数
-  int userTagCount;
+  int tagCount;
 
   /// 昵称
   String userNickname;
 
   /// 回帖浏览模式
-  int userListViewMode;
+  int listViewMode;
 
   /// 最长连续签到
-  int userLongestCheckinStreak;
+  int longestCheckinStreak;
 
   /// 用户头像类型
-  int userAvatarType;
+  int avatarType;
 
   /// 用户确认邮件发送时间
-  int userSubMailSendTime;
+  int subMailSendTime;
 
   /// 用户最后更新时间
-  int userUpdateTime;
+  int updateTime;
 
   /// userSubMailStatus
-  YesNoStatus userSubMailStatus;
+  YesNoStatus subMailStatus;
 
   /// 是否加入积分排行
-  YesNoStatus userJoinPointRank;
+  YesNoStatus isJoinPointRank;
 
   /// 用户最后登录时间
-  int userLatestLoginTime;
+  int latestLoginTime;
 
   /// 应用角色
   int userAppRole;
@@ -349,19 +349,19 @@ class ArticleAuthor {
   int userStatus;
 
   /// 用户上次最长连续签到日期
-  int userLongestCheckinStreakEnd;
+  int longestCheckinStreakEnd;
 
   /// 是否公开关注帖子列表
-  PublicStatus userWatchingArticleStatus;
+  PublicStatus watchingArticleStatus;
 
   /// 上次回帖时间
-  int userLatestCmtTime;
+  int latestCmtTime;
 
   /// 用户省份
-  String userProvince;
+  String province;
 
   /// 用户当前连续签到计数
-  int userCurrentCheckinStreak;
+  int currentCheckinStreak;
 
   /// 用户编号
   int userNo;
@@ -370,31 +370,31 @@ class ArticleAuthor {
   String userAvatarURL;
 
   /// 是否公开关注标签列表
-  PublicStatus userFollowingTagStatus;
+  PublicStatus followingTagStatus;
 
   /// 用户语言
   String userLanguage;
 
   /// 是否加入消费排行
-  YesNoStatus userJoinUsedPointRank;
+  YesNoStatus isJoinUsedPointRank;
 
   /// 上次签到日期
-  int userCurrentCheckinStreakEnd;
+  int currentCheckinStreakEnd;
 
   /// 是否公开收藏帖子列表
-  PublicStatus userFollowingArticleStatus;
+  PublicStatus followingArticleStatus;
 
   /// 是否启用键盘快捷键
-  YesNoStatus userKeyboardShortcutsStatus;
+  YesNoStatus keyboardShortcutsStatus;
 
   /// 是否回帖后自动关注帖子
-  YesNoStatus userReplyWatchArticleStatus;
+  YesNoStatus replyWatchArticleStatus;
 
   /// 回帖浏览模式
-  int userCommentViewMode;
+  int commentViewMode;
 
   /// 是否公开清风明月列表
-  PublicStatus userBreezemoonStatus;
+  PublicStatus breezemoonStatus;
 
   /// 用户上次签到时间
   int userCheckinTime;
@@ -403,13 +403,13 @@ class ArticleAuthor {
   int userUsedPoint;
 
   /// 是否公开发帖列表
-  PublicStatus userArticleStatus;
+  PublicStatus articleStatus;
 
   /// 用户积分
   int userPoint;
 
   /// 用户回帖数
-  int userCommentCount;
+  int commentCount;
 
   /// 用户个性签名
   String userIntro;
@@ -418,7 +418,7 @@ class ArticleAuthor {
   String userMobileSkin;
 
   /// 分页每页条目
-  int userListPageSize;
+  int listPageSize;
 
   /// 文章 Id
   String oId;
@@ -427,22 +427,22 @@ class ArticleAuthor {
   String userName;
 
   /// 是否公开 IP 地理信息
-  PublicStatus userGeoStatus;
+  PublicStatus geoStatus;
 
   /// 最长连续签到起始日
-  int userLongestCheckinStreakStart;
+  int longestCheckinStreakStart;
 
   /// 用户主题
   String userSkin;
 
   /// 是否启用 Web 通知
-  YesNoStatus userNotifyStatus;
+  YesNoStatus notifyStatus;
 
   /// 公开关注用户列表
-  PublicStatus userFollowingUserStatus;
+  PublicStatus followingUserStatus;
 
   /// 文章数
-  int userArticleCount;
+  int articleCount;
 
   /// 用户角色
   String userRole;
@@ -456,211 +456,208 @@ class ArticleAuthor {
       userNickname.isEmpty ? userName : '$userNickname($userName)';
 
   ArticleAuthor({
-    this.userOnlineFlag = false,
+    this.isOnline = false,
     this.onlineMinute = 0,
-    this.userPointStatus = PublicStatus.Public,
-    this.userFollowerStatus = PublicStatus.Public,
-    this.userGuideStep = 0,
-    this.userOnlineStatus = PublicStatus.Public,
-    this.userCurrentCheckinStreakStart = 0,
-    this.chatRoomPictureStatus = false,
-    this.userTags = '',
-    this.userCommentStatus = PublicStatus.Public,
-    this.userTimezone = '',
-    this.userURL = '',
-    this.userForwardPageStatus = false,
+    this.pointStatus = PublicStatus.Public,
+    this.followerStatus = PublicStatus.Public,
+    this.guideStep = 0,
+    this.onlineStatus = PublicStatus.Public,
+    this.currentCheckinStreakStart = 0,
+    this.isAutoBlur = false,
+    this.tags = '',
+    this.commentStatus = PublicStatus.Public,
+    this.timezone = '',
+    this.homePage = '',
+    this.isEnableForwardPage = false,
     this.userUAStatus = PublicStatus.Public,
     this.userIndexRedirectURL = '',
-    this.userLatestArticleTime = 0,
-    this.userTagCount = 0,
+    this.latestArticleTime = 0,
+    this.tagCount = 0,
     this.userNickname = '',
-    this.userListViewMode = 0,
-    this.userLongestCheckinStreak = 0,
-    this.userAvatarType = 0,
-    this.userSubMailSendTime = 0,
-    this.userUpdateTime = 0,
-    this.userSubMailStatus = YesNoStatus.yes,
-    this.userJoinPointRank = YesNoStatus.yes,
-    this.userLatestLoginTime = 0,
+    this.listViewMode = 0,
+    this.longestCheckinStreak = 0,
+    this.avatarType = 0,
+    this.subMailSendTime = 0,
+    this.updateTime = 0,
+    this.subMailStatus = YesNoStatus.yes,
+    this.isJoinPointRank = YesNoStatus.yes,
+    this.latestLoginTime = 0,
     this.userAppRole = 0,
     this.userAvatarViewMode = 0,
     this.userStatus = 0,
-    this.userLongestCheckinStreakEnd = 0,
-    this.userWatchingArticleStatus = PublicStatus.Public,
-    this.userLatestCmtTime = 0,
-    this.userProvince = '',
-    this.userCurrentCheckinStreak = 0,
+    this.longestCheckinStreakEnd = 0,
+    this.watchingArticleStatus = PublicStatus.Public,
+    this.latestCmtTime = 0,
+    this.province = '',
+    this.currentCheckinStreak = 0,
     this.userNo = 0,
     this.userAvatarURL = '',
-    this.userFollowingTagStatus = PublicStatus.Public,
+    this.followingTagStatus = PublicStatus.Public,
     this.userLanguage = '',
-    this.userJoinUsedPointRank = YesNoStatus.yes,
-    this.userCurrentCheckinStreakEnd = 0,
-    this.userFollowingArticleStatus = PublicStatus.Public,
-    this.userKeyboardShortcutsStatus = YesNoStatus.yes,
-    this.userReplyWatchArticleStatus = YesNoStatus.yes,
-    this.userCommentViewMode = 0,
-    this.userBreezemoonStatus = PublicStatus.Public,
+    this.isJoinUsedPointRank = YesNoStatus.yes,
+    this.currentCheckinStreakEnd = 0,
+    this.followingArticleStatus = PublicStatus.Public,
+    this.keyboardShortcutsStatus = YesNoStatus.yes,
+    this.replyWatchArticleStatus = YesNoStatus.yes,
+    this.commentViewMode = 0,
+    this.breezemoonStatus = PublicStatus.Public,
     this.userCheckinTime = 0,
     this.userUsedPoint = 0,
-    this.userArticleStatus = PublicStatus.Public,
+    this.articleStatus = PublicStatus.Public,
     this.userPoint = 0,
-    this.userCommentCount = 0,
+    this.commentCount = 0,
     this.userIntro = '',
     this.userMobileSkin = '',
-    this.userListPageSize = 0,
+    this.listPageSize = 0,
     this.oId = '',
     this.userName = '',
-    this.userGeoStatus = PublicStatus.Public,
-    this.userLongestCheckinStreakStart = 0,
+    this.geoStatus = PublicStatus.Public,
+    this.longestCheckinStreakStart = 0,
     this.userSkin = '',
-    this.userNotifyStatus = YesNoStatus.yes,
-    this.userFollowingUserStatus = PublicStatus.Public,
-    this.userArticleCount = 0,
+    this.notifyStatus = YesNoStatus.yes,
+    this.followingUserStatus = PublicStatus.Public,
+    this.articleCount = 0,
     this.userRole = '',
     this.sysMetal = const [],
   });
 
   ArticleAuthor.from(Map<String, dynamic> data)
-      : userOnlineFlag = data['userOnlineFlag'] ?? false,
+      : isOnline = data['userOnlineFlag'] ?? false,
         onlineMinute = data['onlineMinute'] ?? 0,
-        userPointStatus = PublicStatus.values[data['userPointStatus'] ?? 0],
-        userFollowerStatus =
-            PublicStatus.values[data['userFollowerStatus'] ?? 0],
-        userGuideStep = data['userGuideStep'] ?? 0,
-        userOnlineStatus = PublicStatus.values[data['userOnlineStatus'] ?? 0],
-        userCurrentCheckinStreakStart =
-            data['userCurrentCheckinStreakStart'] ?? 0,
-        chatRoomPictureStatus = (data['chatRoomPictureStatus'] ?? 0) == 1,
-        userTags = data['userTags'] ?? '',
-        userCommentStatus = PublicStatus.values[data['userCommentStatus'] ?? 0],
-        userTimezone = data['userTimezone'] ?? '',
-        userURL = data['userURL'] ?? '',
-        userForwardPageStatus = (data['userForwardPageStatus'] ?? 0) == 1,
+        pointStatus = PublicStatus.values[data['userPointStatus'] ?? 0],
+        followerStatus = PublicStatus.values[data['userFollowerStatus'] ?? 0],
+        guideStep = data['userGuideStep'] ?? 0,
+        onlineStatus = PublicStatus.values[data['userOnlineStatus'] ?? 0],
+        currentCheckinStreakStart = data['userCurrentCheckinStreakStart'] ?? 0,
+        isAutoBlur = (data['chatRoomPictureStatus'] ?? 0) == 1,
+        tags = data['userTags'] ?? '',
+        commentStatus = PublicStatus.values[data['userCommentStatus'] ?? 0],
+        timezone = data['userTimezone'] ?? '',
+        homePage = data['userURL'] ?? '',
+        isEnableForwardPage = (data['userForwardPageStatus'] ?? 0) == 1,
         userUAStatus = PublicStatus.values[data['userUAStatus'] ?? 0],
         userIndexRedirectURL = data['userIndexRedirectURL'] ?? '',
-        userLatestArticleTime = data['userLatestArticleTime'] ?? 0,
-        userTagCount = data['userTagCount'] ?? 0,
+        latestArticleTime = data['userLatestArticleTime'] ?? 0,
+        tagCount = data['userTagCount'] ?? 0,
         userNickname = data['userNickname'] ?? '',
-        userListViewMode = data['userListViewMode'] ?? 0,
-        userLongestCheckinStreak = data['userLongestCheckinStreak'] ?? 0,
-        userAvatarType = data['userAvatarType'] ?? 0,
-        userSubMailSendTime = data['userSubMailSendTime'] ?? 0,
-        userUpdateTime = data['userUpdateTime'] ?? 0,
-        userSubMailStatus = YesNoStatus.values[data['userSubMailStatus'] ?? 0],
-        userJoinPointRank = YesNoStatus.values[data['userJoinPointRank'] ?? 0],
-        userLatestLoginTime = data['userLatestLoginTime'] ?? 0,
+        listViewMode = data['userListViewMode'] ?? 0,
+        longestCheckinStreak = data['userLongestCheckinStreak'] ?? 0,
+        avatarType = data['userAvatarType'] ?? 0,
+        subMailSendTime = data['userSubMailSendTime'] ?? 0,
+        updateTime = data['userUpdateTime'] ?? 0,
+        subMailStatus = YesNoStatus.values[data['userSubMailStatus'] ?? 0],
+        isJoinPointRank = YesNoStatus.values[data['userJoinPointRank'] ?? 0],
+        latestLoginTime = data['userLatestLoginTime'] ?? 0,
         userAppRole = data['userAppRole'] ?? 0,
         userAvatarViewMode = data['userAvatarViewMode'] ?? 0,
         userStatus = data['userStatus'] ?? 0,
-        userLongestCheckinStreakEnd = data['userLongestCheckinStreakEnd'] ?? 0,
-        userWatchingArticleStatus =
+        longestCheckinStreakEnd = data['userLongestCheckinStreakEnd'] ?? 0,
+        watchingArticleStatus =
             PublicStatus.values[data['userWatchingArticleStatus'] ?? 0],
-        userLatestCmtTime = data['userLatestCmtTime'] ?? 0,
-        userProvince = data['userProvince'] ?? '',
-        userCurrentCheckinStreak = data['userCurrentCheckinStreak'] ?? 0,
+        latestCmtTime = data['userLatestCmtTime'] ?? 0,
+        province = data['userProvince'] ?? '',
+        currentCheckinStreak = data['userCurrentCheckinStreak'] ?? 0,
         userNo = data['userNo'] ?? 0,
         userAvatarURL = data['userAvatarURL'] ?? '',
-        userFollowingTagStatus =
+        followingTagStatus =
             PublicStatus.values[data['userFollowingTagStatus'] ?? 0],
         userLanguage = data['userLanguage'] ?? '',
-        userJoinUsedPointRank =
+        isJoinUsedPointRank =
             YesNoStatus.values[data['userJoinUsedPointRank'] ?? 0],
-        userCurrentCheckinStreakEnd = data['userCurrentCheckinStreakEnd'] ?? 0,
-        userFollowingArticleStatus =
+        currentCheckinStreakEnd = data['userCurrentCheckinStreakEnd'] ?? 0,
+        followingArticleStatus =
             PublicStatus.values[data['userFollowingArticleStatus'] ?? 0],
-        userKeyboardShortcutsStatus =
+        keyboardShortcutsStatus =
             YesNoStatus.values[data['userKeyboardShortcutsStatus'] ?? 0],
-        userReplyWatchArticleStatus =
+        replyWatchArticleStatus =
             YesNoStatus.values[data['userReplyWatchArticleStatus'] ?? 0],
-        userCommentViewMode = data['userCommentViewMode'] ?? 0,
-        userBreezemoonStatus =
+        commentViewMode = data['userCommentViewMode'] ?? 0,
+        breezemoonStatus =
             PublicStatus.values[data['userBreezemoonStatus'] ?? 0],
         userCheckinTime = data['userCheckinTime'] ?? 0,
         userUsedPoint = data['userUsedPoint'] ?? 0,
-        userArticleStatus = PublicStatus.values[data['userArticleStatus'] ?? 0],
+        articleStatus = PublicStatus.values[data['userArticleStatus'] ?? 0],
         userPoint = data['userPoint'] ?? 0,
-        userCommentCount = data['userCommentCount'] ?? 0,
+        commentCount = data['userCommentCount'] ?? 0,
         userIntro = data['userIntro'] ?? '',
         userMobileSkin = data['userMobileSkin'] ?? '',
-        userListPageSize = data['userListPageSize'] ?? 0,
+        listPageSize = data['userListPageSize'] ?? 0,
         oId = data['oId'] ?? '',
         userName = data['userName'] ?? '',
-        userGeoStatus = PublicStatus.values[data['userGeoStatus'] ?? 0],
-        userLongestCheckinStreakStart =
-            data['userLongestCheckinStreakStart'] ?? 0,
+        geoStatus = PublicStatus.values[data['userGeoStatus'] ?? 0],
+        longestCheckinStreakStart = data['userLongestCheckinStreakStart'] ?? 0,
         userSkin = data['userSkin'] ?? '',
-        userNotifyStatus = YesNoStatus.values[data['userNotifyStatus'] ?? 0],
-        userFollowingUserStatus =
+        notifyStatus = YesNoStatus.values[data['userNotifyStatus'] ?? 0],
+        followingUserStatus =
             PublicStatus.values[data['userFollowingUserStatus'] ?? 0],
-        userArticleCount = data['userArticleCount'] ?? 0,
+        articleCount = data['userArticleCount'] ?? 0,
         userRole = data['userRole'] ?? '',
         sysMetal = List.from(data['sysMetal'] ?? [])
             .map((e) => analyzeMetalAttr(e))
             .toList();
 
   Map<String, dynamic> toJson() => {
-        'userOnlineFlag': userOnlineFlag,
+        'userOnlineFlag': isOnline,
         'onlineMinute': onlineMinute,
-        'userPointStatus': userPointStatus.index,
-        'userFollowerStatus': userFollowerStatus.index,
-        'userGuideStep': userGuideStep,
-        'userOnlineStatus': userOnlineStatus.index,
-        'userCurrentCheckinStreakStart': userCurrentCheckinStreakStart,
-        'chatRoomPictureStatus': chatRoomPictureStatus,
-        'userTags': userTags,
-        'userCommentStatus': userCommentStatus.index,
-        'userTimezone': userTimezone,
-        'userURL': userURL,
-        'userForwardPageStatus': userForwardPageStatus,
+        'userPointStatus': pointStatus.index,
+        'userFollowerStatus': followerStatus.index,
+        'userGuideStep': guideStep,
+        'userOnlineStatus': onlineStatus.index,
+        'userCurrentCheckinStreakStart': currentCheckinStreakStart,
+        'chatRoomPictureStatus': isAutoBlur,
+        'userTags': tags,
+        'userCommentStatus': commentStatus.index,
+        'userTimezone': timezone,
+        'userURL': homePage,
+        'userForwardPageStatus': isEnableForwardPage,
         'userUAStatus': userUAStatus.index,
         'userIndexRedirectURL': userIndexRedirectURL,
-        'userLatestArticleTime': userLatestArticleTime,
-        'userTagCount': userTagCount,
+        'userLatestArticleTime': latestArticleTime,
+        'userTagCount': tagCount,
         'userNickname': userNickname,
-        'userListViewMode': userListViewMode,
-        'userLongestCheckinStreak': userLongestCheckinStreak,
-        'userAvatarType': userAvatarType,
-        'userSubMailSendTime': userSubMailSendTime,
-        'userUpdateTime': userUpdateTime,
-        'userSubMailStatus': userSubMailStatus.index,
-        'userJoinPointRank': userJoinPointRank.index,
-        'userLatestLoginTime': userLatestLoginTime,
+        'userListViewMode': listViewMode,
+        'userLongestCheckinStreak': longestCheckinStreak,
+        'userAvatarType': avatarType,
+        'userSubMailSendTime': subMailSendTime,
+        'userUpdateTime': updateTime,
+        'userSubMailStatus': subMailStatus.index,
+        'userJoinPointRank': isJoinPointRank.index,
+        'userLatestLoginTime': latestLoginTime,
         'userAppRole': userAppRole,
         'userAvatarViewMode': userAvatarViewMode,
         'userStatus': userStatus,
-        'userLongestCheckinStreakEnd': userLongestCheckinStreakEnd,
-        'userWatchingArticleStatus': userWatchingArticleStatus.index,
-        'userLatestCmtTime': userLatestCmtTime,
-        'userProvince': userProvince,
-        'userCurrentCheckinStreak': userCurrentCheckinStreak,
+        'userLongestCheckinStreakEnd': longestCheckinStreakEnd,
+        'userWatchingArticleStatus': watchingArticleStatus.index,
+        'userLatestCmtTime': latestCmtTime,
+        'userProvince': province,
+        'userCurrentCheckinStreak': currentCheckinStreak,
         'userNo': userNo,
         'userAvatarURL': userAvatarURL,
-        'userFollowingTagStatus': userFollowingTagStatus.index,
+        'userFollowingTagStatus': followingTagStatus.index,
         'userLanguage': userLanguage,
-        'userJoinUsedPointRank': userJoinUsedPointRank.index,
-        'userCurrentCheckinStreakEnd': userCurrentCheckinStreakEnd,
-        'userFollowingArticleStatus': userFollowingArticleStatus.index,
-        'userKeyboardShortcutsStatus': userKeyboardShortcutsStatus.index,
-        'userReplyWatchArticleStatus': userReplyWatchArticleStatus.index,
-        'userCommentViewMode': userCommentViewMode,
-        'userBreezemoonStatus': userBreezemoonStatus.index,
+        'userJoinUsedPointRank': isJoinUsedPointRank.index,
+        'userCurrentCheckinStreakEnd': currentCheckinStreakEnd,
+        'userFollowingArticleStatus': followingArticleStatus.index,
+        'userKeyboardShortcutsStatus': keyboardShortcutsStatus.index,
+        'userReplyWatchArticleStatus': replyWatchArticleStatus.index,
+        'userCommentViewMode': commentViewMode,
+        'userBreezemoonStatus': breezemoonStatus.index,
         'userCheckinTime': userCheckinTime,
         'userUsedPoint': userUsedPoint,
-        'userArticleStatus': userArticleStatus.index,
+        'userArticleStatus': articleStatus.index,
         'userPoint': userPoint,
-        'userCommentCount': userCommentCount,
+        'userCommentCount': commentCount,
         'userIntro': userIntro,
         'userMobileSkin': userMobileSkin,
-        'userListPageSize': userListPageSize,
+        'userListPageSize': listPageSize,
         'oId': oId,
         'userName': userName,
-        'userGeoStatus': userGeoStatus.index,
-        'userLongestCheckinStreakStart': userLongestCheckinStreakStart,
+        'userGeoStatus': geoStatus.index,
+        'userLongestCheckinStreakStart': longestCheckinStreakStart,
         'userSkin': userSkin,
-        'userNotifyStatus': userNotifyStatus.index,
-        'userFollowingUserStatus': userFollowingUserStatus.index,
-        'userArticleCount': userArticleCount,
+        'userNotifyStatus': notifyStatus.index,
+        'userFollowingUserStatus': followingUserStatus.index,
+        'userArticleCount': articleCount,
         'userRole': userRole,
         'sysMetal': sysMetal.map((e) => e.toJson()).toList(),
       };
@@ -671,210 +668,210 @@ typedef CommentAuthor = ArticleAuthor;
 /// 文章评论
 class ArticleComment {
   /// 是否优评
-  bool commentNice;
+  bool isNice;
 
   /// 评论创建时间字符串
-  String commentCreateTimeStr;
+  String createTimeStr;
 
   /// 评论作者 id
   String commentAuthorId;
 
   /// 评论分数
-  String commentScore;
+  String score;
 
   /// 评论创建时间
-  String commentCreateTime;
+  String createTime;
 
   /// 评论作者头像
-  String commentAuthorURL;
+  String authorURL;
 
   /// 评论状态
-  VoteStatus commentVote;
+  VoteStatus vote;
 
   /// 评论引用数
-  int commentRevisionCount;
+  int revisionCount;
 
   /// 评论经过时间
   String timeAgo;
 
   /// 回复评论 id
-  String commentOriginalCommentId;
+  String originalCommentId;
 
   /// 徽章
   List<Metal> sysMetal;
 
   /// 点赞数
-  int commentGoodCnt;
+  int goodCnt;
 
   /// 评论是否可见
-  YesNoStatus commentVisible;
+  YesNoStatus visible;
 
   /// 文章 id
-  String commentOnArticleId;
+  String articleId;
 
   /// 评论感谢数
   int rewardedCnt;
 
   /// 评论地址
-  String commentSharpURL;
+  String sharpURL;
 
   /// 是否匿名
-  bool commentAnonymous;
+  bool isAnonymous;
 
   /// 评论回复数
-  int commentReplyCnt;
+  int replyCnt;
 
   /// 评论 id
   String oId;
 
   /// 评论内容
-  String commentContent;
+  String content;
 
   /// 评论状态
-  ArticleStatus commentStatus;
+  ArticleStatus status;
 
   /// 评论作者
   CommentAuthor commenter = CommentAuthor();
 
   /// 评论作者用户名
-  String commentAuthorName;
+  String authorName;
 
   /// 评论感谢数
-  int commentThankCnt;
+  int thankCnt;
 
   /// 评论点踩数
-  int commentBadCnt;
+  int badCnt;
 
   /// 是否已感谢
   bool rewarded;
 
   /// 评论作者头像
-  String commentAuthorThumbnailURL;
+  String authorThumbnailURL;
 
   /// 评论音频地址
-  String commentAudioURL;
+  String audioURL;
 
   /// 评论是否采纳，1 表示采纳
-  int commentQnAOffered;
+  int offered;
 
   ArticleComment(
-      {this.commentNice = false,
-      this.commentCreateTimeStr = '',
+      {this.isNice = false,
+      this.createTimeStr = '',
       this.commentAuthorId = '',
-      this.commentScore = '',
-      this.commentCreateTime = '',
-      this.commentAuthorURL = '',
-      this.commentVote = VoteStatus.normal,
-      this.commentRevisionCount = 0,
+      this.score = '',
+      this.createTime = '',
+      this.authorURL = '',
+      this.vote = VoteStatus.normal,
+      this.revisionCount = 0,
       this.timeAgo = '',
-      this.commentOriginalCommentId = '',
+      this.originalCommentId = '',
       this.sysMetal = const [],
-      this.commentGoodCnt = 0,
-      this.commentVisible = YesNoStatus.yes,
-      this.commentOnArticleId = '',
+      this.goodCnt = 0,
+      this.visible = YesNoStatus.yes,
+      this.articleId = '',
       this.rewardedCnt = 0,
-      this.commentSharpURL = '',
-      this.commentAnonymous = false,
-      this.commentReplyCnt = 0,
+      this.sharpURL = '',
+      this.isAnonymous = false,
+      this.replyCnt = 0,
       this.oId = '',
-      this.commentContent = '',
-      this.commentStatus = ArticleStatus.Normal,
-      this.commentAuthorName = '',
-      this.commentThankCnt = 0,
-      this.commentBadCnt = 0,
+      this.content = '',
+      this.status = ArticleStatus.Normal,
+      this.authorName = '',
+      this.thankCnt = 0,
+      this.badCnt = 0,
       this.rewarded = false,
-      this.commentAuthorThumbnailURL = '',
-      this.commentAudioURL = '',
-      this.commentQnAOffered = 0,
+      this.authorThumbnailURL = '',
+      this.audioURL = '',
+      this.offered = 0,
       commenter}) {
     this.commenter = commenter ?? CommentAuthor();
   }
 
   ArticleComment.from(Map<String, dynamic> data)
-      : commentNice = data['commentNice'] ?? false,
-        commentCreateTimeStr = data['commentCreateTimeStr'] ?? '',
+      : isNice = data['commentNice'] ?? false,
+        createTimeStr = data['commentCreateTimeStr'] ?? '',
         commentAuthorId = data['commentAuthorId'] ?? '',
-        commentScore = (data['commentScore'] ?? 0).toString(),
-        commentCreateTime = data['commentCreateTime'] ?? '',
-        commentAuthorURL = data['commentAuthorURL'] ?? '',
-        commentVote = VoteStatus.values[(data['commentVote'] ?? 0) + 1],
-        commentRevisionCount = data['commentRevisionCount'] ?? 0,
+        score = (data['commentScore'] ?? 0).toString(),
+        createTime = data['commentCreateTime'] ?? '',
+        authorURL = data['commentAuthorURL'] ?? '',
+        vote = VoteStatus.values[(data['commentVote'] ?? 0) + 1],
+        revisionCount = data['commentRevisionCount'] ?? 0,
         timeAgo = data['timeAgo'] ?? '',
-        commentOriginalCommentId = data['commentOriginalCommentId'] ?? '',
+        originalCommentId = data['commentOriginalCommentId'] ?? '',
         sysMetal = List.from(data['sysMetal'])
             .map((e) => analyzeMetalAttr(e))
             .toList(),
-        commentGoodCnt = data['commentGoodCnt'] ?? 0,
-        commentVisible = YesNoStatus.values[data['commentVisible'] ?? 0],
-        commentOnArticleId = data['commentOnArticleId'] ?? '',
+        goodCnt = data['commentGoodCnt'] ?? 0,
+        visible = YesNoStatus.values[data['commentVisible'] ?? 0],
+        articleId = data['commentOnArticleId'] ?? '',
         rewardedCnt = data['rewardedCnt'] ?? 0,
-        commentSharpURL = data['commentSharpURL'] ?? '',
-        commentAnonymous = (data['commentAnonymous'] ?? 0) == 1,
-        commentReplyCnt = data['commentReplyCnt'] ?? 0,
+        sharpURL = data['commentSharpURL'] ?? '',
+        isAnonymous = (data['commentAnonymous'] ?? 0) == 1,
+        replyCnt = data['commentReplyCnt'] ?? 0,
         oId = data['oId'] ?? '',
-        commentContent = data['commentContent'] ?? '',
-        commentStatus = ArticleStatus.values[data['commentStatus'] ?? 0],
-        commentAuthorName = data['commentAuthorName'] ?? '',
-        commentThankCnt = data['commentThankCnt'] ?? 0,
-        commentBadCnt = data['commentBadCnt'] ?? 0,
+        content = data['commentContent'] ?? '',
+        status = ArticleStatus.values[data['commentStatus'] ?? 0],
+        authorName = data['commentAuthorName'] ?? '',
+        thankCnt = data['commentThankCnt'] ?? 0,
+        badCnt = data['commentBadCnt'] ?? 0,
         rewarded = data['rewarded'] ?? false,
-        commentAuthorThumbnailURL = data['commentAuthorThumbnailURL'] ?? '',
-        commentAudioURL = data['commentAudioURL'] ?? '',
-        commentQnAOffered = data['commentQnAOffered'] ?? 0,
+        authorThumbnailURL = data['commentAuthorThumbnailURL'] ?? '',
+        audioURL = data['commentAudioURL'] ?? '',
+        offered = data['commentQnAOffered'] ?? 0,
         commenter = CommentAuthor.from(data['commenter'] ?? {});
 
   Map<String, dynamic> toJson() => {
-        'commentNice': commentNice,
-        'commentCreateTimeStr': commentCreateTimeStr,
+        'commentNice': isNice,
+        'commentCreateTimeStr': createTimeStr,
         'commentAuthorId': commentAuthorId,
-        'commentScore': commentScore,
-        'commentCreateTime': commentCreateTime,
-        'commentAuthorURL': commentAuthorURL,
-        'commentVote': commentVote.index,
-        'commentRevisionCount': commentRevisionCount,
+        'commentScore': score,
+        'commentCreateTime': createTime,
+        'commentAuthorURL': authorURL,
+        'commentVote': vote.index,
+        'commentRevisionCount': revisionCount,
         'timeAgo': timeAgo,
-        'commentOriginalCommentId': commentOriginalCommentId,
+        'commentOriginalCommentId': originalCommentId,
         'sysMetal': sysMetal.map((e) => e.toJson()).toList(),
-        'commentGoodCnt': commentGoodCnt,
-        'commentVisible': commentVisible.index,
-        'commentOnArticleId': commentOnArticleId,
+        'commentGoodCnt': goodCnt,
+        'commentVisible': visible.index,
+        'commentOnArticleId': articleId,
         'rewardedCnt': rewardedCnt,
-        'commentSharpURL': commentSharpURL,
-        'commentAnonymous': commentAnonymous,
-        'commentReplyCnt': commentReplyCnt,
+        'commentSharpURL': sharpURL,
+        'commentAnonymous': isAnonymous,
+        'commentReplyCnt': replyCnt,
         'oId': oId,
-        'commentContent': commentContent,
-        'commentStatus': commentStatus.index,
-        'commentAuthorName': commentAuthorName,
-        'commentThankCnt': commentThankCnt,
-        'commentBadCnt': commentBadCnt,
+        'commentContent': content,
+        'commentStatus': status.index,
+        'commentAuthorName': authorName,
+        'commentThankCnt': thankCnt,
+        'commentBadCnt': badCnt,
         'rewarded': rewarded,
-        'commentAuthorThumbnailURL': commentAuthorThumbnailURL,
-        'commentAudioURL': commentAudioURL,
-        'commentQnAOffered': commentQnAOffered,
+        'commentAuthorThumbnailURL': authorThumbnailURL,
+        'commentAudioURL': audioURL,
+        'commentQnAOffered': offered,
         'commenter': commenter.toJson(),
       };
 }
 
 class Pagination {
   /// 总分页数
-  int paginationPageCount;
+  int count;
 
   /// 建议分页页码
-  List<int> paginationPageNums;
+  List<int> pageNums;
 
   Pagination({
-    this.paginationPageCount = 0,
-    this.paginationPageNums = const [],
+    this.count = 0,
+    this.pageNums = const [],
   });
 
   Pagination.from(Map<String, dynamic> data)
-      : paginationPageCount = data['paginationPageCount'] ?? 0,
-        paginationPageNums = List.from(data['paginationPageNums'] ?? []);
+      : count = data['paginationPageCount'] ?? 0,
+        pageNums = List.from(data['paginationPageNums'] ?? []);
 
   Map<String, dynamic> toJson() => {
-        'paginationPageCount': paginationPageCount,
-        'paginationPageNums': paginationPageNums,
+        'paginationPageCount': count,
+        'paginationPageNums': pageNums,
       };
 }
 

@@ -241,7 +241,7 @@ class ArticleCmd implements CommandInstance {
 
   comment(CommentPost comment) {
     return Instance.get.comment.send(comment).then((value) => {
-          _commentPage = (_currentDetail.pagination?.paginationPageCount ?? 1) +
+          _commentPage = (_currentDetail.pagination?.count ?? 1) +
               (_currentDetail.articleComments.length == 30 ? 1 : 0),
           page(':page article ${_currentDetail.oId}')
         });
@@ -280,11 +280,11 @@ ${_currentDetail.rewarded ? _currentDetail.articleRewardContent : '${Command.ita
             ''');
           }
           print(
-              '------ 评论 ($_commentPage / ${_currentDetail.pagination?.paginationPageCount ?? 1}) ------');
+              '------ 评论 ($_commentPage / ${_currentDetail.pagination?.count ?? 1}) ------');
           for (var i = 0; i < _currentDetail.articleComments.length; i++) {
             var item = _currentDetail.articleComments[i];
             print(
-                '${Command.from('#AAAAAA').color}{${i + 1}} ${Command.from('#888888').color}${Command.bold}${item.commenter.name}${Command.restore} ${Command.from('#555555').color}[${item.commentCreateTimeStr}]${Command.restore}: ${htmlToText(item.commentContent)}');
+                '${Command.from('#AAAAAA').color}{${i + 1}} ${Command.from('#888888').color}${Command.bold}${item.commenter.name}${Command.restore} ${Command.from('#555555').color}[${item.createTimeStr}]${Command.restore}: ${htmlToText(item.content)}');
           }
         }).catchError((error) {
           print('找不到对应编号的文章');
@@ -306,7 +306,7 @@ ${_currentDetail.rewarded ? _currentDetail.articleRewardContent : '${Command.ita
           print(
               '${(i + 1).toString().padLeft(2, '0')}.${Command.bold}${Command.from('#555555').color}[${item.articleAuthor.name}]${Command.restore} ${item.articleTitleEmoj}${Command.from('#222222').back}${Command.from('#a1e999').color} ${item.articleHeat} ${Command.restore}');
         }
-        print('第 $page / ${list.pagination.paginationPageCount} 页');
+        print('第 $page / ${list.pagination.count} 页');
         _current = list;
       });
     } catch (e) {
