@@ -78,11 +78,12 @@ class Config {
 
 String htmlToText(String html, {String? userName}) {
   return html
-      .replaceAllMapped(RegExp(r'@<a [^>]*?>([^<]*?)</a>'),
-          (match) => '@${match.group(1)}')
-      .replaceAllMapped(RegExp(r'<a [^>]*?href="([^"]*?)"[^>]*?>([^<]*?)</a>'),
-          (match) => '[${match.group(2)}](${(match.group(1)??'').startsWith('https://fishpi.cn/forward?goto=') ? 
-          Uri.decodeFull(match.group(1)?.substring((match.group(1)?.indexOf('goto=') ?? 0) + 5) ?? '') : match.group(1)})')
+      .replaceAllMapped(
+          RegExp(r'@<a [^>]*?>([^<]*?)</a>'), (match) => '@${match.group(1)}')
+      .replaceAllMapped(
+          RegExp(r'<a [^>]*?href="([^"]*?)"[^>]*?>([^<]*?)</a>'),
+          (match) =>
+              '[${match.group(2)}](${(match.group(1) ?? '').startsWith('https://fishpi.cn/forward?goto=') ? Uri.decodeFull(match.group(1)?.substring((match.group(1)?.indexOf('goto=') ?? 0) + 5) ?? '') : match.group(1)})')
       .replaceAllMapped(
           RegExp(r'<a [^>]*?>([^<]*?)</a>'), (match) => match.group(1) ?? '')
       .replaceAllMapped(
@@ -99,22 +100,37 @@ String htmlToText(String html, {String? userName}) {
       .replaceAllMapped(RegExp(r'<iframe.*?<\/iframe>'), (match) => '[内联网页]')
       .replaceAllMapped(RegExp(r'<(\/)*[^>]*?>'), (match) => '')
       .replaceAllMapped(
-          RegExp('@$userName'), (match) => '${Command.reverse}@${Command.underline}$userName${Command.restore}')
-      .replaceAllMapped(RegExp(r'@([^<]*?)( |$)'),
-          (match) => '${Command.bold}@${match.group(1)}${Command.restore}${match.group(2)}');
+          RegExp('@$userName'),
+          (match) =>
+              '${Command.reverse}@${Command.underline}$userName${Command.restore}')
+      .replaceAllMapped(
+          RegExp(r'@([^<]*?)( |$)'),
+          (match) =>
+              '${Command.bold}@${match.group(1)}${Command.restore}${match.group(2)}');
 }
 
 class Command {
-  int r;
-  int g;
-  int b;
+  int r = 255;
+  int g = 255;
+  int b = 255;
 
-  Command([this.r=255, this.g=255, this.b=255]);
-  Command.from(String rgb)
-      : r = int.parse(rgb.substring(1, 3), radix: 16),
-        g = int.parse(rgb.substring(3, 5), radix: 16),
-        b = int.parse(rgb.substring(5, 7), radix: 16);
-  
+  Command([this.r = 255, this.g = 255, this.b = 255]);
+  Command.from(String rgb) {
+    if (rgb.startsWith('#')) {
+      r = int.parse(rgb.substring(1, 3), radix: 16);
+      g = int.parse(rgb.substring(3, 5), radix: 16);
+      b = int.parse(rgb.substring(5, 7), radix: 16);
+    } else if (rgb.startsWith('rgb')) {
+      final rgbaExp = RegExp(r'rgba*\((\d+),\s*(\d+),\s*(\d+)');
+      final match = rgbaExp.firstMatch(rgb);
+      if (match != null) {
+        r = int.parse(match.group(1)!);
+        g = int.parse(match.group(2)!);
+        b = int.parse(match.group(3)!);
+      }
+    }
+  }
+
   get color => '\x1B[38;2;$r;$g;${b}m';
   get back => '\x1B[48;2;$r;$g;${b}m';
 
