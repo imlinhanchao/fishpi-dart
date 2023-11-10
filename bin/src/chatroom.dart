@@ -6,9 +6,10 @@ import 'base.dart';
 class ChatRoomCmd implements CommandInstance {
   @override
   ArgParser command(ArgParser parser) {
-    return parser..addOption('talk', help: '发送消息到聊天室（需曾经登录过或添加 -u 参数）')
-        ..addOption('barrager', help: '发送弹幕到聊天室（需曾经登录过或添加 -u 参数）')
-        ..addOption('barrager-color', help: '弹幕颜色', defaultsTo: '#FFFFFF');
+    return parser
+      ..addOption('talk', help: '发送消息到聊天室（需曾经登录过或添加 -u 参数）')
+      ..addOption('barrager', help: '发送弹幕到聊天室（需曾经登录过或添加 -u 参数）')
+      ..addOption('barrager-color', help: '弹幕颜色', defaultsTo: '#FFFFFF');
   }
 
   @override
@@ -25,7 +26,10 @@ class ChatRoomCmd implements CommandInstance {
       if (!Instance.get.isLogin) {
         print('请先登录。');
       } else {
-        Instance.get.chatroom.barrage(args['barrager'], color: args['barrager-color'] ?? '#FFFFFF').then(print);
+        Instance.get.chatroom
+            .barrage(args['barrager'],
+                color: args['barrager-color'] ?? '#FFFFFF')
+            .then(print);
       }
       exit(0);
     }
@@ -49,6 +53,8 @@ class ChatRoomCmd implements CommandInstance {
         case ChatRoomMessageType.redPacketStatus:
           break;
         case ChatRoomMessageType.custom:
+          print(
+              '${Command.from('#888888').color}${msg.data}${Command.restore}');
           break;
       }
     });
@@ -96,6 +102,6 @@ class ChatRoomCmd implements CommandInstance {
   }
 
   String barragerView(BarragerMsg msg) {
-    return '<{ ${msg.allName} : ${msg.barragerContent} }>';
+    return '${Command.bold}${Command.from(msg.barragerColor).back}[${msg.allName}: ${msg.barragerContent}]${Command.restore}';
   }
 }

@@ -79,9 +79,10 @@ class Config {
 String htmlToText(String html, {String? userName}) {
   return html
       .replaceAllMapped(RegExp(r'@<a [^>]*?>([^<]*?)</a>'),
-          (match) => '@${Command.underline}${match.group(1)}${Command.restore}')
+          (match) => '@${match.group(1)}')
       .replaceAllMapped(RegExp(r'<a [^>]*?href="([^"]*?)"[^>]*?>([^<]*?)</a>'),
-          (match) => '[${match.group(2)}](${match.group(1)})')
+          (match) => '[${match.group(2)}](${(match.group(1)??'').startsWith('https://fishpi.cn') ? 
+          Uri.decodeFull(match.group(1)?.substring((match.group(1)?.indexOf('goto=') ?? 0) + 5) ?? '') : match.group(1)})')
       .replaceAllMapped(
           RegExp(r'<a [^>]*?>([^<]*?)</a>'), (match) => match.group(1) ?? '')
       .replaceAllMapped(
@@ -98,7 +99,9 @@ String htmlToText(String html, {String? userName}) {
       .replaceAllMapped(RegExp(r'<iframe.*?<\/iframe>'), (match) => '[内联网页]')
       .replaceAllMapped(RegExp(r'<(\/)*[^>]*?>'), (match) => '')
       .replaceAllMapped(
-          RegExp('@$userName'), (match) => '${Command.reverse}@${Command.underline}$userName${Command.restore}');
+          RegExp('@$userName'), (match) => '${Command.reverse}@${Command.underline}$userName${Command.restore}')
+      .replaceAllMapped(RegExp(r'@([^<]*?)( |$)'),
+          (match) => '${Command.bold}@${match.group(1)}${Command.restore}${match.group(2)}');
 }
 
 class Command {
