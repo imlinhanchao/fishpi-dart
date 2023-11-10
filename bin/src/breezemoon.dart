@@ -30,26 +30,30 @@ class BreezemoonCmd implements CommandInstance {
     switch (argv[0]) {
       case ':to':
         {
-          if (argv.length < 2) {
-            try {
+          try {
+            if (argv.length < 2) {
               stdout.write('要跳转到哪一页：');
               _page = int.parse(stdin.readLineSync() ?? '1');
-            } catch (e) {
-              _page = 1;
+            } else {
+              _page = int.parse(argv[1]);
             }
+          } catch (e) {
+            _page = 1;
           }
           await page(':page breezemoon');
           break;
         }
       case ':size':
         {
-          if (argv.length < 2) {
-            try {
+          try {
+            if (argv.length < 2) {
               stdout.write('要显示多少笔：');
               _size = int.parse(stdin.readLineSync() ?? '20');
-            } catch (e) {
-              _size = 20;
+            } else {
+              _size = int.parse(argv[1]);
             }
+          } catch (e) {
+            _size = 20;
           }
           await page(':page breezemoon');
           break;
@@ -90,6 +94,7 @@ class BreezemoonCmd implements CommandInstance {
 
   @override
   Future<bool> page(String command) async {
+    print('${Command.clearScreen}${Command.moveTo(0, 0)}');
     int page = _page, size = _size;
     final commands = command.trim().split(' ');
     if (commands.length > 2 && commands[2].isNotEmpty) {
