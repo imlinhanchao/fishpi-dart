@@ -77,20 +77,16 @@ class ChatRoomCmd implements CommandInstance {
     return true;
   }
 
-  String userNameView(data) {
-    return data.userNickname.isEmpty ? data.userName : '${data.userNickname}(${data.userName})';
-  }
-
   String msgView(ChatRoomMessage msg) {
     if (msg.isRedpacket) return redPacketView(msg);
-    return '\x1B[1m${userNameView(msg)}\x1B[90m [${msg.time}]\x1B[0m: ${htmlToText(msg.content, userName: Instance.get.user.current.userName).replaceAll('\n', '')}';
+    return '\x1B[1m${msg.allName}\x1B[90m [${msg.time}]\x1B[0m: ${htmlToText(msg.content, userName: Instance.get.user.current.userName).replaceAll('\n', '')}';
   }
 
   String redPacketView(ChatRoomMessage msg) {
-    return '\x1B[1m${userNameView(msg)}\x1B[0m [${msg.time}]: { 收到一个${RedPacketType.toName(msg.redpacket?.type ?? '')} }';
+    return '\x1B[1m${msg.allName}\x1B[0m [${msg.time}]: { 收到一个${RedPacketType.toName(msg.redpacket?.type ?? '')} }';
   }
 
   String barragerView(BarragerMsg msg) {
-    return '<{ ${userNameView(msg)} : ${msg.barragerContent} }>';
+    return '<{ ${msg.allName} : ${msg.barragerContent} }>';
   }
 }

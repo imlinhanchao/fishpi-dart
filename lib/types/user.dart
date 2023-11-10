@@ -138,6 +138,9 @@ class UserInfo {
 
   String get name => userNickname.isEmpty ? userName : userNickname;
 
+  String get allName =>
+      userNickname.isEmpty ? userName : '$userNickname($userName)';
+
   /// 用户名
   String userName;
 
