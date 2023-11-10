@@ -105,6 +105,6 @@ class ChatRoomCmd implements CommandInstance {
   }
 
   String barragerView(BarragerMsg msg) {
-    return '${Command.bold}${Command.from(msg.barragerColor).back}[${msg.allName}: ${msg.barragerContent}]${Command.restore}';
+    return '${Command.bold}${Command.from(msg.barragerColor).color}[${msg.allName}: ${msg.barragerContent}]>~~${Command.restore}';
   }
 }
