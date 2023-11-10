@@ -450,10 +450,9 @@ class NoticeFollow {
         thumbnailURL = data['thumbnailURL'] ?? '',
         articleCommentCount = data['articleCommentCount'] ?? 0,
         articlePerfect = data['articlePerfect'] ?? 0,
-        articleTagObjs = (data['articleTagObjs'] as List)
+        articleTagObjs = List.from(data['articleTagObjs'] ?? [])
                 .map((i) => ArticleTag.from(i))
-                .toList() ??
-            [],
+                .toList(),
         articleTags = data['articleTags'] ?? '',
         articleType = data['articleType'] ?? 0,
         hasRead = data['hasRead'] ?? false,
