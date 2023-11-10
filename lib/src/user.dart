@@ -46,7 +46,7 @@ class User {
   /// 查询登录用户当前活跃度，请求频率请控制在 30 ~ 60 秒一次
   ///
   /// 返回活跃度
-  Future<int> liveness() async {
+  Future<double> liveness() async {
     if (token.isEmpty) {
       return 0;
     }
