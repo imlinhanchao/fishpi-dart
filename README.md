@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://fishpi.cn">
-    <img width="200" src="./logo.png">
+    <img width="200" src="https://github.com/imlinhanchao/fishpi-dart/raw/master/logo.png">
   </a>
 </p>
 
