@@ -128,6 +128,7 @@ class RegisterInfo {
 class ResponseResult {
   /// 是否成功
   bool success;
+
   /// 执行结果或错误信息
   String msg;
 
