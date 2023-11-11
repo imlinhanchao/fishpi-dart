@@ -134,7 +134,6 @@ class Notice {
     );
   }
 
-  
   /// 添加通知监听函数
   ///
   /// - `wsCallback` 通知监听函数
@@ -160,5 +159,4 @@ class Notice {
     }
     if (_wsCallbacks.contains(wsCallback)) _wsCallbacks.remove(wsCallback);
   }
-
 }

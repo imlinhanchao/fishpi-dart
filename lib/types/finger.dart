@@ -60,10 +60,13 @@ enum UserBagType {
 class UserBag {
   /// 免签卡
   int checkin1day;
+
   /// 两日免签卡
   int checkin2days;
+
   /// 补签卡
   int patchCheckinCard;
+
   /// 摸鱼派一周年纪念勋章领取券
   int metalTicket;
 
@@ -79,7 +82,7 @@ class UserBag {
         checkin2days = data['checkin2days'] ?? 0,
         patchCheckinCard = data['patchCheckinCard'] ?? 0,
         metalTicket = data['metalTicket'] ?? 0;
-  
+
   toJson() => {
         'checkin1day': checkin1day,
         'checkin2days': checkin2days,

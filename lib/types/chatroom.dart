@@ -95,8 +95,7 @@ class ChatRoomMessage {
   /// 用户昵称
   String nickname = '';
 
-  String get allName =>
-      nickname.isEmpty ? userName : '$nickname($userName)';
+  String get allName => nickname.isEmpty ? userName : '$nickname($userName)';
 
   /// 用户头像
   String avatarURL = '';

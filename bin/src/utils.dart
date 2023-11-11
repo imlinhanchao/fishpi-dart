@@ -8,8 +8,7 @@ class UtilsCmd implements CommandInstance {
   ArgParser command(ArgParser parser) {
     return parser
       ..addOption('upload', abbr: 'f', help: '上传文件路径')
-      ..addOption('origin',
-          abbr: 'o', help: '服务器地址， 默认为 https://fishpi.cn');
+      ..addOption('origin', abbr: 'o', help: '服务器地址， 默认为 https://fishpi.cn');
   }
 
   @override

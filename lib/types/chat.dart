@@ -1,26 +1,37 @@
 class ChatData {
   /// 接收 id
   String toId;
+
   /// 预览内容
   String preview;
+
   /// 用户会话
   String userSession;
+
   /// 发送者头像
   String senderAvatar;
+
   /// markdown
   String markdown;
+
   /// 接收者头像
   String receiverAvatar;
+
   /// ID
   String oId;
+
   /// 时间
   String time;
+
   /// 发送 id
   String fromId;
+
   /// 发送者用户名
   String senderUserName;
+
   /// 内容
   String content;
+
   /// 接收者用户名
   String receiverUserName;
 
@@ -77,12 +88,16 @@ class ChatData {
 class ChatNotice {
   /// 命令
   String command;
+
   /// 发送用户 ID
   String userId;
+
   /// 预览内容
   String? preview;
+
   /// 发送者头像
   String? senderAvatar;
+
   /// 发送者用户名
   String? senderUserName;
 
@@ -120,8 +135,10 @@ typedef ChatRevoke = String;
 enum ChatMsgType {
   /// 新聊天通知
   notice,
+
   /// 聊天内容
   data,
+
   /// 撤回聊天
   revoke,
 }
@@ -131,8 +148,10 @@ typedef ChatListener = void Function(
   ChatMsgType type, {
   /// 新聊天通知
   ChatNotice? notice,
+
   /// 聊天内容
   ChatData? data,
+
   /// 撤回聊天
   ChatRevoke? revoke,
 });

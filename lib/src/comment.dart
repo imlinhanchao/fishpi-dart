@@ -59,7 +59,7 @@ class Comment {
   /// - `type` 点赞类型
   ///
   /// 返回文章点赞状态，true 为点赞，false 为点踩
-  Future<bool> vote(String id, [bool like=true]) async {
+  Future<bool> vote(String id, [bool like = true]) async {
     try {
       var rsp = await Request.post(
         'vote/${like ? 'up' : 'down'}/comment',

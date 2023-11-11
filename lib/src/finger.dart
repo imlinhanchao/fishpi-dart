@@ -15,7 +15,8 @@ class Finger {
   /// - `time` 通过此关时间（毫秒级时间戳）
   ///
   /// 返回执行结果
-  Future<ResponseResult> addMofishScore({required String userName, required String stage, int? time}) async {
+  Future<ResponseResult> addMofishScore(
+      {required String userName, required String stage, int? time}) async {
     try {
       var rsp = await Request.post(
         'api/games/mofish/score',
@@ -156,7 +157,8 @@ class Finger {
   /// - `sum` 物品数量
   ///
   /// 返回执行结果
-  Future<ResponseResult> editUserBag(String userName, UserBagType item, int sum) async {
+  Future<ResponseResult> editUserBag(
+      String userName, UserBagType item, int sum) async {
     try {
       var rsp = await Request.post(
         'user/edit/items',
@@ -181,7 +183,8 @@ class Finger {
   /// - `memo` 备注
   ///
   /// 返回执行结果
-  Future<ResponseResult> editUserPoints(String userName, int point, String memo) async {
+  Future<ResponseResult> editUserPoints(
+      String userName, int point, String memo) async {
     try {
       var rsp = await Request.post(
         'user/edit/points',

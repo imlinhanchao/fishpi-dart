@@ -99,7 +99,8 @@ class Article {
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      return ArticleDetail.from(rsp['data']?['article'] ?? {})..pagination = Pagination.from(rsp['data']?['pagination'] ?? {});
+      return ArticleDetail.from(rsp['data']?['article'] ?? {})
+        ..pagination = Pagination.from(rsp['data']?['pagination'] ?? {});
     } catch (e) {
       return Future.error(e);
     }
