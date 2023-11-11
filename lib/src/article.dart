@@ -4,6 +4,7 @@ import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 import 'package:web_socket_channel/io.dart';
 
+/// 文章接口
 class Article {
   String token = '';
 

@@ -1,6 +1,7 @@
 import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 
+/// 用户接口
 class User {
   String _token = '';
   UserInfo _infoCache = UserInfo();

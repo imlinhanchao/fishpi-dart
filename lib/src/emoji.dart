@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 
+/// 表情包接口
 class Emoji {
   String token = '';
   List<String> _emojis = [];

@@ -4,6 +4,7 @@ import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 import 'package:web_socket_channel/io.dart';
 
+/// 聊天室接口
 class Chatroom {
   String _apiKey = '';
   String _discusse = '';

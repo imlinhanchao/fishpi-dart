@@ -1,6 +1,7 @@
 import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 
+/// 清风明月接口
 class Breezemoon {
   String token = '';
 

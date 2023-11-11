@@ -1,6 +1,7 @@
 import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 
+/// 评论接口
 class Comment {
   String token = '';
 

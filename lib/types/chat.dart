@@ -1,3 +1,4 @@
+/// 私聊数据
 class ChatData {
   /// 接收 id
   String toId;
@@ -85,6 +86,7 @@ class ChatData {
   }
 }
 
+/// 私聊通知
 class ChatNotice {
   /// 命令
   String command;
@@ -130,8 +132,10 @@ class ChatNotice {
   }
 }
 
+/// 撤回消息，被撤回消息的 oId
 typedef ChatRevoke = String;
 
+/// 聊天消息类型
 enum ChatMsgType {
   /// 新聊天通知
   notice,
@@ -143,6 +147,7 @@ enum ChatMsgType {
   revoke,
 }
 
+/// 聊天消息监听
 typedef ChatListener = void Function(
   /// 消息类型
   ChatMsgType type, {

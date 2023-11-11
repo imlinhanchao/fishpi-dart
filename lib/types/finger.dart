@@ -1,3 +1,4 @@
+/// 摸鱼大闯关信息
 class MoFishGame {
   String userName;
   String stage;
@@ -26,6 +27,7 @@ class MoFishGame {
   }
 }
 
+/// 用户 IP 信息
 class UserIP {
   String latestLoginIP;
   String userId;
@@ -50,6 +52,7 @@ class UserIP {
   }
 }
 
+/// 用户背包物品类型
 enum UserBagType {
   checkin1day,
   checkin2days,
@@ -57,6 +60,7 @@ enum UserBagType {
   metalTicket,
 }
 
+/// 用户背包信息
 class UserBag {
   /// 免签卡
   int checkin1day;

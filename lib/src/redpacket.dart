@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 
+/// 红包接口
 class Redpacket {
   String token = '';
 

@@ -1,4 +1,4 @@
-import 'fishpi.dart';
+import 'types.dart';
 
 /// 数据类型
 class DataType {
@@ -394,6 +394,7 @@ class NoticeAt {
   }
 }
 
+/// 关注通知
 class NoticeFollow {
   /// 通知 Id
   String oId;
@@ -558,6 +559,7 @@ class NoticeSystem {
   }
 }
 
+/// 通知消息类型
 class NoticeMsgType {
   /// 刷新通知数，需调用 Notice.count 获取明细
   static const refresh = 'refreshNotification';
@@ -611,4 +613,5 @@ class NoticeMsg {
 /// NoticePoint | NoticeComment | NoticeAt | NoticeFollow | NoticeSystem 列表，根据 NoticeType 变化
 typedef NoticeList = List<dynamic>;
 
+/// 通知监听
 typedef NoticeListener = void Function(NoticeMsg msg);

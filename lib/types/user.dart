@@ -3,6 +3,7 @@
 import 'package:fishpi/src/request.dart';
 import 'package:fishpi/src/utils.dart';
 
+/// 徽章属性
 class MetalAttr {
   /// 徽标图地址
   String url;
@@ -36,6 +37,7 @@ class MetalAttr {
   }
 }
 
+/// 徽章基础信息
 class MetalBase {
   /// 徽章属性
   MetalAttr attr;
@@ -78,6 +80,7 @@ class MetalBase {
   }
 }
 
+/// 徽章信息
 class Metal extends MetalBase {
   /// 完整徽章地址（含文字）
   String get url => toUrl();
@@ -120,6 +123,7 @@ class Metal extends MetalBase {
 /// 徽章列表
 typedef MetalList = List<Metal>;
 
+/// 应用角色
 enum UserAppRole {
   /// 黑客
   Hack,

@@ -1,12 +1,10 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, constant_identifier_names
 
 import 'package:fishpi/src/utils.dart';
 
-import 'fishpi.dart';
+import 'types.dart';
 
 /// 发帖信息
-// ignore_for_file: constant_identifier_names
-
 class ArticlePost {
   /// 帖子标题
   String title;
@@ -241,6 +239,7 @@ enum ArticleStatus {
   Lock,
 }
 
+/// 文章作者
 class ArticleAuthor {
   /// 用户是否在线
   bool isOnline;
@@ -637,6 +636,7 @@ class ArticleAuthor {
       };
 }
 
+/// 评论作者
 typedef CommentAuthor = ArticleAuthor;
 
 /// 文章评论
@@ -827,6 +827,7 @@ class ArticleComment {
       };
 }
 
+/// 分页信息
 class Pagination {
   /// 总分页数
   int count;

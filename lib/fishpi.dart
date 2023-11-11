@@ -1,19 +1,20 @@
 import 'dart:io';
 
 import 'package:fishpi/fishpi.dart';
-import 'package:fishpi/src/breezemoon.dart';
 import 'package:fishpi/src/request.dart';
 
-export 'types/fishpi.dart';
 export 'src/user.dart';
 export 'src/chatroom.dart';
 export 'src/redpacket.dart';
 export 'src/chat.dart';
 export 'src/emoji.dart';
+export 'src/breezemoon.dart';
 export 'src/article.dart';
 export 'src/comment.dart';
 export 'src/finger.dart';
+export 'types/types.dart';
 
+/// 摸鱼派接口
 class Fishpi {
   String _apiKey = '';
   User user = User();

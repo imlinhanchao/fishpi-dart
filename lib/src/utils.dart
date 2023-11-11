@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
-import 'package:fishpi/types/fishpi.dart';
+import 'package:fishpi/types/types.dart';
 
 extension Utils on String {
   toMD5() {

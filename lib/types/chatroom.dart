@@ -56,11 +56,12 @@ class ClientType {
   static const Other = 'Other';
 }
 
+/// 消息来源
 class ChatSource {
-  /// 消息来源
+  /// 客户端类型
   String client = ClientType.Other;
 
-  /// 消息来源版本
+  /// 客户端版本
   String version = '';
 
   ChatSource({this.client = ClientType.Other, this.version = 'lastst'});
@@ -184,7 +185,7 @@ class ChatContentType {
   static const HTML = "html";
 }
 
-/// chatroom get 接口获取 oId 的相关消息类型
+/// 相关消息位置类型
 enum ChatMessageType {
   /// 前后消息
   Context,
@@ -240,6 +241,7 @@ class Message {
   }
 }
 
+/// 聊天室监听
 typedef ChatroomListener = void Function(Message);
 
 // 自定义消息
@@ -355,6 +357,7 @@ typedef discussMsg = String;
 /// 撤回消息，被撤回消息的 oId
 typedef RevokeMsg = String;
 
+/// 弹幕花费
 class BarrageCost {
   int cost;
   String unit;
@@ -379,6 +382,7 @@ class BarrageCost {
   }
 }
 
+/// 被禁言用户信息
 class MuteItem {
   /// 解除禁言时间戳
   int time;

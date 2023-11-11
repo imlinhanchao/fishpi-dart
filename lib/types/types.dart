@@ -10,32 +10,7 @@ export 'notice.dart';
 export 'article.dart';
 export 'finger.dart';
 
-class ApiResponse<T> {
-  /// 请求状态
-  int code = 0;
-
-  /// 请求状态
-  int? result;
-
-  /// 请求信息
-  String? msg;
-
-  /// 请求数据
-  T? data;
-
-  ApiResponse.from(Map<String, dynamic> rsp, Function T) {
-    code = rsp['code'] ?? '';
-    result = rsp['result'] ?? '';
-    msg = rsp['msg'] ?? '';
-    data = rsp['data'] != null ? T(rsp['data']) : null;
-  }
-
-  @override
-  toString() {
-    return "{ code=$code, result=$result, msg=$msg, data=$data }";
-  }
-}
-
+/// 登录账户信息
 class LoginData {
   /// 用户名
   String username;
@@ -69,6 +44,7 @@ class LoginData {
   }
 }
 
+/// 预注册账户信息
 class PreRegisterInfo {
   /// 用户名
   String username;
@@ -108,76 +84,7 @@ class PreRegisterInfo {
   }
 }
 
-class ResponseResult {
-  bool success;
-  String msg;
-
-  ResponseResult({
-    this.success = false,
-    this.msg = '',
-  });
-
-  ResponseResult.from(Map<String, dynamic> data)
-      : success = (data['code'] ?? 0) == 0,
-        msg = data['msg'] ?? '';
-
-  @override
-  String toString() {
-    return "ResponseResult{ success=$success, msg=$msg }";
-  }
-}
-
-class FileInfo {
-  /// 文件名
-  String filename;
-
-  /// 文件地址
-  String url;
-
-  FileInfo({this.filename = '', this.url = ''});
-
-  FileInfo.from(Map<String, dynamic> data)
-      : filename = data['filename'] ?? '',
-        url = data['url'] ?? '';
-
-  @override
-  toString() {
-    return "FileInfo{filename=$filename, url=$url}";
-  }
-}
-
-class UploadResult {
-  /// 上传失败文件
-  List<String> errs;
-
-  /// 上传成功文件
-  List<FileInfo> success;
-
-  UploadResult({this.errs = const [], this.success = const []});
-
-  UploadResult.from(Map<String, dynamic> map)
-      : errs = List<String>.from(map['errFiles'] ?? []),
-        success = ((map['succMap'] ?? {}) as Map<String, dynamic>)
-            .entries
-            .map((entry) => FileInfo(filename: entry.key, url: entry.value))
-            .toList();
-
-  toJson() => {
-        'errFiles': errs,
-        'succMap': success
-            .map((e) => {
-                  'filename': e.filename,
-                  'url': e.url,
-                })
-            .toList()
-      };
-
-  @override
-  toString() {
-    return "UploadResult{ errFiles=${errs.join(',')}, succFiles=$success }";
-  }
-}
-
+/// 注册账户信息
 class RegisterInfo {
   /// 用户角色
   String role;
@@ -217,6 +124,82 @@ class RegisterInfo {
   }
 }
 
+/// 执行结果
+class ResponseResult {
+  /// 是否成功
+  bool success;
+  /// 执行结果或错误信息
+  String msg;
+
+  ResponseResult({
+    this.success = false,
+    this.msg = '',
+  });
+
+  ResponseResult.from(Map<String, dynamic> data)
+      : success = (data['code'] ?? 0) == 0,
+        msg = data['msg'] ?? '';
+
+  @override
+  String toString() {
+    return "ResponseResult{ success=$success, msg=$msg }";
+  }
+}
+
+/// 上传文件信息
+class FileInfo {
+  /// 文件名
+  String filename;
+
+  /// 文件地址
+  String url;
+
+  FileInfo({this.filename = '', this.url = ''});
+
+  FileInfo.from(Map<String, dynamic> data)
+      : filename = data['filename'] ?? '',
+        url = data['url'] ?? '';
+
+  @override
+  toString() {
+    return "FileInfo{filename=$filename, url=$url}";
+  }
+}
+
+/// 上传结果
+class UploadResult {
+  /// 上传失败文件
+  List<String> errs;
+
+  /// 上传成功文件
+  List<FileInfo> success;
+
+  UploadResult({this.errs = const [], this.success = const []});
+
+  UploadResult.from(Map<String, dynamic> map)
+      : errs = List<String>.from(map['errFiles'] ?? []),
+        success = ((map['succMap'] ?? {}) as Map<String, dynamic>)
+            .entries
+            .map((entry) => FileInfo(filename: entry.key, url: entry.value))
+            .toList();
+
+  toJson() => {
+        'errFiles': errs,
+        'succMap': success
+            .map((e) => {
+                  'filename': e.filename,
+                  'url': e.url,
+                })
+            .toList()
+      };
+
+  @override
+  toString() {
+    return "UploadResult{ errFiles=${errs.join(',')}, succFiles=$success }";
+  }
+}
+
+/// 联想用户信息
 class AtUser {
   /// 用户名
   String userName;
@@ -250,8 +233,10 @@ class AtUser {
   }
 }
 
+/// 联想用户列表
 typedef AtUserList = List<AtUser>;
 
+/// 最近注册用户信息
 class UserLite {
   String userNickname;
   String userName;
@@ -361,6 +346,7 @@ class Report {
   }
 }
 
+/// 服务器日志
 class Log {
   /// 操作时间
   String key1;

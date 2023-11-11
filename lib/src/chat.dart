@@ -5,6 +5,7 @@ import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 import 'package:web_socket_channel/io.dart';
 
+/// 私聊接口
 class Chat {
   String token = '';
 
