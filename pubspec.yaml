@@ -1,6 +1,6 @@
 name: fishpi
 description: A Package to use API of fishpi.
-version: 1.0.2
+version: 1.0.3
 repository: https://github.com/imlinhanchao/fishpi-dart
 
 environment:
@@ -19,3 +19,6 @@ dependencies:
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.21.0
+
+executables:
+  fishpi: bin/main.dart
