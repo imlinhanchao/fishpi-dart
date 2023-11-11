@@ -53,7 +53,11 @@ import 'package:fishpi/fishpi.dart';
 Fishpi fishpi = Fishpi();
 
 // 登录
-await fishpi.login(username: 'username', password: 'password');
+LoginData loginData = LoginData(
+    username: 'username',
+    passwd: 'password',
+  );
+await fishpi.login(loginData);
 
 // 获取用户信息
 await fishpi.user.info();
@@ -96,7 +100,7 @@ await fishpi.chatroom.addListener((Message msg) {
 await fishpi.chatroom.send('Hello World!');
 
 // 发送弹幕
-await fishpi.chatroom.sendBarrager('Hello World!', color: '#FF0000');
+await fishpi.chatroom.barrager('Hello World!', color: '#FF0000');
 
 // 发送清风明月
 await fishpi.breezemoon.send('Hello World!');
