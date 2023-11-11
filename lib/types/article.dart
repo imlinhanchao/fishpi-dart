@@ -1151,7 +1151,7 @@ class ArticleDetail {
     this.comments = const [],
     this.niceComments = const [],
   }) {
-    this.author = articleAuthor ?? ArticleAuthor();
+    author = articleAuthor ?? ArticleAuthor();
   }
 
   ArticleDetail.from(Map<String, dynamic> data)

@@ -12,10 +12,10 @@ dependencies:
   crypto: ^3.0.3
   dio: ^5.3.3
   web_socket_channel: ^2.4.0
+  args: ^2.4.2
+  yaml_modify: ^1.0.1
   # path: ^1.8.0
 
 dev_dependencies:
-  args: ^2.4.2
-  yaml_modify: ^1.0.1
   lints: ^2.0.0
   test: ^1.21.0
