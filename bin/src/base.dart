@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
 import 'package:yaml_modify/yaml_modify.dart';
 import 'base.dart';
 
@@ -41,8 +42,10 @@ ArgParser registerCommand(List<CommandInstance> register) {
 
 class Config {
   Map config = {};
-  String path = 'config.yaml';
-  Config({this.path = 'config.yaml'}) {
+  String path =
+      p.join(File(Platform.script.toFilePath()).parent.path, 'config.yaml');
+  Config([String? path]) {
+    if (path != null && path.isNotEmpty) this.path = path;
     load();
   }
 
