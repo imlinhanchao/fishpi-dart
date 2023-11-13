@@ -38,23 +38,23 @@ class ChatRoomCmd implements CommandInstance {
           case ChatRoomMessageType.online:
             break;
           case ChatRoomMessageType.barrager:
-            print(barragerView(msg.data));
+            print(barragerView(msg.barrager!));
             break;
           case ChatRoomMessageType.discussChanged:
             break;
           case ChatRoomMessageType.msg:
-            print(msgView(msg.data));
+            print(msgView(msg.msg!));
             break;
           case ChatRoomMessageType.revoke:
             break;
           case ChatRoomMessageType.redPacket:
-            print(redPacketView(msg.data));
+            print(redPacketView(msg.msg!));
             break;
           case ChatRoomMessageType.redPacketStatus:
             break;
           case ChatRoomMessageType.custom:
             print(
-                '${Command.from('#888888').color}${msg.data}${Command.restore}');
+                '${Command.from('#888888').color}${msg.custom}${Command.restore}');
             break;
         }
       } catch (e) {

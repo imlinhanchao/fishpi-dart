@@ -279,7 +279,7 @@ class Chatroom {
             }
         }
         for (ChatroomListener call in _wsCallbacks) {
-          call(Message(msg['type'], data));
+          call(ChatRoomData(msg['type'], data));
         }
       },
       onClose: (IOWebSocketChannel ws) => {
@@ -305,7 +305,7 @@ class Chatroom {
   /// 移除消息监听函数
   ///
   /// - `wsCallback` 要移除的函数，若为空，则清空消息监听
-  void removeListener(Function(Message)? wsCallback) {
+  void removeListener(Function(ChatRoomData)? wsCallback) {
     if (wsCallback == null) {
       _wsCallbacks.clear();
       return;
@@ -316,7 +316,7 @@ class Chatroom {
   /// 添加消息监听函数
   ///
   /// - `wsCallback` 消息监听函数
-  Future addListener(Function(Message) wsCallback,
+  Future addListener(Function(ChatRoomData) wsCallback,
       {int timeout = 10, Function(dynamic)? error, Function? close}) async {
     if (_ws != null && !_wsCallbacks.contains(wsCallback)) {
       _wsCallbacks.add(wsCallback);

@@ -63,32 +63,40 @@ await fishpi.login(loginData);
 await fishpi.user.info();
 
 // 监听聊天室
-await fishpi.chatroom.addListener((Message msg) {
+await fishpi.chatroom.addListener((ChatRoomData data) {
   try {
-    switch (msg.type) {
+    switch (data.type) {
       case ChatRoomMessageType.online:
         // 上线消息
+        print(data.online!);
         break;
       case ChatRoomMessageType.barrager:
         // 弹幕消息
+        print(data.barrager!);
         break;
       case ChatRoomMessageType.discussChanged:
         // 话题变更
+        print(data.discuss!);
         break;
       case ChatRoomMessageType.msg:
         // 普通消息
+        print(data.msg!);
         break;
       case ChatRoomMessageType.revoke:
         // 撤回消息
+        print(data.revoke!);
         break;
       case ChatRoomMessageType.redPacket:
         // 红包消息
+        print(data.msg!);
         break;
       case ChatRoomMessageType.redPacketStatus:
         // 红包领取
+        print(data.status!);
         break;
       case ChatRoomMessageType.custom:
         // 自定义消息
+        print(data.custom!);
         break;
     }
   } catch (e) {

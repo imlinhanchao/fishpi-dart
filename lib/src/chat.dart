@@ -17,33 +17,6 @@ class Chat {
     this.token = token ?? this.token;
   }
 
-  /// 查询聊天室历史消息
-  ///
-  /// - `page` 消息页码
-  /// - `type` 消息类型，可选值：html、text
-  ///
-  /// 返回消息列表
-  Future<List<ChatRoomMessage>> more(int page, {String type = 'html'}) async {
-    try {
-      var rsp = await Request.get(
-        'chat-room/more',
-        params: {
-          'page': page,
-          'type': type,
-          'apiKey': token,
-        },
-      );
-
-      if (rsp['code'] != 0) return Future.error(rsp['msg']);
-
-      return List.from(rsp['data'] ?? [])
-          .map((e) => ChatRoomMessage.from(e))
-          .toList();
-    } catch (e) {
-      return Future.error(e);
-    }
-  }
-
   /// 获取有私聊用户列表第一条消息
   ///
   /// 返回 私聊消息列表

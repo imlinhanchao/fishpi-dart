@@ -225,24 +225,50 @@ class ChatRoomMessageType {
 }
 
 /// 聊天室消息
-class Message {
+class ChatRoomData {
   /// 消息类型，
   String type = ChatRoomMessageType.msg;
 
   /// 消息内容
   /// OnlineMsg | discussMsg | RevokeMsg | ChatRoomMessage | RedPacketStatusMsg | BarragerMsg | CustomMsg
-  dynamic data;
+  OnlineMsg? online;
+  DiscussMsg? discuss;
+  RevokeMsg? revoke;
+  ChatRoomMessage? msg;
+  RedPacketStatusMsg? status;
+  BarragerMsg? barrager;
+  CustomMsg? custom;
 
-  Message(this.type, this.data);
-
-  @override
-  String toString() {
-    return "Message{ type=$type, data=$data }";
+  ChatRoomData(this.type, data) {
+    switch (type) {
+      case ChatRoomMessageType.online:
+        online = data;
+        break;
+      case ChatRoomMessageType.discussChanged:
+        discuss = data;
+        break;
+      case ChatRoomMessageType.revoke:
+        revoke = data;
+        break;
+      case ChatRoomMessageType.redPacket:
+      case ChatRoomMessageType.msg:
+        msg = data;
+        break;
+      case ChatRoomMessageType.redPacketStatus:
+        status = data;
+        break;
+      case ChatRoomMessageType.barrager:
+        barrager = data;
+        break;
+      case ChatRoomMessageType.custom:
+        custom = data;
+        break;
+    }
   }
 }
 
 /// 聊天室监听
-typedef ChatroomListener = void Function(Message);
+typedef ChatroomListener = void Function(ChatRoomData);
 
 // 自定义消息
 typedef CustomMsg = String;
@@ -352,7 +378,7 @@ class OnlineInfo {
 typedef OnlineMsg = List<OnlineInfo>;
 
 /// 主题修改消息，主题内容
-typedef discussMsg = String;
+typedef DiscussMsg = String;
 
 /// 撤回消息，被撤回消息的 oId
 typedef RevokeMsg = String;
