@@ -11,6 +11,7 @@ class Chat {
 
   final Map<String, WebsocketInfo> _wss = {};
   final Map<String, List<ChatListener>> _wsCallbacks = {};
+  final Map<String, int> _retryTimes = {};
 
   Chat([String? token]) {
     this.token = token ?? this.token;
@@ -209,10 +210,20 @@ class Chat {
           ws.sink.close();
           _wss[user]?.steam.cancel();
           _wss.remove(user);
+          if (close != null) close();
+          if (_retryTimes[user]! >= 10) return;
           connect(user: user, timeout: timeout, error: error, close: close);
+          _retryTimes[user] = (_retryTimes[user]??0) + 1;
         }),
+        Timer(Duration(milliseconds: timeout * 100), () {
+          _retryTimes[user] = 0;
+        })
       },
-      onError: (error, ws) => {if (error != null) error(error)},
+      onError: (error, ws) {
+        if (error != null) {
+          error(error);
+        }
+      },
     );
   }
 
@@ -252,6 +263,13 @@ class Chat {
     }
 
     _wsCallbacks[user]!.remove(wsCallback);
+  }
+
+  /// 是否已连接
+  /// 
+  /// - `user` 查看的用户
+  bool isConnected({String user = '_user-channel_'}) {
+    return _wss[user] != null;
   }
 
   Future<WebsocketInfo> send(String user, String content) async {

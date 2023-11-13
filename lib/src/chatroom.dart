@@ -13,6 +13,7 @@ class Chatroom {
   final ChatSource client = ChatSource();
   WebsocketInfo? _ws;
   final List<ChatroomListener> _wsCallbacks = [];
+  int _retryTimes = 0;
 
   Redpacket redpacket = Redpacket();
 
@@ -283,12 +284,17 @@ class Chatroom {
       },
       onClose: (IOWebSocketChannel ws) => {
         Timer(Duration(milliseconds: timeout), () {
-          if (close != null) close();
           ws.sink.close();
           _ws?.steam.cancel();
           _ws = null;
+          if (close != null) close();
+          if (_retryTimes >= 10) return;
           reconnect(timeout: timeout, error: error, close: close);
+          _retryTimes++;
         }),
+        Timer(Duration(milliseconds: timeout * 100), () {
+          _retryTimes = 0;
+        })
       },
       onError: (error, ws) {
         if (error != null) error(error);
@@ -319,4 +325,6 @@ class Chatroom {
     _wsCallbacks.add(wsCallback);
     await reconnect(timeout: timeout, error: error, close: close);
   }
+
+  bool get isConnected => _ws != null;
 }
