@@ -43,9 +43,12 @@ class UserCmd implements CommandInstance {
         exit(0);
       }
     }
-    var info = await Instance.get.user.info();
-    print('欢迎回来！ ${info.name}~');
-    Instance.cfg.save();
+
+    if (Instance.get.isLogin) {
+      var info = await Instance.get.user.info();
+      print('欢迎回来！ ${info.name}~');
+      Instance.cfg.save();
+    }
   }
 
   @override
@@ -150,6 +153,7 @@ ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.rest
         String token = value.trim();
         Instance.cfg.set('auth', {'token': token, 'username': username});
       }).catchError((err) {
+        print!('登录失败: $err');
         exit(0);
       });
     } catch (e) {
