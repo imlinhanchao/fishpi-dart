@@ -213,7 +213,7 @@ class Chat {
           if (close != null) close();
           if (_retryTimes[user]! >= 10) return;
           connect(user: user, timeout: timeout, error: error, close: close);
-          _retryTimes[user] = (_retryTimes[user]??0) + 1;
+          _retryTimes[user] = (_retryTimes[user] ?? 0) + 1;
         }),
         Timer(Duration(milliseconds: timeout * 100), () {
           _retryTimes[user] = 0;
@@ -266,7 +266,7 @@ class Chat {
   }
 
   /// 是否已连接
-  /// 
+  ///
   /// - `user` 查看的用户
   bool isConnected({String user = '_user-channel_'}) {
     return _wss[user] != null;
