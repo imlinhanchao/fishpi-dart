@@ -55,7 +55,9 @@ readCommand() async {
       lstCommandCode.addAll(data);
       lstCommandCode.removeLast();
       if (lstCommandCode.isNotEmpty) {
-        lstCommandCode.removeLast();
+        var strList = Utf8Decoder().convert(lstCommandCode).split('');
+        strList.removeLast();
+        lstCommandCode = List.from(strList.join('').codeUnits);
       }
     } else {
       lstCommandCode.addAll(data);
