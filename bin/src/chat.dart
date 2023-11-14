@@ -29,7 +29,7 @@ class ChatCmd implements CommandInstance {
   }
 
   @override
-  Future<bool> call(String command) async {
+  Future<bool> todo(String command) async {
     if (command.trim().isEmpty) return false;
     if (!Instance.get.isLogin) {
       print('请先登录。');
@@ -71,7 +71,7 @@ class ChatCmd implements CommandInstance {
       default:
         {
           if (currentUser.isEmpty) {
-            return call(':chat $command');
+            return todo(':chat $command');
           } else if (Platform.isWindows) {
             print('命令发送消息不支援 Windows 端。请使用 --say 命令行参数发送，--chat 指定接收者。');
           } else {

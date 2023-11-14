@@ -26,7 +26,7 @@ abstract class CommandInstance {
   Future<void> exec(ArgResults args, PrintFn print);
 
   /// 执行输入命令
-  Future<bool> call(String command);
+  Future<bool> todo(String command);
 
   /// 执行切页命令
   Future<bool> page(String command);

@@ -23,7 +23,7 @@ class ArticleCmd implements CommandInstance {
   Future<void> exec(ArgResults args, PrintFn print) async {}
 
   @override
-  Future<bool> call(String command) async {
+  Future<bool> todo(String command) async {
     if (command.trim().isEmpty) return false;
     var argv = command.trim().split(' ');
     var replyId = '';

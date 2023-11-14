@@ -33,7 +33,7 @@ class UtilsCmd implements CommandInstance {
   }
 
   @override
-  Future<bool> call(String command) async {
+  Future<bool> todo(String command) async {
     return false;
   }
 

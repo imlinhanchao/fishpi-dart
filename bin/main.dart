@@ -90,13 +90,13 @@ readCommand() async {
 :help 帮助
 ''');
           if (commands[currentPage] != null) {
-            commands[currentPage]?.call(command);
+            commands[currentPage]?.todo(command);
           }
           break;
         default:
           stdout.write('${Command.moveUp(1)}${Command.clearLine}');
           if (commands[currentPage] != null) {
-            commands[currentPage]?.call(command);
+            commands[currentPage]?.todo(command);
           }
           break;
       }
