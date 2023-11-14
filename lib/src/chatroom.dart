@@ -4,16 +4,19 @@ import 'package:fishpi/fishpi.dart';
 import 'package:fishpi/src/request.dart';
 import 'package:web_socket_channel/io.dart';
 
+import 'version.g.dart';
+
 /// 聊天室接口
 class Chatroom {
   String _apiKey = '';
   String _discusse = '';
   List<dynamic> _onlines = [];
-
-  final ChatSource client = ChatSource();
   WebsocketInfo? _ws;
   final List<ChatroomListener> _wsCallbacks = [];
   int _retryTimes = 0;
+
+  /// 消息小尾巴
+  final ChatSource client = ChatSource(version: packageVersion);
 
   Redpacket redpacket = Redpacket();
 

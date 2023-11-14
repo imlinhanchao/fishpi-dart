@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fishpi/src/version.g.dart';
+
 import 'src/base.dart';
 import 'src/utils.dart';
 import 'src/user.dart';
@@ -116,11 +118,12 @@ readCommand() async {
 
 void main(List<String> arguments) async {
   var parser = registerCommand(commands.values.toList())
-    ..addFlag('help', abbr: 'h')
     ..addOption('page',
         help: '切换启动页面',
         allowed: CommandPage.values.skip(1).map((e) => e.name).toList(),
-        defaultsTo: 'chatroom');
+        defaultsTo: 'chatroom')
+    ..addFlag('version', abbr: 'v')
+    ..addFlag('help', abbr: 'h');
 
   late ArgResults args;
 
@@ -132,7 +135,13 @@ void main(List<String> arguments) async {
     return;
   }
 
+  if (args['version']) {
+    print(packageVersion);
+    return;
+  }
+
   if (args['help']) {
+    print('version $packageVersion\n\n命令行参数：\n');
     print(parser.usage);
     return;
   }
