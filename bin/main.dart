@@ -34,17 +34,37 @@ void setCurrentPage(CommandPage page) {
 
 PrintFn pagePrint(CommandPage page) {
   return (dynamic msg, [bool newLine = true]) {
-    if (currentPage == page) (newLine ? print : stdout.write)(msg);
+    if (currentPage != page) return;
+    if (lstCommandCode.isNotEmpty) {
+      stdout.write('${Command.clearLine}\r');
+    }
+    (newLine ? print : stdout.write)(msg);
+    if (lstCommandCode.isNotEmpty) {
+      stdout.write(
+          '${Command.clearLine}\r${Utf8Decoder().convert(lstCommandCode)}');
+    }
   };
 }
 
+List<int> lstCommandCode = [];
 readCommand() async {
-  List<int> lstCharCode = [];
+  stdin.echoMode = false;
+  stdin.lineMode = false;
   stdin.listen((data) {
-    lstCharCode.addAll(data);
+    if (data.last == 8) {
+      lstCommandCode.addAll(data);
+      lstCommandCode.removeLast();
+      if (lstCommandCode.isNotEmpty) {
+        lstCommandCode.removeLast();
+      }
+    } else {
+      lstCommandCode.addAll(data);
+    }
+    stdout.write(
+        '${Command.clearLine}\r${Utf8Decoder().convert(lstCommandCode)}');
     if (data.last == 10 || data.last == 13) {
-      var command = Utf8Decoder().convert(lstCharCode).trim();
-      lstCharCode.clear();
+      var command = Utf8Decoder().convert(lstCommandCode).trim();
+      lstCommandCode.clear();
       var commandArgs = command.split(' ');
 
       switch (commandArgs[0]) {
@@ -119,6 +139,5 @@ void main(List<String> arguments) async {
 
   await commands[currentPage]?.page('');
 
-  // 如果不是 Windows 系统
   readCommand();
 }

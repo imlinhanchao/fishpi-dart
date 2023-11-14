@@ -1,5 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
+
+import 'package:dart_console/dart_console.dart';
 
 import '../main.dart';
 import 'base.dart';
@@ -129,24 +130,41 @@ ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.rest
   Future<bool> login(
       [String? username, String? passwd, bool code = true]) async {
     String mfaCode = '';
+    Console console = Console();
     if (username == null || username.isEmpty) {
       print!('用户名: ', false);
-      username = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
+      username = stdin.readLineSync();
     }
     if (passwd == null || passwd.isEmpty) {
       print!('密码: ', false);
-      passwd = stdin.readLineSync(encoding: Encoding.getByName('utf-8')!);
+      passwd = console.readLine(
+            cancelOnBreak: true,
+            callback: (text, lastPressed) {
+              if (lastPressed.controlChar == ControlCharacter.backspace) {
+                if (text.isNotEmpty) {
+                  text = text.substring(0, text.length - 1);
+                  console.write('\b \b');
+                }
+              } else {
+                console.write(
+                    text.replaceAllMapped(RegExp(r'.'), (match) => '\b'));
+                console
+                    .write(text.replaceAllMapped(RegExp(r'.'), (match) => '*'));
+              }
+            },
+          ) ??
+          '';
     }
     if (code) {
       print!('二次验证码: ', false);
       mfaCode =
-          stdin.readLineSync(encoding: Encoding.getByName('utf-8')!) ?? '';
+          console.readLine(cancelOnBreak: true, cancelOnEscape: true) ?? '';
     }
     try {
       await Instance.get
           .login(LoginData(
         username: username ?? '',
-        passwd: passwd ?? '',
+        passwd: passwd,
         mfaCode: mfaCode,
       ))
           .then((value) async {
