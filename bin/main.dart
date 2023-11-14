@@ -59,6 +59,16 @@ readCommand() async {
         strList.removeLast();
         lstCommandCode = List.from(strList.join('').codeUnits);
       }
+    } else if (data.last == 127 && lstCommandCode.isNotEmpty) {
+      var last = lstCommandCode.last;
+      if (last > 0x7f) {
+        // last is utf 8 byte, need to remove 3 bytes
+        lstCommandCode.removeLast();
+        lstCommandCode.removeLast();
+        lstCommandCode.removeLast();
+      } else {
+        lstCommandCode.removeLast();
+      }
     } else {
       lstCommandCode.addAll(data);
     }
