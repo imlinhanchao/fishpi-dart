@@ -119,3 +119,10 @@ await fishpi.breezemoon.send('Hello World!');
 ## 异常处理
 
 所有方法返回值分为两类：`ResponseResult` 和 其他。若方法本身需要返回数据，则会直接返回数据，若发生异常将会通过 Throw 抛出。而无数据返回，则会通过 `ResponseResult` 返回执行的结果。
+
+## 发布
+
+发布包请执行：
+```bash
+dart tools/publish.dart
+```
