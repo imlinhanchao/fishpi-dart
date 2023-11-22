@@ -302,7 +302,7 @@ class ArticleAuthor {
   int longestCheckinStreak;
 
   /// 用户头像类型
-  int avatarType;
+  String avatarType;
 
   /// 用户确认邮件发送时间
   int subMailSendTime;
@@ -455,7 +455,7 @@ class ArticleAuthor {
     this.nickname = '',
     this.listViewMode = 0,
     this.longestCheckinStreak = 0,
-    this.avatarType = 0,
+    this.avatarType = '0',
     this.subMailSendTime = 0,
     this.updateTime = 0,
     this.subMailStatus = true,
@@ -521,7 +521,7 @@ class ArticleAuthor {
         nickname = data['userNickname'] ?? '',
         listViewMode = data['userListViewMode'] ?? 0,
         longestCheckinStreak = data['userLongestCheckinStreak'] ?? 0,
-        avatarType = data['userAvatarType'] ?? 0,
+        avatarType = (data['userAvatarType'] ?? '0').toString(),
         subMailSendTime = data['userSubMailSendTime'] ?? 0,
         updateTime = data['userUpdateTime'] ?? 0,
         subMailStatus = (data['userSubMailStatus'] ?? 0) == 0,
