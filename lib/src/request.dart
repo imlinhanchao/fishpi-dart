@@ -68,7 +68,7 @@ class Request {
         return Future.error('HTTP错误');
       }
     } catch (e) {
-      return Future.error('未知异常');
+      return Future.error(e);
     }
   }
 

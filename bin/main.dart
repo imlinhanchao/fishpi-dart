@@ -86,6 +86,7 @@ readCommand() async {
         case ':q':
           exit(0);
         case ':page':
+          if (commandArgs.length < 2) break;
           for (var element in CommandPage.values) {
             if (element.name == commandArgs[1]) {
               currentPage = element;

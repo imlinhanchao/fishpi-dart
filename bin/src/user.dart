@@ -6,7 +6,11 @@ import '../main.dart';
 import 'base.dart';
 
 class UserCmd implements CommandInstance {
-  PrintFn? print;
+  PrintFn print = (dynamic msg, [bool newLine = true]) =>
+      stdout.write(msg + (newLine ? '\n' : ''));
+
+  UserCmd();
+
   @override
   ArgParser command(ArgParser parser) {
     return parser
@@ -79,7 +83,7 @@ class UserCmd implements CommandInstance {
         }
       case ':help':
         {
-          print!('''${Command.bold}用户模块命令${Command.restore}
+          print('''${Command.bold}用户模块命令${Command.restore}
 :page user <username> 查看用户信息
 :login <username> <passwd> 登录/切换账号
 :user <username> 查看用户信息
@@ -96,7 +100,7 @@ class UserCmd implements CommandInstance {
 
   @override
   Future<bool> page(String command) async {
-    print!('${Command.clearScreen}${Command.moveTo(0, 0)}');
+    print('${Command.clearScreen}${Command.moveTo(0, 0)}');
     final commands = command.trim().split(' ');
     UserInfo info = UserInfo();
     if (commands.length > 2 && commands[2].isNotEmpty) {
@@ -107,22 +111,22 @@ class UserCmd implements CommandInstance {
       info = Instance.get.user.current;
     }
 
-    print!('''
+    print('''
 ${Command.bold}${info.allName}${Command.restore} - [${info.isOnline ? '${Command.from('#00FF00').color}在线${Command.restore}' : '${Command.from('#AAAAAA').color}离线${Command.restore}'}]
 ${Command.from('#AAAAAA').color}👤${info.role}${Command.restore}\t${Command.bold}No.${Command.restore}${info.userNo}\t
 💲${info.point}\t📍${info.city.isEmpty ? '' : info.city}
 ${info.intro.isEmpty ? '' : '📝 ${Command.italic}${info.intro}${Command.restore}'}
 ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.restore}'}''');
     for (var i = 0; i < info.sysMetal.length; i++) {
-      print!('🏅 ${info.sysMetal[i].name}   ', false);
-      if (i % 5 == 4) print!('');
+      print('🏅 ${info.sysMetal[i].name}   ', false);
+      if (i % 5 == 4) print('');
     }
 
-    print!('');
+    print('');
 
     if (Instance.get.isLogin &&
         Instance.get.user.current.userName == info.userName) {
-      print!('当前活跃度：${await Instance.get.user.liveness()}');
+      print('当前活跃度：${await Instance.get.user.liveness()}');
     }
     return false;
   }
@@ -132,11 +136,11 @@ ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.rest
     String mfaCode = '';
     Console console = Console();
     if (username == null || username.isEmpty) {
-      print!('用户名: ', false);
-      username = stdin.readLineSync();
+      print('用户名: ', false);
+      username = stdin.readLineSync() ?? '';
     }
     if (passwd == null || passwd.isEmpty) {
-      print!('密码: ', false);
+      print('密码: ', false);
       passwd = console.readLine(
             cancelOnBreak: true,
             callback: (text, lastPressed) {
@@ -156,14 +160,14 @@ ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.rest
           '';
     }
     if (code) {
-      print!('二次验证码: ', false);
+      print('二次验证码: ', false);
       mfaCode =
           console.readLine(cancelOnBreak: true, cancelOnEscape: true) ?? '';
     }
     try {
       await Instance.get
           .login(LoginData(
-        username: username ?? '',
+        username: username,
         passwd: passwd,
         mfaCode: mfaCode,
       ))
@@ -171,11 +175,11 @@ ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.rest
         String token = value.trim();
         Instance.cfg.set('auth', {'token': token, 'username': username});
       }).catchError((err) {
-        print!('登录失败: $err');
+        print('登录失败: $err');
         exit(0);
       });
     } catch (e) {
-      print!('登录失败: $e');
+      print('登录失败: $e');
       return false;
     }
     return true;

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'base.dart';
+import 'user.dart';
 
 enum ArticlePage { list, detail }
 
@@ -247,68 +248,68 @@ class ArticleCmd implements CommandInstance {
 
   @override
   Future<bool> page(String command) async {
-    try {
-      print('${Command.clearScreen}${Command.moveTo(0, 0)}');
-      int page = _page;
-      String tag = _tag;
-      String type = _type;
-      final commands = command.trim().split(' ');
-      if (commands.length > 2 &&
-          commands[2].isNotEmpty &&
-          ArticleListType.values.contains(commands[2])) {
-        type = commands[2];
-      } else if (commands.length > 2 && commands[2].length == 13) {
-        if (commands[2] != _currentDetail.oId) {
-          _commentPage = 1;
-        }
-        await Instance.get.article
-            .detail(commands[2], p: _commentPage)
-            .then((value) {
-          _currentDetail = value;
-          _currentPage = ArticlePage.detail;
-          print('${Command.bold}${_currentDetail.titleEmoj}${Command.restore}');
-          print(
-              '${Command.from('#555555').color}👤 ${_currentDetail.author.name} | 👀  ${_currentDetail.heat} | 👍  ${_currentDetail.goodCnt} | ❤️  ${_currentDetail.thankCnt} ${Command.restore}');
-          print(htmlToText(_currentDetail.content));
-          if (_currentDetail.rewardContent.isNotEmpty) {
-            print('''
+    if (!Instance.get.isLogin) {
+      print('请先登录。');
+      return false;
+    }
+    if (command.trim().isEmpty) return false;
+    print('${Command.clearScreen}${Command.moveTo(0, 0)}');
+    int page = _page;
+    String tag = _tag;
+    String type = _type;
+    final commands = command.trim().split(' ');
+    if (commands.length > 2 &&
+        commands[2].isNotEmpty &&
+        ArticleListType.values.contains(commands[2])) {
+      type = commands[2];
+    } else if (commands.length > 2 && commands[2].length == 13) {
+      if (commands[2] != _currentDetail.oId) {
+        _commentPage = 1;
+      }
+      await Instance.get.article
+          .detail(commands[2], p: _commentPage)
+          .then((value) {
+        _currentDetail = value;
+        _currentPage = ArticlePage.detail;
+        print('${Command.bold}${_currentDetail.titleEmoj}${Command.restore}');
+        print(
+            '${Command.from('#555555').color}👤 ${_currentDetail.author.name} | 👀  ${_currentDetail.heat} | 👍  ${_currentDetail.goodCnt} | ❤️  ${_currentDetail.thankCnt} ${Command.restore}');
+        print(htmlToText(_currentDetail.content));
+        if (_currentDetail.rewardContent.isNotEmpty) {
+          print('''
 ${Command.from('#232425').back}🎁 ${_currentDetail.rewardPoint} (x${_currentDetail.rewardedCnt})
 ${_currentDetail.rewarded ? _currentDetail.rewardContent : '${Command.italic}尚未打赏'} ${Command.restore}
             ''');
-          }
-          print(
-              '------ 评论 ($_commentPage / ${_currentDetail.pagination?.count ?? 1}) ------');
-          for (var i = 0; i < _currentDetail.comments.length; i++) {
-            var item = _currentDetail.comments[i];
-            print(
-                '${Command.from('#AAAAAA').color}{${i + 1}} ${Command.from('#888888').color}${Command.bold}${item.commenter.name}${Command.restore} ${Command.from('#555555').color}[${item.createTimeStr}]${Command.restore}: ${htmlToText(item.content)}');
-          }
-        }).catchError((error) {
-          print('找不到对应编号的文章');
-          _currentPage = ArticlePage.list;
-        });
-        return true;
-      } else if (commands.length > 2 &&
-          RegExp(r'^\d+$').hasMatch(commands[2])) {
-        page = int.parse(commands[2]);
-      }
-
-      print('------ <$_type> 文章列表 ${_tag.isEmpty ? '' : '[$_tag]'}------');
-
-      await Instance.get.article
-          .list(type: type, page: page, tag: tag)
-          .then((list) {
-        for (var i = 0; i < list.list.length; i++) {
-          var item = list.list[i];
-          print(
-              '${(i + 1).toString().padLeft(2, '0')}.${Command.bold}${Command.from('#555555').color}[${item.author.name}]${Command.restore} ${item.titleEmoj}${Command.from('#222222').back}${Command.from('#a1e999').color} ${item.heat} ${Command.restore}');
         }
-        print('第 $page / ${list.pagination.count} 页');
-        _current = list;
+        print(
+            '------ 评论 ($_commentPage / ${_currentDetail.pagination?.count ?? 1}) ------');
+        for (var i = 0; i < _currentDetail.comments.length; i++) {
+          var item = _currentDetail.comments[i];
+          print(
+              '${Command.from('#AAAAAA').color}{${i + 1}} ${Command.from('#888888').color}${Command.bold}${item.commenter.name}${Command.restore} ${Command.from('#555555').color}[${item.createTimeStr}]${Command.restore}: ${htmlToText(item.content)}');
+        }
+      }).catchError((error) {
+        print('找不到对应编号的文章');
+        _currentPage = ArticlePage.list;
       });
-    } catch (e) {
-      print('未知异常：$e');
+      return true;
+    } else if (commands.length > 2 && RegExp(r'^\d+$').hasMatch(commands[2])) {
+      page = int.parse(commands[2]);
     }
+
+    print('------ <$_type> 文章列表 ${_tag.isEmpty ? '' : '[$_tag]'}------');
+
+    await Instance.get.article
+        .list(type: type, page: page, tag: tag)
+        .then((list) {
+      for (var i = 0; i < list.list.length; i++) {
+        var item = list.list[i];
+        print(
+            '${(i + 1).toString().padLeft(2, '0')}.${Command.bold}${Command.from('#555555').color}[${item.author.name}]${Command.restore} ${item.titleEmoj}${Command.from('#222222').back}${Command.from('#a1e999').color} ${item.heat} ${Command.restore}');
+      }
+      print('第 $page / ${list.pagination.count} 页');
+      _current = list;
+    });
 
     return true;
   }
