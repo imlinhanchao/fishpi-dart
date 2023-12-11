@@ -6,8 +6,7 @@ import '../main.dart';
 import 'base.dart';
 
 class UserCmd implements CommandInstance {
-  PrintFn print = (dynamic msg, [bool newLine = true]) =>
-      stdout.write(msg + (newLine ? '\n' : ''));
+  PrintFn print = (dynamic msg, [bool newLine = true]) => stdout.write(msg + (newLine ? '\n' : ''));
 
   UserCmd();
 
@@ -31,17 +30,14 @@ class UserCmd implements CommandInstance {
     if (username == Instance.cfg.config['auth']?['username'] &&
         token == null &&
         Instance.cfg.config['auth']?['token'] != null) {
-      token = (Instance.cfg.config['auth']?['token'] as String)
-          .trim()
-          .replaceAll('\n', '');
+      token = (Instance.cfg.config['auth']?['token'] as String).trim().replaceAll('\n', '');
     }
 
     if (token != null && token.isNotEmpty) {
       Instance.get.token = token;
       var info = await Instance.get.user.info();
-      Instance.cfg.set('auth',
-          {'token': token.replaceAll('\n', ''), 'username': info.userName});
-    } else if (username != null) {
+      Instance.cfg.set('auth', {'token': token.replaceAll('\n', ''), 'username': info.userName});
+    } else if (username != null || code) {
       setCurrentPage(CommandPage.user);
 
       if (!await login(username, passwd, code)) {
@@ -124,17 +120,18 @@ ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.rest
 
     print('');
 
-    if (Instance.get.isLogin &&
-        Instance.get.user.current.userName == info.userName) {
+    if (Instance.get.isLogin && Instance.get.user.current.userName == info.userName) {
       print('当前活跃度：${await Instance.get.user.liveness()}');
     }
     return false;
   }
 
-  Future<bool> login(
-      [String? username, String? passwd, bool code = true]) async {
+  Future<bool> login([String? username, String? passwd, bool code = true]) async {
     String mfaCode = '';
     Console console = Console();
+    stdin.lineMode = true;
+    stdin.echoMode = true;
+
     if (username == null || username.isEmpty) {
       print('用户名: ', false);
       username = stdin.readLineSync() ?? '';
@@ -150,10 +147,8 @@ ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.rest
                   console.write('\b \b');
                 }
               } else {
-                console.write(
-                    text.replaceAllMapped(RegExp(r'.'), (match) => '\b'));
-                console
-                    .write(text.replaceAllMapped(RegExp(r'.'), (match) => '*'));
+                console.write(text.replaceAllMapped(RegExp(r'.'), (match) => '\b'));
+                console.write(text.replaceAllMapped(RegExp(r'.'), (match) => '*'));
               }
             },
           ) ??
@@ -161,9 +156,10 @@ ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.rest
     }
     if (code) {
       print('二次验证码: ', false);
-      mfaCode =
-          console.readLine(cancelOnBreak: true, cancelOnEscape: true) ?? '';
+      mfaCode = console.readLine(cancelOnBreak: true, cancelOnEscape: true) ?? '';
     }
+    stdin.echoMode = false;
+    stdin.lineMode = false;
     try {
       await Instance.get
           .login(LoginData(

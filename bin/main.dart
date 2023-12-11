@@ -78,12 +78,18 @@ readCommand() async {
         '${Command.clearLine}\r${Utf8Decoder().convert(lstCommandCode)}');
     if (data.last == 10 || data.last == 13) {
       var command = Utf8Decoder().convert(lstCommandCode).trim();
+      if (command.isEmpty) {
+        return;
+      }
+
       lstCommandCode.clear();
       var commandArgs = command.split(' ');
 
       switch (commandArgs[0]) {
         case ':quit':
         case ':q':
+          stdin.lineMode = true;
+          stdin.echoMode = true;
           exit(0);
         case ':page':
           if (commandArgs.length < 2) break;
