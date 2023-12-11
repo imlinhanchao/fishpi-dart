@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'base.dart';
-import 'user.dart';
 
 enum ArticlePage { list, detail }
 
