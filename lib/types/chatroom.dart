@@ -52,6 +52,12 @@ class ClientType {
   /// 凌机器人
   static const ElvesOnline = 'ElvesOnline';
 
+  /// Dart 客户端
+  static const Dart = 'Dart';
+
+  /// 鸽机器人
+  static const Bird = 'Bird';
+
   /// 其他插件
   static const Other = 'Other';
 }
@@ -64,7 +70,7 @@ class ChatSource {
   /// 客户端版本
   String version = '';
 
-  ChatSource({this.client = ClientType.Other, this.version = 'lastst'});
+  ChatSource({this.client = ClientType.Dart, this.version = 'latest'});
 
   ChatSource.from(String? client) {
     if ((client ?? '').isEmpty) return;

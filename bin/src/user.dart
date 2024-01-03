@@ -135,8 +135,6 @@ ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.rest
       [String? username, String? passwd, bool code = true]) async {
     String mfaCode = '';
     Console console = Console();
-    stdin.lineMode = true;
-    stdin.echoMode = true;
 
     if (username == null || username.isEmpty) {
       print('用户名: ', false);
@@ -167,8 +165,6 @@ ${info.userURL.isEmpty ? '' : '🔗 ${Command.bold}${info.userURL}${Command.rest
       mfaCode =
           console.readLine(cancelOnBreak: true, cancelOnEscape: true) ?? '';
     }
-    stdin.echoMode = false;
-    stdin.lineMode = false;
     try {
       await Instance.get
           .login(LoginData(
