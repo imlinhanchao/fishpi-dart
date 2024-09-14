@@ -1,3 +1,3 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-const packageVersion = '1.0.10';
+const packageVersion = '1.0.11';

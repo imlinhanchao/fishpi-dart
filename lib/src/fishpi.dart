@@ -225,7 +225,8 @@ class Fishpi {
       if (notExist.isNotEmpty) {
         return Future.error('File not exist: ${notExist.join(',')}');
       }
-      var data = await Request.formData('file[]', files: files);
+      var data = await Request.formData('file[]',
+          files: files, src: {"apiKey": _apiKey});
       var rsp = await Request.post('upload', data: data);
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
