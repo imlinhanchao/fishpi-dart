@@ -64,17 +64,19 @@ class Article {
   /// - `type` 查询类型，来自 ArticleListType
   /// - `tag` 指定查询标签，可选
   /// - `page` 页码
+  /// - `size` 每页数量
   ///
   /// 返回文章列表
   Future<ArticleList> list({
     required String type,
     int page = 1,
+    int size = 20,
     String? tag,
   }) async {
     try {
       var rsp = await Request.get(
         'api/articles/${tag != null && tag.isNotEmpty ? "tag/$tag" : "recent"}${ArticleListType.toCode(type)}',
-        params: {"p": page, "apiKey": token},
+        params: {"p": page, "size": size, "apiKey": token},
       );
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
