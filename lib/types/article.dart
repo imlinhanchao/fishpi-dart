@@ -883,7 +883,7 @@ class ArticleDetail {
   /// 悬赏积分
   int offerPoint;
 
-  /// 作者头像缩略图
+  /// 文章缩略图
   String thumbnailURL;
 
   /// 置顶序号
