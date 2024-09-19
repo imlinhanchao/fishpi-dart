@@ -87,6 +87,34 @@ class Article {
     }
   }
 
+  
+  /// 查询文章列表
+  ///
+  /// - `user` 指定用户
+  /// - `page` 页码
+  /// - `size` 每页数量
+  ///
+  /// 返回文章列表
+  Future<ArticleList> listByUser({
+    required String user,
+    int page = 1,
+    int size = 20
+  }) async {
+    try {
+      var rsp = await Request.get(
+        'api/$user/articles/',
+        params: {"p": page, "size": size, "apiKey": token},
+      );
+
+      if (rsp['code'] != 0) return Future.error(rsp['msg']);
+
+      return ArticleList.from(rsp['data']);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+
   /// 获取文章详情
   ///
   /// - `id` 文章id

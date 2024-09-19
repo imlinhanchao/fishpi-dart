@@ -13,10 +13,10 @@ class Breezemoon {
   ///
   /// - `page` 消息页码
   /// - `size` 每页个数
-  Future<List<BreezemoonContent>> list({int page = 1, int size = 20}) async {
+  Future<List<BreezemoonContent>> list({int page = 1, int size = 20, String? user}) async {
     try {
-      var rsp = await Request.get('api/breezemoons',
-          params: {'p': page, 'size': size});
+      var rsp = await Request.get('api/${user != null && user.isNotEmpty ? "user/$user" : ""}breezemoons',
+          params: {'p': page, 'size': size, 'apiKey': token});
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
