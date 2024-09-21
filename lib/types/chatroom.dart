@@ -97,7 +97,7 @@ class ChatRoomMessage {
   String oId = '';
 
   /// 发送者用户 Id
-  String userOId = '';
+  int userOId = 0;
 
   /// 发送者用户名
   String userName = '';
@@ -136,7 +136,7 @@ class ChatRoomMessage {
 
   ChatRoomMessage({
     this.oId = '',
-    this.userOId = '',
+    this.userOId = 0,
     this.userName = '',
     this.nickname = '',
     this.avatarURL = '',
@@ -152,7 +152,7 @@ class ChatRoomMessage {
 
   ChatRoomMessage.from(Map<String, dynamic> data) {
     oId = data['oId'] ?? '';
-    userOId = data['userOId'] ?? '';
+    userOId = data['userOId'] ?? 0;
     userName = data['userName'] ?? '';
     nickname = data['userNickname'] ?? '';
     avatarURL = data['userAvatarURL'] ?? '';
@@ -293,8 +293,7 @@ class BarragerMsg {
   /// 用户昵称
   String userNickname;
 
-  String get allName =>
-      userNickname.isEmpty ? userName : '$userNickname($userName)';
+  String get allName => userNickname.isEmpty ? userName : '$userNickname($userName)';
 
   /// 弹幕内容
   String barragerContent;

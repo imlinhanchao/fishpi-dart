@@ -94,11 +94,10 @@ class Article {
   /// - `size` 每页数量
   ///
   /// 返回文章列表
-  Future<ArticleList> listByUser(
-      {required String user, int page = 1, int size = 20}) async {
+  Future<ArticleList> listByUser({required String user, int page = 1, int size = 20}) async {
     try {
       var rsp = await Request.get(
-        'api/$user/articles/',
+        'api/user/$user/articles/',
         params: {"p": page, "size": size, "apiKey": token},
       );
 
@@ -246,8 +245,7 @@ class Article {
   /// 返回在线人数
   Future<int> heat(String id) async {
     try {
-      var rsp =
-          await Request.get('api/article/heat/$id', params: {"apiKey": token});
+      var rsp = await Request.get('api/article/heat/$id', params: {"apiKey": token});
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
@@ -264,8 +262,7 @@ class Article {
   /// - `callback` 监听回调
   ///
   /// 返回 WebSocketChannel
-  Future<WebsocketInfo> addListener(
-      {required String id, int type = 0, required Function cb}) async {
+  Future<WebsocketInfo> addListener({required String id, int type = 0, required Function cb}) async {
     return Request.connect(
       '/article-channel',
       params: {'apiKey': token, 'articleId': id, 'articleType': type},
