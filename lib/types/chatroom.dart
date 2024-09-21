@@ -96,6 +96,9 @@ class ChatRoomMessage {
   /// 消息 Id
   String oId = '';
 
+  /// 发送者用户 Id
+  String userOId = '';
+
   /// 发送者用户名
   String userName = '';
 
@@ -133,6 +136,7 @@ class ChatRoomMessage {
 
   ChatRoomMessage({
     this.oId = '',
+    this.userOId = '',
     this.userName = '',
     this.nickname = '',
     this.avatarURL = '',
@@ -148,6 +152,7 @@ class ChatRoomMessage {
 
   ChatRoomMessage.from(Map<String, dynamic> data) {
     oId = data['oId'] ?? '';
+    userOId = data['userOId'] ?? '';
     userName = data['userName'] ?? '';
     nickname = data['userNickname'] ?? '';
     avatarURL = data['userAvatarURL'] ?? '';
@@ -164,6 +169,7 @@ class ChatRoomMessage {
 
   toJson() => {
         'oId': oId,
+        'userOId': userOId,
         'userName': userName,
         'userNickname': nickname,
         'userAvatarURL': avatarURL,
@@ -178,7 +184,7 @@ class ChatRoomMessage {
 
   @override
   String toString() {
-    return "ChatRoomMessage{ oId=$oId, userName=$userName, userNickname=$nickname, userAvatarURL=$avatarURL, sysMetal=$sysMetal, client=$client, via=$via, content=$content, redpacket=$redpacket, time=$time }";
+    return "ChatRoomMessage{ oId=$oId, userOId=$userOId, userName=$userName, userNickname=$nickname, userAvatarURL=$avatarURL, sysMetal=$sysMetal, client=$client, via=$via, content=$content, redpacket=$redpacket, time=$time }";
   }
 }
 
@@ -287,8 +293,7 @@ class BarragerMsg {
   /// 用户昵称
   String userNickname;
 
-  String get allName =>
-      userNickname.isEmpty ? userName : '$userNickname($userName)';
+  String get allName => userNickname.isEmpty ? userName : '$userNickname($userName)';
 
   /// 弹幕内容
   String barragerContent;
