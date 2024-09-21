@@ -87,7 +87,6 @@ class Article {
     }
   }
 
-  
   /// 查询文章列表
   ///
   /// - `user` 指定用户
@@ -95,11 +94,8 @@ class Article {
   /// - `size` 每页数量
   ///
   /// 返回文章列表
-  Future<ArticleList> listByUser({
-    required String user,
-    int page = 1,
-    int size = 20
-  }) async {
+  Future<ArticleList> listByUser(
+      {required String user, int page = 1, int size = 20}) async {
     try {
       var rsp = await Request.get(
         'api/$user/articles/',
@@ -113,7 +109,6 @@ class Article {
       return Future.error(e);
     }
   }
-
 
   /// 获取文章详情
   ///

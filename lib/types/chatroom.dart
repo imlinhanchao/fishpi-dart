@@ -293,7 +293,8 @@ class BarragerMsg {
   /// 用户昵称
   String userNickname;
 
-  String get allName => userNickname.isEmpty ? userName : '$userNickname($userName)';
+  String get allName =>
+      userNickname.isEmpty ? userName : '$userNickname($userName)';
 
   /// 弹幕内容
   String barragerContent;
