@@ -10,6 +10,7 @@ class ArticleCmd implements CommandInstance {
   int _commentPage = 1;
   String _tag = '';
   String _type = ArticleListType.Recent;
+  String _user = '';
   ArticleList _current = ArticleList();
   ArticleDetail _currentDetail = ArticleDetail();
   ArticlePage _currentPage = ArticlePage.list;
@@ -48,8 +49,7 @@ class ArticleCmd implements CommandInstance {
           } catch (e) {
             _currentPage == ArticlePage.list ? _page = 1 : _commentPage = 1;
           }
-          await page(
-              ':page article ${_currentPage == ArticlePage.detail ? _currentDetail.oId : ''}');
+          await page(':page article ${_currentPage == ArticlePage.detail ? _currentDetail.oId : ''}');
           break;
         }
       case ':tag':
@@ -61,6 +61,17 @@ class ArticleCmd implements CommandInstance {
             _tag = argv[1];
           }
           await page(':page article');
+          break;
+        }
+      case ':user':
+        {
+          if (argv.length < 2) {
+            stdout.write('要查看哪个用户的文章：');
+            var user = stdin.readLineSync() ?? '';
+            await page(':page article :$user');
+          } else {
+            await page(':page article :${argv[1]}');
+          }
           break;
         }
       case ':view':
@@ -155,9 +166,7 @@ class ArticleCmd implements CommandInstance {
               replyId = _currentDetail.comments[index - 1].oId;
             }
 
-            var content = argv.length > 2
-                ? argv.skip(2).join(' ')
-                : stdin.readLineSync() ?? '';
+            var content = argv.length > 2 ? argv.skip(2).join(' ') : stdin.readLineSync() ?? '';
             await comment(CommentPost(
               articleId: _currentDetail.oId,
               content: content,
@@ -201,6 +210,8 @@ class ArticleCmd implements CommandInstance {
         {
           print('''${Command.bold}文章模块命令${Command.restore}
 :page article [page] [type] 查看文章，page 为页码，type 为文章类型
+:page article :user [page] 查看用户的文章，user 为用户名，page 为页码
+:user <user> 查看用户的文章
 :type <type> 查看某个类型的文章
 :tag <tag> 查看某个 Tag 下的文章
 :to <page> 跳转到(文章或评论)某一页
@@ -239,8 +250,7 @@ class ArticleCmd implements CommandInstance {
 
   comment(CommentPost comment) {
     return Instance.get.comment.send(comment).then((value) => {
-          _commentPage = (_currentDetail.pagination?.count ?? 1) +
-              (_currentDetail.comments.length == 30 ? 1 : 0),
+          _commentPage = (_currentDetail.pagination?.count ?? 1) + (_currentDetail.comments.length == 30 ? 1 : 0),
           page(':page article ${_currentDetail.oId}')
         });
   }
@@ -256,18 +266,19 @@ class ArticleCmd implements CommandInstance {
     int page = _page;
     String tag = _tag;
     String type = _type;
+    String user = _user;
     final commands = command.trim().split(' ');
-    if (commands.length > 2 &&
-        commands[2].isNotEmpty &&
-        ArticleListType.values.contains(commands[2])) {
-      type = commands[2];
+    if (commands.length > 3 && commands[3].isNotEmpty && ArticleListType.values.contains(commands[3])) {
+      _type = type = commands[3];
+    }
+    if (commands.length > 2 && commands[2].startsWith(':')) {
+      _user = user = commands[2].substring(1);
+      if (commands.length > 3 && RegExp(r'^\d+$').hasMatch(commands[3])) page = int.parse(commands[3]);
     } else if (commands.length > 2 && commands[2].length == 13) {
       if (commands[2] != _currentDetail.oId) {
         _commentPage = 1;
       }
-      await Instance.get.article
-          .detail(commands[2], p: _commentPage)
-          .then((value) {
+      await Instance.get.article.detail(commands[2], p: _commentPage).then((value) {
         _currentDetail = value;
         _currentPage = ArticlePage.detail;
         print('${Command.bold}${_currentDetail.titleEmoj}${Command.restore}');
@@ -280,8 +291,7 @@ ${Command.from('#232425').back}🎁 ${_currentDetail.rewardPoint} (x${_currentDe
 ${_currentDetail.rewarded ? _currentDetail.rewardContent : '${Command.italic}尚未打赏'} ${Command.restore}
             ''');
         }
-        print(
-            '------ 评论 ($_commentPage / ${_currentDetail.pagination?.count ?? 1}) ------');
+        print('------ 评论 ($_commentPage / ${_currentDetail.pagination?.count ?? 1}) ------');
         for (var i = 0; i < _currentDetail.comments.length; i++) {
           var item = _currentDetail.comments[i];
           print(
@@ -298,13 +308,14 @@ ${_currentDetail.rewarded ? _currentDetail.rewardContent : '${Command.italic}尚
 
     print('------ <$_type> 文章列表 ${_tag.isEmpty ? '' : '[$_tag]'}------');
 
-    await Instance.get.article
-        .list(type: type, page: page, tag: tag)
+    await (_user.isNotEmpty
+            ? Instance.get.article.listByUser(user: user, page: page)
+            : Instance.get.article.list(type: type, page: page, tag: tag))
         .then((list) {
       for (var i = 0; i < list.list.length; i++) {
         var item = list.list[i];
         print(
-            '${(i + 1).toString().padLeft(2, '0')}.${Command.bold}${Command.from('#555555').color}[${item.author.name}]${Command.restore} ${item.titleEmoj}${Command.from('#222222').back}${Command.from('#a1e999').color} ${item.heat} ${Command.restore}');
+            '${(i + 1).toString().padLeft(2, '0')}.${Command.bold}${Command.from('#555555').color}[${item.author.name}]${Command.restore} ${item.titleEmoj}${Command.from('#222222').back}${Command.from('#a1e999').color} ${item.viewCnt} ${Command.restore}');
       }
       print('第 $page / ${list.pagination.count} 页');
       _current = list;

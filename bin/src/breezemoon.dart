@@ -7,6 +7,7 @@ import 'base.dart';
 class BreezemoonCmd implements CommandInstance {
   int _page = 1;
   int _size = 20;
+  String _user = "";
   @override
   ArgParser command(ArgParser parser) {
     return parser..addOption('breezemoon', help: '发送清风明月');
@@ -64,6 +65,12 @@ class BreezemoonCmd implements CommandInstance {
           await page(':page breezemoon');
           break;
         }
+      case ':user':
+        {
+          _user = argv.length > 1 ? argv[1] : '';
+          await page(':page breezemoon');
+          break;
+        }
       case ':prev':
         {
           _page = max(1, _page - 1);
@@ -72,12 +79,14 @@ class BreezemoonCmd implements CommandInstance {
         }
       case ':help':
         {
-          print('''${Command.bold}清风明月模块命令${Command.restore}
+          print(
+              '''${Command.bold}清风明月模块命令${Command.restore}
 :page breezemoon [page] [size] 查看清风明月，page 为页码，size 为每页显示笔数
 :next 下一页
 :prev 上一页
 :to <page> 跳转到某一页
 :size <size> 每页显示笔数
+:user <username> 查看指定用户的清风明月, 不填写则为全部用户
 <content> 发送清风明月 (Windows 不支持此命令)
 ''');
           break;
@@ -108,6 +117,7 @@ class BreezemoonCmd implements CommandInstance {
   Future<bool> page(String command) async {
     print('${Command.clearScreen}${Command.moveTo(0, 0)}');
     int page = _page, size = _size;
+    String user = _user;
     final commands = command.trim().split(' ');
     if (commands.length > 2 && commands[2].isNotEmpty) {
       page = int.parse(commands[2]);
@@ -116,7 +126,7 @@ class BreezemoonCmd implements CommandInstance {
       size = int.parse(commands[3]);
     }
 
-    Instance.get.breezemoon.list(page: page, size: size).then((list) {
+    Instance.get.breezemoon.list(page: page, size: size, user: user).then((list) {
       for (var item in list.reversed) {
         print(
             '${Command.bold}${item.authorName}${Command.restore} ${Command.from('#AAAAAA').color}[${item.timeAgo}]${Command.restore} 📍${item.city}');
