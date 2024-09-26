@@ -16,7 +16,7 @@ class Chatroom {
   int _retryTimes = 0;
 
   /// 消息小尾巴
-  final ChatSource client = ChatSource(version: packageVersion);
+  ChatSource client = ChatSource(version: packageVersion);
 
   Redpacket redpacket = Redpacket();
 
@@ -65,8 +65,7 @@ class Chatroom {
   /// - `type` 消息类型，可选值：html、text
   ///
   /// 返回消息列表
-  Future<List<ChatRoomMessage>> more(int page,
-      {String type = ChatContentType.HTML}) async {
+  Future<List<ChatRoomMessage>> more(int page, {String type = ChatContentType.HTML}) async {
     try {
       var rsp = await Request.get(
         'chat-room/more',
@@ -79,9 +78,7 @@ class Chatroom {
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      return List.from(rsp['data'] ?? [])
-          .map((e) => ChatRoomMessage.from(e))
-          .toList();
+      return List.from(rsp['data'] ?? []).map((e) => ChatRoomMessage.from(e)).toList();
     } catch (e) {
       return Future.error(e);
     }
@@ -115,9 +112,7 @@ class Chatroom {
 
       if (rsp['code'] != 0) return Future.error(rsp['msg']);
 
-      return List.from(rsp['data'] ?? [])
-          .map((e) => ChatRoomMessage.from(e))
-          .toList();
+      return List.from(rsp['data'] ?? []).map((e) => ChatRoomMessage.from(e)).toList();
     } catch (e) {
       return Future.error(e);
     }
@@ -172,8 +167,7 @@ class Chatroom {
     try {
       var rsp = await Request.get('cr', params: {'apiKey': _apiKey});
 
-      var match = RegExp(r'>发送弹幕每次将花费\s*<b>([-0-9]+)<\/b>\s*([^<]*?)<\/div>')
-          .firstMatch(rsp);
+      var match = RegExp(r'>发送弹幕每次将花费\s*<b>([-0-9]+)<\/b>\s*([^<]*?)<\/div>').firstMatch(rsp);
 
       if (match != null) {
         return BarrageCost(
@@ -221,8 +215,7 @@ class Chatroom {
     }
   }
 
-  Future reconnect(
-      {int timeout = 10, Function(dynamic)? error, Function? close}) async {
+  Future reconnect({int timeout = 10, Function(dynamic)? error, Function? close}) async {
     if (_ws != null) {
       _ws?.steam.cancel();
       _ws?.ws.sink.close();
@@ -235,9 +228,7 @@ class Chatroom {
         switch (msg['type']) {
           case ChatRoomMessageType.online:
             {
-              _onlines = List.from(msg['users'])
-                  .map((e) => OnlineInfo.from(e))
-                  .toList();
+              _onlines = List.from(msg['users']).map((e) => OnlineInfo.from(e)).toList();
               _discusse = msg['discussing'];
               data = _onlines;
               break;
@@ -260,9 +251,7 @@ class Chatroom {
           case ChatRoomMessageType.msg:
             {
               data = ChatRoomMessage.from(msg);
-              msg['type'] = data.isRedpacket
-                  ? ChatRoomMessageType.redPacket
-                  : msg['type'];
+              msg['type'] = data.isRedpacket ? ChatRoomMessageType.redPacket : msg['type'];
               break;
             }
           case ChatRoomMessageType.redPacketStatus:
@@ -319,8 +308,7 @@ class Chatroom {
   /// 添加消息监听函数
   ///
   /// - `wsCallback` 消息监听函数
-  Future addListener(ChatroomListener wsCallback,
-      {int timeout = 10, Function(dynamic)? error, Function? close}) async {
+  Future addListener(ChatroomListener wsCallback, {int timeout = 10, Function(dynamic)? error, Function? close}) async {
     if (_ws != null && !_wsCallbacks.contains(wsCallback)) {
       _wsCallbacks.add(wsCallback);
       return;
