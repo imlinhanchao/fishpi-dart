@@ -131,4 +131,24 @@ class User {
       return Future.error(e);
     }
   }
+
+  /// 关注/取消关注用户
+  ///
+  /// - `userOId` 用户 ID
+  /// - `follow` 是否关注，默认关注
+  /// 返回 code 0 为成功，失败则有 msg
+  Future<ResponseResult> follow(
+      String userOId, {bool follow = true}) async {
+    try {
+      var rsp = await Request.post('${!follow ? 'un' : ''}follow/user', data: {
+        'apiKey': token,
+        'followingld': userOId,
+      });
+
+      return ResponseResult.from(rsp);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
 }
