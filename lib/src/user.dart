@@ -142,7 +142,7 @@ class User {
     try {
       var rsp = await Request.post('${!follow ? 'un' : ''}follow/user', data: {
         'apiKey': token,
-        'followingld': userOId,
+        'followingId': userOId,
       });
 
       return ResponseResult.from(rsp);
