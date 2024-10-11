@@ -97,7 +97,7 @@ class RedPacketGot {
 
 /// 红包历史信息
 class RedPacketMessage {
-  /// 消息类型，固定为 redPacket
+  /// 红包类型，使用 RedPacketType.toName(type) 获取名称
   String type;
 
   /// 红包数
