@@ -134,6 +134,8 @@ class ChatRoomMessage {
   /// 发送时间
   String time = '';
 
+  String type = ChatRoomMessageType.msg;
+
   ChatRoomMessage({
     this.oId = '',
     this.userOId = 0,
@@ -161,7 +163,9 @@ class ChatRoomMessage {
     content = data['content'];
     md = data['md'] ?? data['content'] ?? '';
     try {
-      redpacket = RedPacketMessage.from(json.decode(data['content'] ?? 'null'));
+      dynamic contentData = json.decode(data['content'] ?? 'null');
+      type = contentData["msgType"];
+      redpacket = RedPacketMessage.from(contentData);
       // ignore: empty_catches
     } catch (e) {}
     time = data['time'];
@@ -456,5 +460,76 @@ class MuteItem {
   @override
   String toString() {
     return 'MuteItem{ time: $time, userAvatarURL: $avatarURL, userName: $userName, userNickname: $nickname }';
+  }
+}
+
+class WeatherMsgData {
+  String date = '';
+  String code = '';
+  double min = 0;
+  double max = 0;
+
+  WeatherMsgData({
+    this.date = '',
+    this.code = '',
+    this.min = 0,
+    this.max = 0,
+  });
+
+  toJson() => {
+        'date': date,
+        'code': code,
+        'min': min,
+        'max': max,
+      };
+
+  @override
+  String toString() {
+    return "WeatherMsgData{ date=$date, code=$code, min=$min, max=$max }";
+  }
+}
+
+class WeatherMsg {
+  String city = '';
+  String description = '';
+  List<WeatherMsgData> data = [];
+
+  WeatherMsg({
+    this.city = '',
+    this.description = '',
+    this.data = const [],
+  });
+
+  WeatherMsg.from(Map data)
+      : city = data['t'] ?? '',
+        description = data['st'] ?? '',
+        data = WeatherMsg.getData(data);
+
+  static List<WeatherMsgData> getData(Map data) {
+    List<WeatherMsgData> dataList = [];
+    List<String> dates = data["date"].split(",");
+    List<String> codes = data["weatherCode"].split(",");
+    List<String> maxs = data["max"].split(",");
+    List<String> mins = data["min"].split(",");
+    for (int i = 0; i < dates.length; i++) {
+      dataList.add(WeatherMsgData(
+        date: dates[i],
+        code: codes[i],
+        max: double.parse(maxs[i]),
+        min: double.parse(mins[i]),
+      ));
+    }
+    return dataList;
+  }
+
+  toJson() => {
+        'city': city,
+        'description': description,
+        'data': data.map((e) => e.toJson()).toList(),
+      };
+
+  @override
+  String toString() {
+    return "WeatherMsg{ city=$city, description=$description, data=$data }";
   }
 }
