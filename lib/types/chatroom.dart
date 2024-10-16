@@ -122,6 +122,9 @@ class ChatRoomMessage {
   /// 是否为红包消息
   bool get isRedpacket => redpacket != null;
 
+  /// 是否为天气消息
+  bool get isWeather => weather != null;
+
   /// 消息内容
   String content = '';
 
@@ -131,9 +134,16 @@ class ChatRoomMessage {
   /// 红包消息内容
   RedPacketMessage? redpacket;
 
+  /// 天气消息内容
+  WeatherMsg? weather;
+
+  /// 未知消息内容
+  dynamic unknown;
+
   /// 发送时间
   String time = '';
 
+  /// 消息类型
   String type = ChatRoomMessageType.msg;
 
   ChatRoomMessage({
@@ -165,7 +175,13 @@ class ChatRoomMessage {
     try {
       dynamic contentData = json.decode(data['content'] ?? 'null');
       type = contentData["msgType"];
-      redpacket = RedPacketMessage.from(contentData);
+      if (type == ChatRoomMessageType.redPacket) {
+        redpacket = RedPacketMessage.from(contentData);
+      } else if (type == ChatRoomMessageType.weather) {
+        weather = WeatherMsg.from(contentData);
+      } else {
+        unknown = contentData;
+      }
       // ignore: empty_catches
     } catch (e) {}
     time = data['time'];
@@ -238,6 +254,9 @@ class ChatRoomMessageType {
 
   /// 自定义消息
   static const custom = "customMessage";
+
+  /// 天气消息
+  static const weather = "weather";
 }
 
 /// 聊天室消息
@@ -254,6 +273,7 @@ class ChatRoomData {
   RedPacketStatusMsg? status;
   BarragerMsg? barrager;
   CustomMsg? custom;
+  dynamic unknown;
 
   ChatRoomData(this.type, data) {
     switch (type) {
@@ -266,6 +286,7 @@ class ChatRoomData {
       case ChatRoomMessageType.revoke:
         revoke = data;
         break;
+      case ChatRoomMessageType.weather:
       case ChatRoomMessageType.redPacket:
       case ChatRoomMessageType.msg:
         msg = data;
@@ -278,6 +299,9 @@ class ChatRoomData {
         break;
       case ChatRoomMessageType.custom:
         custom = data;
+        break;
+      default:
+        unknown = data;
         break;
     }
   }
