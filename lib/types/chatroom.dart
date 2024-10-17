@@ -301,6 +301,7 @@ class ChatRoomData {
       case ChatRoomMessageType.revoke:
         revoke = data;
         break;
+      case ChatRoomMessageType.music:
       case ChatRoomMessageType.weather:
       case ChatRoomMessageType.redPacket:
       case ChatRoomMessageType.msg:
