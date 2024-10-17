@@ -119,23 +119,29 @@ class ChatRoomMessage {
   /// 消息来源结构
   ChatSource via = ChatSource();
 
-  /// 是否为红包消息
-  bool get isRedpacket => redpacket != null;
-
-  /// 是否为天气消息
-  bool get isWeather => weather != null;
-
   /// 消息内容
   String content = '';
 
   /// 消息内容 Markdown
   String md = '';
 
+  /// 是否为红包消息
+  bool get isRedpacket => redpacket != null;
+
   /// 红包消息内容
   RedPacketMessage? redpacket;
 
+  /// 是否为天气消息
+  bool get isWeather => weather != null;
+
   /// 天气消息内容
   WeatherMsg? weather;
+
+  /// 是否为音乐消息
+  bool get isMusic => music != null;
+
+  /// 音乐消息内容
+  MusicMsg? music;
 
   /// 未知消息内容
   dynamic unknown;
@@ -157,7 +163,10 @@ class ChatRoomMessage {
     this.content = '',
     this.md = '',
     this.redpacket,
+    this.weather,
+    this.music,
     this.time = '',
+    this.type = ChatRoomMessageType.msg,
   }) {
     this.via = via ?? ChatSource();
   }
@@ -179,6 +188,8 @@ class ChatRoomMessage {
         redpacket = RedPacketMessage.from(contentData);
       } else if (type == ChatRoomMessageType.weather) {
         weather = WeatherMsg.from(contentData);
+      } else if (type == ChatRoomMessageType.music) {
+        music = MusicMsg.from(contentData);
       } else {
         unknown = contentData;
       }
@@ -257,6 +268,10 @@ class ChatRoomMessageType {
 
   /// 天气消息
   static const weather = "weather";
+
+  /// 音乐消息
+  static const music = "music";
+
 }
 
 /// 聊天室消息
@@ -555,5 +570,41 @@ class WeatherMsg {
   @override
   String toString() {
     return "WeatherMsg{ city=$city, description=$description, data=$data }";
+  }
+}
+
+class MusicMsg {
+  String type = 'music';
+  String source = '';
+  String coverURL = '';
+  String title = '';
+  String from = '';
+
+  MusicMsg({
+    this.type = 'music',
+    this.source = '',
+    this.coverURL = '',
+    this.title = '',
+    this.from = '',
+  });
+
+  MusicMsg.from(Map data)
+      : type = data['type'] ?? 'music',
+        source = data['source'] ?? '',
+        coverURL = data['coverURL'] ?? '',
+        title = data['title'] ?? '',
+        from = data['from'] ?? '';
+
+  toJson() => {
+        'type': type,
+        'source': source,
+        'coverURL': coverURL,
+        'title': title,
+        'from': from,
+      };
+
+  @override
+  String toString() {
+    return "MusicMsg{ type=$type, source=$source, coverURL=$coverURL, title=$title, from=$from }";
   }
 }
